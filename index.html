@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="CS Pulse">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ECECEC;--ink:#0B0B0B;--card:#fff;--mute:#6A6A6A;--sw:#fff;--lime:#A2EE20;--sal:#FF9C97;--cy:#3ED2DD;--bei:#E6DFCD;--e:cubic-bezier(.16,1,.3,1);color-scheme:light}
+:root{--bg:#ECECEC;--ink:#0B0B0B;--card:#fff;--mute:#6A6A6A;--sw:#fff;--lime:#A2EE20;--sal:#FF9C97;--cy:#3ED2DD;--bei:#E6DFCD;--sky:#BFE8FF;--pk:#FFD4CF;--e:cubic-bezier(.16,1,.3,1);color-scheme:light}
 [data-theme=dark]{--bg:#0C0C0C;--ink:#F4F4F4;--card:#1E1E1E;--mute:#9C9C9C;--sw:rgba(255,255,255,.07);color-scheme:dark}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
@@ -144,6 +144,28 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 .ind::after{content:"";position:absolute;left:10%;right:10%;top:3px;height:42%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0))}
 @keyframes glow{50%{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(60,110,0,.25),0 6px 28px rgba(162,238,32,.95)}}
 @media(prefers-reduced-motion:reduce){.w>span,.wm i{transform:none!important;opacity:1!important;filter:none!important}.logo svg path{stroke-dashoffset:0!important}}
+.srch{width:100%;margin-top:18px;padding:14px 18px;border-radius:999px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font:inherit}
+.cn{font-size:13px;color:var(--mute);margin:0 0 14px;font-weight:600}
+.chips{margin-bottom:8px}
+.li p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.sc h3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:25px}
+.tg{display:flex;gap:6px;flex-wrap:wrap}
+.cnts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.cnts div{background:var(--card);border-radius:24px;padding:14px 12px}
+.cnts b{display:block;font-size:30px;letter-spacing:-.05em;line-height:1;font-weight:700}
+.cnts small{font-size:11.5px;color:var(--mute);font-weight:600}
+.tl{list-style:none;padding:0;margin-top:18px;display:grid;gap:8px}
+.tl li{display:flex;gap:14px;align-items:center;background:var(--card);border-radius:26px;padding:14px 18px;font-weight:600;cursor:pointer}
+.tl time{flex:none;width:58px;font-weight:700;font-size:20px;letter-spacing:-.04em;line-height:1}
+.tl small{display:block;color:var(--mute);font-weight:500;font-size:13px}
+.ar>div{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border-radius:28px;padding:14px 16px 14px 20px;font-weight:600}
+.ar>div>span:first-child{flex:1;min-width:0}
+.lk{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:46%}
+.ar .lk a{display:inline-flex;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px;gap:0}
+.dr{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-top:1.5px solid rgba(0,0,0,.14);font-size:14px}
+.dr small{opacity:.65;font-weight:600;flex:none}
+.dr b{text-align:right;font-weight:600}
+.tp b{font-size:14px}
 </style>
 </head>
 <body>
@@ -163,10 +185,13 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 </section>
 
 <div class="stack rv" id="stack"></div>
+<div class="cnts rv" id="cnts"></div>
 
 <section class="sec" id="feed">
   <h2>All<br>notifications</h2>
+  <input class="srch" id="q" type="search" placeholder="Search title, org, degree (B.Tech, MCA, GATE)">
   <div class="chips" id="chips"></div>
+  <p class="cn" id="cnt"></p>
   <div class="list" id="list"></div>
 </section>
 
@@ -176,6 +201,11 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
   <div class="bars" id="bars"></div>
 </section>
 
+<section class="sec" id="timeline">
+  <h2>Deadline<br>timeline</h2>
+  <ul class="tl" id="tl"></ul>
+</section>
+
 <h2 class="big"><span>Stay ahead</span><span>of every</span><span class="r">deadline</span></h2>
 <div class="av2">
   <div class="stk"><i style="background:var(--bei)">C</i><i style="background:var(--sal)">S</i><i style="background:var(--cy);width:82px;height:82px" id="nUn"></i></div>
@@ -183,7 +213,7 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 </div>
 
 <section class="sec" id="archive">
-  <h2>Official<br>sites</h2>
+  <h2>Notices<br>and PYQs</h2>
   <div class="ar" id="ar"></div>
 </section>
 <footer>CS Pulse · notices checked Nov 21, 2026</footer>
@@ -193,7 +223,7 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
   <a href="#top" class="on"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
   <a href="#feed"><svg class="i" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><span>Alerts</span></a>
   <a href="#st"><svg class="i" viewBox="0 0 24 24"><path d="M6 20V11M12 20V4M18 20v-6"/></svg><span>Stats</span></a>
-  <a href="#archive"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Sites</span></a>
+  <a href="#archive"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Notices</span></a>
 </nav>
 <button class="fab" id="fab" aria-label="Post alert"><span><svg class="i" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span></button>
 
@@ -209,7 +239,7 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 <dialog id="post"><div class="sheet">
   <h3 style="margin-top:0">Post an alert</h3>
   <label for="pt">Title</label><input id="pt" placeholder="e.g. DBMS lab record due">
-  <label for="pc">Category</label><select id="pc"><option>Jobs</option><option>Exams</option><option>Admit Cards</option><option>Results</option></select>
+  <label for="pc">Category</label><select id="pc"><option>Jobs</option><option>Exams</option><option>Admit Cards</option><option>Results</option><option>Hackathons</option><option>Internships</option></select>
   <label for="pd">Date</label><input id="pd" type="date">
   <label for="px">Details</label><textarea id="px" rows="3"></textarea>
   <div class="acts"><button class="bk" id="pub" style="background:var(--ink);color:var(--bg)">Publish</button><button class="gh" data-x>Cancel</button></div>
@@ -223,23 +253,13 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 </div></dialog>
 
 <script>
-const D=[
-{id:1,t:"Walk-in: contract faculty (CS/MCA)",c:"Jobs",d:"2026-11-21",s:"Central University of Karnataka",x:"Walk-in interview today at 11:00 AM in the Dept. of Computer Science. Retired teachers below 65 can also apply."},
-{id:2,t:"BHU Computer Centre: 11 posts",c:"Jobs",d:"2026-11-25",s:"Banaras Hindu University",x:"Includes Computer Operator Gr.-I, AC Operator and Workshop Attendant. Apply online by 5 PM. The hard copy must reach BHU by 30 Nov."},
-{id:3,t:"Technical Assistant (Computer)",c:"Jobs",d:"2026-11-27",s:"Central University of Haryana",x:"2 permanent posts for B.Tech or MCA with 2 years of experience. Pay is ₹29,200 to ₹92,300. Apply on the Samarth portal by 5 PM.",l:"https://cuhnt.samarth.edu.in"},
-{id:4,t:"Technical Assistant Gr. I",c:"Jobs",d:"2026-11-26",s:"Cochin University of Science and Technology",x:"Contract post. The online window closed on 19 Nov. If you applied, the hard copy must reach CUSAT by 26 Nov.",l:"https://recruit.cusat.ac.in"},
-{id:5,t:"UGC NET Dec 2026 admit card",c:"Admit Cards",d:"2026-12-07",s:"NTA",x:"Expected around 7 Dec. Keep your application number and password ready.",l:"https://ugcnet.nta.nic.in"},
-{id:6,t:"UGC NET Dec 2026 exam starts",c:"Exams",d:"2026-12-14",s:"NTA",x:"Computer-based test from 14 Dec. Applications closed on 31 Oct. Dates can change, so check the NTA site.",l:"https://ugcnet.nta.nic.in"},
-{id:7,t:"CSIR-UGC NET Dec 2026",c:"Exams",d:"2026-12-19",s:"NTA",x:"Exam days are 19, 22 and 27 Dec. Applications closed on 5 Nov.",l:"https://csirnet.nta.nic.in"},
-{id:8,t:"GATE 2027 city allotment",c:"Admit Cards",d:"2027-01-04",s:"IIT Madras",x:"City allotment is on 4 Jan 2027. Exams run on 6, 7, 13, 14, 20 and 21 Feb 2027. Registration is closed.",l:"https://gate2027.iitm.ac.in"},
-{id:9,t:"UGC NET June 2026 re-exam result",c:"Results",d:"2026-09-17",s:"NTA",x:"Result declared on 17 Sep for the re-held subjects. Check your score on the NTA site.",l:"https://ugcnet.nta.nic.in",r:true}
-];
+const D=[{"id":201,"t":"ISRO ICRB Scientist/Engineer \"SC\" (Computer Science) Recruitment","c":"Jobs","p":"Urgent","d":"2026-12-05","posted":"2026-11-20","s":"ISRO Centralised Recruitment Board (ICRB)","y":"4th Year","k":"ISRO-ICRB","x":"Official ISRO ICRB recruitment updates for Scientist/Engineer \"SC\" in Computer Science (Advt. Nos. ISRO:ICRB:02(EMC-CEPO):2026 and ISRO:ICRB:03(EMC):2026 covering 175 vacancies across Electronics, Mechanical, and Computer Science). Candidates with B.E./B.Tech in Computer Science & Engineering can check CBT exam schedules, Computer Science 003 updates, and interview screening lists on the official ISRO portal.","q":"B.E./B.Tech in Computer Science & Engineering","v":"ISRO Careers & ICRB Portal (isro.gov.in)","l":"https://www.isro.gov.in","pyq":"ISRO CS 2023 & 2025 PYQs"},{"id":202,"t":"C-DAC Project Engineer & Project Associate (Fresher) CBT Admit Card","c":"Admit Cards","p":"Urgent","d":"2026-11-28","posted":"2026-11-20","s":"Centre for Development of Advanced Computing (C-DAC)","y":"4th Year","k":"CDAC-JIT","x":"C-DAC Official Update (Nov 20, 2026): Admit Card download is now live for the Computer Based Test (CBT) for Project Engineer (Fresher) and Project Associate (Fresher) under C-DAC TVM-JIT14 and Advt. No. CORP/JIT/03/2026 across 11 C-DAC centres.","v":"C-DAC Careers Portal (cdac.in)","l":"https://www.cdac.in"},{"id":203,"t":"NTA Joint CSIR-UGC NET Dec 2026 — Exam City & Admit Card Portal","c":"Admit Cards","p":"High","d":"2026-12-14","posted":"2026-11-20","s":"National Testing Agency (NTA)","y":"4th Year","k":"ADMIT-NTA","x":"Official NTA portal for Joint CSIR-UGC NET December 2026 Exam City Intimation Slips and Admit Card downloads using Application Number and Date of Birth.","v":"NTA CSIR-NET Portal (csirnet.nta.nic.in)","l":"https://csirnet.nta.nic.in","pyq":"CSIR-NET Portal & Papers"},{"id":204,"t":"NTA SWAYAM July 2026 Semester Certification Exam","c":"Exams","p":"Normal","d":"2026-12-08","posted":"2026-11-20","s":"National Testing Agency (NTA) / SWAYAM","y":"All Years","k":"SWAYAM","x":"Official NTA SWAYAM July 2026 Semester Exam portal updates for NPTEL & SWAYAM courses. Registered CS students taking credit-transfer courses can check admit card notices and December 2026 exam schedules directly on the NTA SWAYAM portal.","v":"NTA SWAYAM Portal (exams.nta.nic.in/swayam)","l":"https://exams.nta.nic.in/swayam","pyq":"NPTEL Course Archive"},{"id":205,"t":"NTA UGC-NET December 2026 — Computer Science Exam Schedule Out","c":"Exams","p":"High","d":"2026-12-14","posted":"2026-11-19","s":"National Testing Agency (NTA)","y":"4th Year","k":"UGC-NET","x":"NTA released the UGC-NET December 2026 subject-wise CBT schedule on November 19, 2026. Examinations run on December 14, 15, 16, 17, 18, and 21, 2026 in two shifts (9:00 AM–12:00 PM and 3:00 PM–6:00 PM). Computer Science and Applications is scheduled for December 14, 2026. Advance city intimation slips are issued prior to the exam.","v":"NTA UGC-NET Portal (ugcnet.nta.nic.in)","l":"https://ugcnet.nta.nic.in","pyq":"UGC-NET Official Portal & Papers"},{"id":206,"t":"BPSC TRE 4.0 — Computer Science Teacher (Class 11–12) Exam Calendar","c":"Jobs","p":"High","d":"2026-12-15","posted":"2026-11-19","s":"Bihar Public Service Commission (BPSC)","y":"4th Year","k":"BPSC-TRE4","x":"Bihar Public Service Commission (BPSC) notified 407 Computer Science Teacher vacancies for Classes 11–12 under TRE 4.0 (Advt. No. 15/2026). Eligible CS candidates include B.E./B.Tech (CS/IT), MCA, M.Sc. (CS), or BCA with PGDCA (with STET Paper-II). Monitor the official BPSC Exam Calendar (updated Nov 19, 2026) for exam and document verification dates.","q":"B.E./B.Tech (CS/IT), MCA, M.Sc. (CS), or BCA with PGDCA (with STET Paper-II)","v":"BPSC Official Portal (bpsc.bihar.gov.in)","l":"https://bpsc.bihar.gov.in","pyq":"BPSC Question Booklets (PYQs)"},{"id":207,"t":"Google Summer of Code (GSoC) 2026 Program & 2027 Prep Archive","c":"Internships","p":"Normal","d":"2026-12-20","posted":"2026-11-15","s":"Google Open Source","y":"All Years","k":"GSoC","x":"Explore the official Google Summer of Code 2026 archive featuring 1,096 successful contributors and participating open-source organizations. Ideal for CS students preparing early PRs and proposals ahead of the 2027 organization application cycle.","v":"GSoC Portal (summerofcode.withgoogle.com)","l":"https://summerofcode.withgoogle.com"},{"id":208,"t":"GATE 2027 (IIT Madras) — Application Rectification & Exam Schedule","c":"Exams","p":"Urgent","d":"2026-11-30","posted":"2026-11-14","s":"IIT Madras — GATE 2027 Organizing Institute","y":"4th Year","k":"GATE-2027","x":"Official GATE 2027 schedule announced by IIT Madras: Application rectification (scrutiny defects without fee) closes on November 30, 2026. City allotment notification will be released on January 4, 2027. GATE 2027 Examinations will be conducted on February 6, 7, 13, 14, 20, and 21, 2027, with results scheduled for March 19, 2027. Essential for M.Tech admissions and PSU CS recruitment.","v":"GOAPS Portal (gate2027.iitm.ac.in)","l":"https://gate2027.iitm.ac.in","pyq":"GATE 2021–2026 PYQs & Keys"},{"id":209,"t":"NIELIT Examination — Revised Admit Cards Available","c":"Admit Cards","p":"High","d":"2026-11-30","posted":"2026-11-14","s":"NIELIT (MeitY, Govt. of India)","y":"All Years","k":"ADMIT-NIELIT","x":"Candidates appearing in NIELIT examination cycles are instructed to download their revised admit cards from the official NIELIT Student Web Portal and verify exam center details.","v":"NIELIT Student Portal (student.nielit.gov.in)","l":"https://student.nielit.gov.in","pyq":"NIELIT Student Portal"},{"id":210,"t":"ICPC Asia West Kanpur Multi-Site Regional Contest 2026","c":"Hackathons","p":"High","d":"2026-12-22","posted":"2026-11-13","s":"ICPC India — Kanpur Regional","y":"All Years","k":"ICPC-2026","x":"Following the ICPC India Preliminary Online Contest, the Kanpur Multi-Site Onsite Regional Contest will take place on December 22–23, 2026 across three centers: Kanpur, Gandhinagar, and Pune. Each team consists of 3 student contestants and 1 coach from the same institution.","v":"Onsite: Kanpur, Gandhinagar & Pune","l":"https://indiaicpc.in"},{"id":211,"t":"ICPC India Preliminary 2026 — Final Regional Selection Pool","c":"Results","p":"Normal","d":"2026-12-22","posted":"2026-11-13","s":"ICPC India","y":"All Years","k":"RESULT-ICPC","x":"Official Final Regional Selection Pool standings published for the ICPC India Preliminary Contest 2026, listing qualifying teams, institute names, problems solved, and scores.","v":"ICPC India Selection Portal (indiaicpc.in)","l":"https://indiaicpc.in"},{"id":212,"t":"NIC Scientist \"B\" & Scientific/Technical Assistant \"A\" Recruitment 2026","c":"Jobs","p":"High","d":"2026-12-10","posted":"2026-11-12","s":"National Informatics Centre (NIC / MeitY)","y":"4th Year","k":"NIC-SCB","x":"National Informatics Centre (NIC) official recruitment notifications (Advt. No. NIC/SCB/2026/1 for Scientist-B Group-A, Level 10 Pay Matrix ₹56,100–₹1,77,500 across 243 vacancies, and Advt. No. NIC/STA/2026/2 for Scientific/Technical Assistant-A) with GATE Paper Code: CS. Eligible degrees include B.E./B.Tech, M.E./M.Tech, MCA, or M.Sc. in Computer Science/IT.","q":"B.E./B.Tech, M.E./M.Tech, MCA, or M.Sc. in Computer Science/IT (GATE Paper Code: CS)","v":"NIC Recruitment Portal (recruitment.nic.in)","l":"https://recruitment.nic.in","pyq":"GATE CS Reference PYQs"},{"id":213,"t":"ISRO ICRB Scientist/Engineer \"SC\" (CS BE003) Interview Shortlist","c":"Results","p":"High","d":"2026-12-05","posted":"2026-11-12","s":"ISRO Centralised Recruitment Board (ICRB)","y":"4th Year","k":"RESULT-ISRO","x":"Official ISRO ICRB roll-number shortlist PDF for Scientist/Engineer \"SC\" [Computer Science] [BE003] candidates shortlisted for personal interview. Check your roll number and interview call letter instructions.","v":"ISRO ICRB Results & Shortlist PDF (isro.gov.in)","l":"https://www.isro.gov.in"},{"id":214,"t":"NIELIT ITL / Basic Computer & Certification Exam Results","c":"Results","p":"Normal","d":"2026-12-15","posted":"2026-11-06","s":"NIELIT Student Portal","y":"All Years","k":"RESULT-NIELIT","x":"NIELIT September/November 2026 certification and ITL results are available for viewing and printing by roll number and date of birth on the official NIELIT Student Information and Enrollment System.","v":"NIELIT Student Portal (student.nielit.gov.in)","l":"https://student.nielit.gov.in"},{"id":215,"t":"Smart India Hackathon (SIH) 2026 — Official Themes & Guidelines","c":"Hackathons","p":"Normal","d":"2026-12-10","posted":"2026-10-09","s":"Ministry of Education Innovation Cell & AICTE","y":"All Years","k":"SIH-2026","x":"Official Smart India Hackathon 2026 portal guidelines and problem statement themes (Smart Automation, AI/ML, Cybersecurity, Blockchain, MedTech, and CleanTech). College SPOCs and shortlisted teams can track grand finale updates on sih.gov.in.","v":"SIH Official Portal (sih.gov.in)","l":"https://sih.gov.in"}];
 const SITES=[["GATE 2027","IIT Madras","https://gate2027.iitm.ac.in"],["UGC NET","NTA","https://ugcnet.nta.nic.in"],["CSIR-UGC NET","NTA","https://csirnet.nta.nic.in"],["CUH recruitment portal","Central University of Haryana","https://cuhnt.samarth.edu.in"],["CUSAT recruitment","Cochin University of Science and Technology","https://recruit.cusat.ac.in"]];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const TODAY=new Date(new Date().toISOString().slice(0,10)),days=d=>Math.round((new Date(d)-TODAY)/864e5);
 const fmt=d=>new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-const COL={Jobs:"var(--lime)",Exams:"var(--cy)","Admit Cards":"var(--sal)",Results:"var(--bei)"};
+const COL={Jobs:"var(--lime)",Exams:"var(--cy)","Admit Cards":"var(--sal)",Results:"var(--bei)",Hackathons:"var(--sky)",Internships:"var(--pk)"};
 const PAL=["var(--lime)","var(--cy)","var(--sal)","var(--bei)"];
 const left=n=>{const k=days(n.d);if(n.n){const a=-k;return a<=0?"New today":a===1?"Yesterday":a+" days ago"}return k<0?"Closed":k===0?"Today":k===1?"1 day left":k+" days left"};
 const HEART='<svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
@@ -261,7 +281,7 @@ function place(){
 function pick(e){
  const c=e.target.closest(".sc");if(!c)return;
  const id=+c.dataset.id,n=D.find(x=>x.id===id);
- if(e.target.closest("[data-save]")){n.sv=!n.sv;saveSet();e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
+ if(e.target.closest("[data-save]")){n.sv=!n.sv;saveSet();stats();e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
  if(order[0]===id||e.target.closest("[data-info]"))det(id);
  else{order=[id,...order.filter(x=>x!==id)];place()}
 }
@@ -269,32 +289,43 @@ $("#stack").addEventListener("click",pick);
 $("#stack").addEventListener("keydown",e=>{if(e.key==="Enter")pick(e)});
 
 function chips(){
- const C=[["all","All"],["Jobs","Jobs"],["Exams","Exams"],["Admit Cards","Admit cards"],["Results","Results"],["saved","Saved"]];
+ const C=[["all","All"],["Jobs","Jobs"],["Exams","Exams"],["Admit Cards","Admit cards"],["Results","Results"],["Hackathons","Hackathons"],["Internships","Internships"],["saved","Saved"]];
  $("#chips").innerHTML=C.map(c=>`<button class="chip" data-f="${c[0]}" aria-pressed="${filter===c[0]}">${c[1]}</button>`).join("");
 }
 $("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;chips();list()});
 function list(){
- const L=D.filter(n=>filter==="all"||(filter==="saved"?n.sv:n.c===filter));
- $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${!n.n&&days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing here yet. Tap the heart on a card to save it.</p>';
+ const q=($("#q").value||"").trim().toLowerCase();
+ const L=D.filter(n=>(filter==="all"||(filter==="saved"?n.sv:n.c===filter))&&(!q||[n.t,n.s,n.x,n.q,n.k,n.c].join(" ").toLowerCase().includes(q)));
+ $("#cnt").textContent="Showing "+L.length+" of "+D.length+" notifications";
+ $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${!n.n&&days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tg"><span class="tag">${esc(n.c)}</span>${n.p==="Urgent"||n.p==="High"?`<span class="tag f">${n.p}</span>`:""}</span><b>${left(n)}</b></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing matches. Clear the search or pick another filter.</p>';
  obs();
 }
 $("#list").addEventListener("click",e=>{const b=e.target.closest(".li");if(b)det(+b.dataset.id)});
-
+$("#tl").addEventListener("click",e=>{const b=e.target.closest("li[data-id]");if(b)det(+b.dataset.id)});
+$("#q").addEventListener("input",list);
 function stats(){
  const S=D.filter(n=>!n.n).sort((a,b)=>new Date(a.d)-new Date(b.d)),up=S.filter(n=>days(n.d)>=0),far=up[up.length-1];
  $("#bars").innerHTML=S.map(n=>{const k=days(n.d),h=k<0?14:Math.max(30,100-k*1.3);return `<i class="bar ${n===far?"k":k>=0&&k<=14?"w":""}" style="--h:${h}%"></i>`}).join("");
  $("#soon").textContent=up.length?left(up[0]).replace(" left",""):"-";
  $("#farv").textContent=far?days(far.d)+" days":"-";
- $("#nUn").textContent="+"+D.filter(n=>!n.r).length;
+ const un=D.filter(n=>!n.r).length;
+ $("#nUn").textContent="+"+un;
+ const due=D.filter(n=>!n.n&&days(n.d)>=0&&days(n.d)<=7).length;
+ $("#cnts").innerHTML=[[un,"Unread"],[D.filter(n=>n.p==="Urgent").length,"Urgent"],[due,"Due in 7 days"],[D.filter(n=>n.sv).length,"Saved"]].map(a=>`<div><b>${a[0]}</b><small>${a[1]}</small></div>`).join("");
+ $("#tl").innerHTML=up.map(n=>`<li data-id="${n.id}"><time>${new Date(n.d).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</time><span>${esc(n.t)}<small>${esc(n.c)} · ${esc(n.s)}</small></span></li>`).join("")||"<li><span>No upcoming deadlines.</span></li>";
 }
-$("#ar").innerHTML=SITES.map(a=>`<a class="rv" href="${a[2]}" target="_blank" rel="noopener"><span>${a[0]}<small>${a[1]}</small></span><span class="cb">${ARW}</span></a>`).join("");
-
+function archive(){
+ $("#ar").innerHTML=D.map(n=>`<div class="rv"><span>${esc(n.t)}<small>${esc(n.k||n.c)} · ${esc(n.c)}</small></span><span class="lk">${n.l?`<a href="${n.l}" target="_blank" rel="noopener">Official notice</a>`:""}${n.pyq&&n.l?`<a href="${n.l}" target="_blank" rel="noopener">${esc(n.pyq)}</a>`:""}</span></div>`).join("");
+ obs();
+}
 function det(id){
- const n=D.find(x=>x.id===id);n.r=true;stats();
+ const n=D.find(x=>x.id===id);if(!n)return;n.r=true;stats();
+ const R=(a,b)=>b?`<div class="dr"><small>${a}</small><b>${esc(b)}</b></div>`:"";
  $("#dBody").style.background=COL[n.c]||"var(--bei)";
- $("#dBody").innerHTML=`<div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><p><b>${esc(n.s)}</b><br>${n.n?"Posted":"Date"}: ${fmt(n.d)}</p><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official site</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" data-x>Close</button></div>`;
+ $("#dBody").innerHTML=`<div class="tp"><span class="tg"><span class="tag">${esc(n.c)}</span>${n.p&&n.p!=="Normal"?`<span class="tag f">${n.p}</span>`:""}</span><b>${left(n)}</b></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div>${R("Posted by",n.s)}${R("Target cohort",n.y)}${R("Posted date",n.posted&&fmt(n.posted))}${R(n.n?"Date":"Deadline / event date",fmt(n.d))}${R("Eligible qualifications",n.q)}${R("Portal / location",n.v)}${R("Reference",n.k)}</div><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official notification</a>`:""}${n.pyq&&n.l?`<a class="gh" href="${n.l}" target="_blank" rel="noopener">${esc(n.pyq)}</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" id="cp">Copy summary</button><button class="gh" data-x>Close</button></div>`;
  $("#det").showModal();
- $("#sv").onclick=()=>{n.sv=!n.sv;saveSet();buildStack();list();$("#det").close()};
+ $("#sv").onclick=()=>{n.sv=!n.sv;saveSet();buildStack();list();stats();$("#det").close()};
+ $("#cp").onclick=()=>{try{navigator.clipboard.writeText(n.t+" - "+n.s+" - "+fmt(n.d)+(n.l?" - "+n.l:""));$("#cp").textContent="Copied"}catch(e){}};
 }
 function obs(){
  io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add(e.target.classList.contains("tw")?"go":"in");io.unobserve(e.target)}}),{threshold:.08});
@@ -321,20 +352,22 @@ $("#menu").addEventListener("click",e=>{
 });
 $("#pub").onclick=()=>{
  const t=$("#pt").value.trim(),d=$("#pd").value;if(!t||!d){$("#pt").focus();return}
- D.unshift({id:Date.now(),t,c:$("#pc").value,d,s:"You",x:$("#px").value||"No extra details."});
+ D.unshift({id:Date.now(),t,c:$("#pc").value,d,posted:new Date().toISOString().slice(0,10),p:"Normal",s:"You",x:$("#px").value||"No extra details."});
  $("#pt").value="";$("#px").value="";$("#post").close();buildStack();list();stats();
 };
-loadSaved();applyTheme();chips();buildStack();list();stats();
+loadSaved();applyTheme();chips();buildStack();list();stats();archive();
 function split(el){let i=0;(function walk(n){[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t.trim()){f.append(t);return}const w=document.createElement("span");w.className="w";w.innerHTML='<span style="--i:'+(i++)+'">'+t+'</span>';f.append(w)});c.replaceWith(f)}else if(c.nodeType===1&&c.tagName!=="BR")walk(c)})})(el)}
-$$("#feed h2,#archive h2,.st h2,.big").forEach(h=>{split(h);h.classList.add("tw")});
+$$("#feed h2,#archive h2,#timeline h2,.st h2,.big").forEach(h=>{split(h);h.classList.add("tw")});
 obs();
 const dk=$$(".dock a"),dock=$("#dock"),SEC=["top","feed","st","archive"];
 function setK(k){dock.style.setProperty("--k",k);dk.forEach((a,i)=>a.classList.toggle("on",i===k))}
 function spy(){let k=0;SEC.forEach((id,i)=>{if($("#"+id).getBoundingClientRect().top<innerHeight*.45)k=i});if(!dock.dataset.k||+dock.dataset.k!==k){dock.dataset.k=k;setK(k)}}
 addEventListener("scroll",spy,{passive:true});spy();
+function reveal(){const h=innerHeight*.95;$$(".rv:not(.in)").forEach(el=>{if(el.getBoundingClientRect().top<h)el.classList.add("in")});$$(".tw:not(.go)").forEach(el=>{if(el.getBoundingClientRect().top<h)el.classList.add("go")})}
+addEventListener("scroll",reveal,{passive:true});addEventListener("resize",reveal);setInterval(reveal,700);reveal();
 function saveSet(){try{localStorage.setItem("csp-saved",JSON.stringify(D.filter(n=>n.sv).map(n=>n.id)))}catch(e){}}
 function loadSaved(){try{const s=JSON.parse(localStorage.getItem("csp-saved")||"[]");D.forEach(n=>{n.sv=s.includes(n.id)})}catch(e){}}
-fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{if(!j.items||!j.items.length)return;D.length=0;D.push(...j.items);loadSaved();buildStack();list();stats();if(j.updated)$("footer").textContent="CS Pulse · updated "+new Date(j.updated).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})}).catch(()=>{});
+fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{if(!j.items||!j.items.length)return;D.length=0;D.push(...j.items);loadSaved();buildStack();list();stats();archive();if(j.updated)$("footer").textContent="CS Pulse · updated "+new Date(j.updated).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})}).catch(()=>{});
 </script>
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
 </body>
