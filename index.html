@@ -1,1918 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CS Pulse — Computer Science Student Notification Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-          },
-        },
-      },
-    };
-  </script>
-  <style>
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-slide-in {
-      animation: slideInRight 0.22s ease-out forwards;
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.18s ease-out forwards;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CS Pulse</title>
+<meta name="theme-color" content="#ECECEC">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CS Pulse">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECECEC;--ink:#0B0B0B;--card:#fff;--mute:#6A6A6A;--sw:#fff;--lime:#A2EE20;--sal:#FF9C97;--cy:#3ED2DD;--bei:#E6DFCD;--e:cubic-bezier(.16,1,.3,1);color-scheme:light}
+[data-theme=dark]{--bg:#0C0C0C;--ink:#F4F4F4;--card:#1E1E1E;--mute:#9C9C9C;--sw:rgba(255,255,255,.07);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:500 15px/1.4 "Inter Tight",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);transition:background .4s}
+button,a{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-decoration:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page{position:relative;max-width:560px;margin:0 auto;padding:0 18px 130px;overflow:hidden}
+.page>*:not(.sw){position:relative;z-index:1}
+.sw{position:absolute;left:-40px;top:0;width:calc(100% + 80px);height:1000px;z-index:0;pointer-events:none}
+.sw path{fill:none;stroke:var(--sw);stroke-width:38;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.8s .3s var(--e) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* top */
+.top{display:flex;align-items:center;gap:10px;padding-top:14px}
+.hi{display:flex;align-items:center;gap:12px;flex:1;font-weight:600;font-size:17px;line-height:1.1;min-width:0}
+.av,.cb{width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none}
+.pw{display:inline-flex;align-items:center;gap:8px;background:var(--card);color:var(--ink);border-radius:999px;padding:13px 20px;font-weight:600;font-size:16px;transition:transform .3s var(--e)}
+.pw:active,.cb:active{transform:scale(.94)}
+/* hero */
+.hero{padding-top:34px;position:relative}
+h1{font-size:clamp(60px,18vw,104px);line-height:.86;letter-spacing:-.065em;font-weight:700}
+.ln{display:block;overflow:hidden;padding:.04em 0 .1em}
+.ln>span{display:block;transform:translateY(105%);animation:up 1.1s var(--e) forwards}
+.ln:nth-child(2)>span{animation-delay:.12s}
+@keyframes up{to{transform:none}}
+.hero .pw{position:absolute;right:0;top:48px}
+.kick{text-align:right;font-size:14px;margin-top:22px;opacity:0;animation:fade 1s .8s forwards}
+@keyframes fade{to{opacity:1}}
+/* stack */
+.stack{position:relative;margin-top:30px}
+.sc{position:absolute;height:300px;border-radius:40px 40px 34px 34px;padding:18px 20px;text-align:left;display:flex;flex-direction:column;color:#0B0B0B;cursor:pointer;transition:top .8s var(--e),left .8s var(--e),right .8s var(--e),background .8s}
+.sh{display:flex;align-items:center}
+.lg{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;background:#0B0B0B;color:#fff}
+.ic{display:flex;gap:10px;margin-left:auto}
+.ic i{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.12);display:grid;place-items:center}
+.ic i.on{background:#0B0B0B;color:#fff}
+.org{margin-top:auto;opacity:.55;font-size:15px}
+.sc h3{font-size:27px;line-height:.98;letter-spacing:-.045em;font-weight:600;margin-top:4px;max-width:92%}
+.mt{font-size:14px;margin-top:8px;font-weight:600}
+.go{align-self:flex-start;margin-top:14px;border-radius:999px;padding:11px 20px;background:rgba(0,0,0,.16);font-weight:600;font-size:14px}
+/* feed */
+h2{font-size:clamp(40px,12vw,64px);line-height:.9;letter-spacing:-.055em;font-weight:700}
+.sec{margin-top:54px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:18px -18px 16px;padding:2px 18px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;transition:background .3s,color .3s}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.list{display:grid;gap:12px}
+.li{border-radius:34px;padding:20px;text-align:left;display:flex;flex-direction:column;gap:10px;color:#0B0B0B}
+.tp{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{border:1.5px solid #0B0B0B;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
+.tag.f{background:#0B0B0B;color:#fff}
+.li h3{font-size:28px;line-height:.98;letter-spacing:-.045em;font-weight:600}
+.li p{font-size:14px;opacity:.72}
+.ft{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;margin-top:4px}
+.li.rd{opacity:.6}
+.empty{padding:40px 0;color:var(--mute)}
+/* stats */
+.st{background:var(--lime);border-radius:40px;padding:22px 18px 0;margin-top:54px;color:#0B0B0B;overflow:hidden}
+.st h2{font-size:clamp(36px,10.5vw,56px)}
+.st h2 b{display:block;text-align:right;color:#fff;font-weight:700}
+.sr{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;font-weight:600}
+.sr span{display:flex;align-items:center;gap:8px}
+.vp{background:#fff;border-radius:999px;padding:6px 16px;font-size:18px}
+.bars{display:flex;align-items:flex-end;gap:7px;height:220px;margin-top:20px}
+.bar{flex:1;border-radius:999px;border:2px solid #fff;height:0;transition:height 1.3s var(--e)}
+.bar.w{background:#fff}.bar.k{background:#0B0B0B;border-color:#0B0B0B}
+.st.in .bar{height:var(--h)}
+/* cta */
+.big{font-size:clamp(52px,16vw,88px);line-height:.88;letter-spacing:-.06em;font-weight:700;margin-top:54px}
+.big span{display:block}.big .r{text-align:right}
+.av2{display:flex;align-items:center;justify-content:space-between;margin-top:24px}
+.stk{display:flex}
+.stk i{width:72px;height:72px;border-radius:50%;border:4px solid var(--bg);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:22px;margin-left:-14px;color:#0B0B0B}
+.stk i:first-child{margin-left:0}
+.fm{border-bottom:2px solid var(--ink);font-weight:600;font-size:17px}
+.ar{display:grid;gap:10px;margin-top:20px}
+.ar a{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border-radius:28px;padding:14px 14px 14px 20px;font-weight:600}
+.ar small{display:block;color:var(--mute);font-weight:500}
+.ar .cb{width:40px;height:40px}
+footer{margin-top:40px;color:var(--mute);font-size:13px}
+/* fab */
+.fab{position:fixed;right:max(18px,calc(50% - 262px));bottom:calc(20px + env(safe-area-inset-bottom));width:66px;height:66px;border-radius:50%;background:var(--card);display:grid;place-items:center;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.2);transition:transform .3s var(--e)}
+.fab:active{transform:scale(.92)}
+.fab span{width:46px;height:46px;border-radius:50%;background:#0B0B0B;display:grid;place-items:center;color:#fff}
+/* reveal */
+.rv{clip-path:inset(0 0 100% 0 round 36px);transform:translateY(34px);transition:clip-path 1.1s var(--e),transform 1.1s var(--e)}
+.rv.in{clip-path:inset(0 0 -1% 0 round 36px);transform:none}
+/* dialogs */
+dialog{border:0;padding:0;background:transparent;width:min(520px,calc(100% - 20px));max-height:90svh;overflow:auto;margin:auto;color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(6px)}
+.sheet{border-radius:38px;padding:24px;background:var(--card)}
+dialog[open] .sheet{animation:pop .6s var(--e)}
+@keyframes pop{from{clip-path:inset(45% 8% 45% 8% round 38px);opacity:0}to{clip-path:inset(0 round 38px);opacity:1}}
+.sheet h3{font-size:36px;line-height:.95;letter-spacing:-.05em;font-weight:700;margin:14px 0 10px}
+.sheet p{opacity:.78;margin-bottom:8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.bk{background:#0B0B0B;color:#fff;border-radius:999px;padding:13px 22px;font-weight:600}
+.gh{border:1.5px solid currentColor;border-radius:999px;padding:11px 20px;font-weight:600}
+.menu button{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:40px;letter-spacing:-.05em;font-weight:700;padding:10px 0;border-bottom:1.5px solid rgba(128,128,128,.28);text-align:left}
+label{display:block;font-size:13px;margin:14px 0 6px;font-weight:600}
+input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5px solid rgba(128,128,128,.4);background:transparent;color:inherit;font:inherit}
+@media(min-width:760px){.page{max-width:900px}.list{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ln>span{transform:none}.kick{opacity:1}.sw path{stroke-dashoffset:0}.rv{clip-path:none;transform:none}.bar{height:var(--h)}}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200">
-  <!-- Top Navigation -->
-  <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3 min-w-0">
-        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-          <i data-lucide="terminal" class="w-5 h-5"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-bold tracking-tight truncate">CS Pulse</h1>
-            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-200/70 dark:border-indigo-800">
-              Dept. of Computer Science
-            </span>
-          </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student Notifications, Deadlines &amp; Tech Alerts</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 shrink-0">
-        <button id="btn-open-prefs" type="button" title="Alert Preferences" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition">
-          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-          <span class="hidden md:inline">Preferences</span>
-        </button>
-        <button id="btn-theme-toggle" type="button" title="Toggle Dark Mode" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition">
-          <i data-lucide="moon" id="theme-icon" class="w-4 h-4"></i>
-        </button>
-        <button id="btn-open-new" type="button" class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Post Alert</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-    <!-- Summary KPI Cards -->
-    <section aria-label="Notification Summary" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between shadow-sm">
-        <div>
-          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Unread Alerts</p>
-          <p id="kpi-unread" class="text-2xl font-bold mt-1 text-indigo-600 dark:text-indigo-400">0</p>
-        </div>
-        <div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-          <i data-lucide="bell-ring" class="w-5 h-5"></i>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between shadow-sm">
-        <div>
-          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Urgent Action</p>
-          <p id="kpi-urgent" class="text-2xl font-bold mt-1 text-rose-600 dark:text-rose-400">0</p>
-        </div>
-        <div class="w-10 h-10 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center">
-          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between shadow-sm">
-        <div>
-          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Due in 7 Days</p>
-          <p id="kpi-upcoming" class="text-2xl font-bold mt-1 text-amber-600 dark:text-amber-400">0</p>
-        </div>
-        <div class="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-          <i data-lucide="clock" class="w-5 h-5"></i>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between shadow-sm">
-        <div>
-          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Bookmarked</p>
-          <p id="kpi-saved" class="text-2xl font-bold mt-1 text-emerald-600 dark:text-emerald-400">0</p>
-        </div>
-        <div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-          <i data-lucide="bookmark" class="w-5 h-5"></i>
-        </div>
-      </div>
-    </section>
-
-    <!-- View Tabs & Quick Actions -->
-    <section class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" role="tablist" aria-label="Views">
-        <button type="button" data-view="all" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          All Notifications
-        </button>
-        <button type="button" data-view="unread" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Unread <span id="tab-unread-badge" class="ml-1 px-1.5 py-0.5 text-[11px] rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200">0</span>
-        </button>
-        <button type="button" data-view="deadlines" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Deadline Timeline
-        </button>
-        <button type="button" data-view="jobs" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Jobs <span id="tab-jobs-badge" class="ml-1 px-1.5 py-0.5 text-[11px] rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">0</span>
-        </button>
-        <button type="button" data-view="results" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Results <span id="tab-results-badge" class="ml-1 px-1.5 py-0.5 text-[11px] rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">0</span>
-        </button>
-        <button type="button" data-view="admit" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Admit Cards <span id="tab-admit-badge" class="ml-1 px-1.5 py-0.5 text-[11px] rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200">0</span>
-        </button>
-        <button type="button" data-view="saved" class="view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition">
-          Saved
-        </button>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button id="btn-mark-all-read" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition">
-          <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
-          <span>Mark all read</span>
-        </button>
-        <button id="btn-reset-filters" type="button" class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition">
-          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          <span>Reset filters</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- Search & Filter Controls -->
-    <section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 space-y-3 shadow-sm">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-        <div class="md:col-span-4 relative">
-          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          <input id="search-input" type="text" placeholder="Search title, org, degree (B.Tech, MCA, GATE)..." class="w-full pl-9 pr-8 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-          <button id="btn-clear-search" type="button" title="Clear search" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <div class="md:col-span-3">
-          <select id="filter-qualification" aria-label="Job preference by educational qualification" class="w-full px-3 py-2 rounded-lg text-sm bg-indigo-50/70 dark:bg-indigo-950/50 text-indigo-950 dark:text-indigo-100 border border-indigo-200 dark:border-indigo-800 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="All">Qualification: All Degrees</option>
-            <option value="B.E. / B.Tech (CS/IT)">B.E. / B.Tech (CS/IT)</option>
-            <option value="M.E. / M.Tech (CS/IT)">M.E. / M.Tech (CS/IT)</option>
-            <option value="MCA">MCA</option>
-            <option value="B.Sc. / BCA (CS)">B.Sc. / BCA (CS)</option>
-            <option value="Current Students (Pursuing)">Current Students (Pursuing)</option>
-          </select>
-        </div>
-
-        <div class="md:col-span-2">
-          <select id="filter-year" aria-label="Filter by academic year" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="All">All Years</option>
-            <option value="1st Year">1st Year</option>
-            <option value="2nd Year">2nd Year</option>
-            <option value="3rd Year">3rd Year</option>
-            <option value="4th Year">4th Year / Grad</option>
-          </select>
-        </div>
-
-        <div class="md:col-span-1.5 md:col-span-1">
-          <select id="filter-priority" aria-label="Filter by priority" class="w-full px-2.5 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="All">Priority</option>
-            <option value="Urgent">Urgent</option>
-            <option value="High">High</option>
-            <option value="Normal">Normal</option>
-          </select>
-        </div>
-
-        <div class="md:col-span-2">
-          <select id="sort-select" aria-label="Sort notifications" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="newest">Newest Posted</option>
-            <option value="deadline">Earliest Deadline</option>
-            <option value="priority">Highest Priority</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Quick Educational Qualification Preference Bar -->
-      <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
-        <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mr-1 inline-flex items-center gap-1">
-          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-indigo-500"></i>
-          Job Preference:
-        </span>
-        <div id="qual-chips" class="flex flex-wrap items-center gap-1.5">
-          <!-- Populated dynamically -->
-        </div>
-      </div>
-
-      <!-- Category Chips -->
-      <div id="category-chips" class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
-        <!-- Populated dynamically -->
-      </div>
-    </section>
-
-    <!-- Main Notification Feed / Timeline Container -->
-    <section aria-label="Notifications List">
-      <div class="flex items-center justify-between mb-3">
-        <p id="results-count" class="text-xs font-medium text-slate-500 dark:text-slate-400">Showing 0 notifications</p>
-        <p class="text-xs text-slate-400 dark:text-slate-500">Reference date: Nov 20, 2026</p>
-      </div>
-
-      <div id="notifications-container" class="space-y-3">
-        <!-- Cards rendered here -->
-      </div>
-
-      <div id="empty-state" class="hidden bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-10 text-center">
-        <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
-          <i data-lucide="inbox" class="w-6 h-6"></i>
-        </div>
-        <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200">No matching notifications</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-          Try clearing your search query or switching category and year filters to view other CS department updates.
-        </p>
-        <button id="btn-empty-reset" type="button" class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white transition">
-          Show All Notifications
-        </button>
-      </div>
-    </section>
-
-    <!-- Separate Sections: Jobs, Results, and Admit Cards -->
-    <section aria-label="Jobs, Results, and Admit Cards" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <!-- Jobs Section -->
-      <div id="section-jobs" class="bg-gradient-to-b from-amber-50/70 to-white dark:from-slate-900 dark:to-slate-900 rounded-2xl border border-amber-200/80 dark:border-amber-900/60 p-4 flex flex-col gap-3 shadow-sm">
-        <div class="flex items-center justify-between gap-2 pb-2 border-b border-amber-200/60 dark:border-slate-800">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center shrink-0">
-              <i data-lucide="landmark" class="w-4 h-4"></i>
-            </div>
-            <div class="min-w-0">
-              <h2 class="text-sm font-bold text-slate-900 dark:text-white truncate">Jobs &amp; Recruitment</h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Govt, PSU &amp; CS Openings</p>
-            </div>
-          </div>
-          <span id="jobs-section-count" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0">0</span>
-        </div>
-        <div id="jobs-section-container" class="space-y-2.5 flex-1"></div>
-        <button id="btn-view-jobs-tab" type="button" class="w-full py-2 rounded-lg text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-100/80 hover:bg-amber-200/70 dark:bg-amber-950/60 dark:hover:bg-amber-900/60 transition">
-          Filter Jobs Only
-        </button>
-      </div>
-
-      <!-- Results Section -->
-      <div id="section-results" class="bg-gradient-to-b from-emerald-50/70 to-white dark:from-slate-900 dark:to-slate-900 rounded-2xl border border-emerald-200/80 dark:border-emerald-900/60 p-4 flex flex-col gap-3 shadow-sm">
-        <div class="flex items-center justify-between gap-2 pb-2 border-b border-emerald-200/60 dark:border-slate-800">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
-              <i data-lucide="award" class="w-4 h-4"></i>
-            </div>
-            <div class="min-w-0">
-              <h2 class="text-sm font-bold text-slate-900 dark:text-white truncate">Results &amp; Shortlists</h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Merit Lists, Scores &amp; Certificates</p>
-            </div>
-          </div>
-          <span id="results-section-count" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0">0</span>
-        </div>
-        <div id="results-section-container" class="space-y-2.5 flex-1"></div>
-        <button id="btn-view-results-tab" type="button" class="w-full py-2 rounded-lg text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-100/80 hover:bg-emerald-200/70 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 transition">
-          Filter Results Only
-        </button>
-      </div>
-
-      <!-- Admit Cards Section -->
-      <div id="section-admit-cards" class="bg-gradient-to-b from-sky-50/70 to-white dark:from-slate-900 dark:to-slate-900 rounded-2xl border border-sky-200/80 dark:border-sky-900/60 p-4 flex flex-col gap-3 shadow-sm">
-        <div class="flex items-center justify-between gap-2 pb-2 border-b border-sky-200/60 dark:border-slate-800">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0">
-              <i data-lucide="id-card" class="w-4 h-4"></i>
-            </div>
-            <div class="min-w-0">
-              <h2 class="text-sm font-bold text-slate-900 dark:text-white truncate">Admit Cards</h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Hall Tickets &amp; City Intimations</p>
-            </div>
-          </div>
-          <span id="admit-section-count" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 shrink-0">0</span>
-        </div>
-        <div id="admit-section-container" class="space-y-2.5 flex-1"></div>
-        <button id="btn-view-admit-tab" type="button" class="w-full py-2 rounded-lg text-xs font-semibold text-sky-800 dark:text-sky-300 bg-sky-100/80 hover:bg-sky-200/70 dark:bg-sky-950/60 dark:hover:bg-sky-900/60 transition">
-          Filter Admit Cards Only
-        </button>
-      </div>
-    </section>
-
-    <!-- Exam PYQs & Official Notifications Hub -->
-    <section id="pyq-hub-section" aria-label="Exam PYQs and Official Notifications" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-4 shadow-sm">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Exam PYQs &amp; Official Notification Archive</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Direct links to official recruitment/exam notifications and Previous Year Question Papers (PYQs)</p>
-          </div>
-        </div>
-        <span id="pyq-hub-count" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/70 dark:text-indigo-300 self-start sm:self-auto">0 Exams</span>
-      </div>
-      <div id="pyq-hub-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        <!-- Populated dynamically -->
-      </div>
-    </section>
-  </main>
-
-  <!-- Notification Detail Drawer / Modal -->
-  <div id="detail-modal" class="hidden fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="detail-title">
-    <div id="detail-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"></div>
-    <div class="fixed inset-y-0 right-0 max-w-full flex pl-8">
-      <div class="w-screen max-w-xl bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col animate-slide-in">
-        <!-- Drawer Header -->
-        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3">
-          <div class="space-y-1 min-w-0">
-            <div id="detail-badges" class="flex flex-wrap items-center gap-1.5"></div>
-            <h2 id="detail-title" class="text-lg font-bold text-slate-900 dark:text-white leading-snug"></h2>
-          </div>
-          <button id="btn-close-detail" type="button" aria-label="Close details" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <!-- Drawer Body -->
-        <div class="flex-1 overflow-y-auto p-5 space-y-5">
-          <div class="grid grid-cols-2 gap-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3.5 border border-slate-200/80 dark:border-slate-700/70 text-xs">
-            <div>
-              <span class="text-slate-400 dark:text-slate-500 block">Posted By</span>
-              <span id="detail-sender" class="font-semibold text-slate-800 dark:text-slate-200 mt-0.5 block"></span>
-            </div>
-            <div>
-              <span class="text-slate-400 dark:text-slate-500 block">Target Cohort</span>
-              <span id="detail-cohort" class="font-semibold text-slate-800 dark:text-slate-200 mt-0.5 block"></span>
-            </div>
-            <div>
-              <span class="text-slate-400 dark:text-slate-500 block">Posted Date</span>
-              <span id="detail-posted" class="font-semibold text-slate-800 dark:text-slate-200 mt-0.5 block"></span>
-            </div>
-            <div>
-              <span class="text-slate-400 dark:text-slate-500 block">Deadline / Event Date</span>
-              <span id="detail-deadline" class="font-semibold text-slate-800 dark:text-slate-200 mt-0.5 block"></span>
-            </div>
-            <div class="col-span-2 pt-1 border-t border-slate-200/70 dark:border-slate-700/70">
-              <span class="text-slate-400 dark:text-slate-500 block">Eligible Educational Qualifications</span>
-              <div id="detail-qualifications" class="flex flex-wrap gap-1.5 mt-1"></div>
-            </div>
-          </div>
-
-          <div id="detail-official-box" class="hidden bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/70 rounded-xl p-3.5 space-y-3">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0"></i>
-                <div class="min-w-0">
-                  <span class="text-xs font-semibold text-emerald-900 dark:text-emerald-200 block">Verified Official Notification &amp; PYQs</span>
-                  <span id="detail-official-domain" class="text-[11px] text-emerald-700 dark:text-emerald-300 truncate block"></span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a id="detail-official-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition">
-                <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
-                <span>Official Notification</span>
-                <i data-lucide="external-link" class="w-3 h-3"></i>
-              </a>
-              <a id="detail-pyq-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition">
-                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                <span id="detail-pyq-label">Download PYQs</span>
-                <i data-lucide="external-link" class="w-3 h-3"></i>
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Notification Details</h3>
-            <p id="detail-body" class="text-sm leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line"></p>
-          </div>
-
-          <div id="detail-venue-box" class="hidden bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/70 rounded-xl p-3.5 flex items-start gap-2.5">
-            <i data-lucide="map-pin" class="w-4 h-4 text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0"></i>
-            <div class="text-xs">
-              <span class="font-semibold text-indigo-900 dark:text-indigo-200 block">Location / Submission Portal</span>
-              <span id="detail-venue" class="text-indigo-700 dark:text-indigo-300 mt-0.5 block"></span>
-            </div>
-          </div>
-
-          <div id="detail-checklist-section" class="hidden">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Action Checklist</h3>
-            <ul id="detail-checklist" class="space-y-2"></ul>
-          </div>
-
-          <div id="detail-resources-section" class="hidden">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Attachments &amp; References</h3>
-            <div id="detail-resources" class="space-y-1.5"></div>
-          </div>
-        </div>
-
-        <!-- Drawer Footer -->
-        <div class="px-5 py-3.5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <button id="btn-detail-bookmark" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
-              <span id="detail-bookmark-label">Save</span>
-            </button>
-            <button id="btn-detail-copy" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span>Copy Summary</span>
-            </button>
-          </div>
-          <button id="btn-detail-toggle-read" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-            <span id="detail-read-label">Mark as Unread</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Post New Notification Modal -->
-  <div id="new-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="new-modal-title">
-    <div id="new-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs"></div>
-    <div class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-fade-in">
-      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-        <h2 id="new-modal-title" class="text-base font-bold">Post CS Student Notification</h2>
-        <button id="btn-close-new" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-      <form id="new-notification-form" class="p-5 space-y-3.5 max-h-[80vh] overflow-y-auto">
-        <div>
-          <label for="input-title" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Title *</label>
-          <input id="input-title" type="text" required placeholder="e.g., CS310 Compiler Design Lab 4 Extended" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label for="input-category" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Category</label>
-            <select id="input-category" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <option value="Exams &amp; Quizzes">Exams &amp; Quizzes</option>
-              <option value="Assignments &amp; Labs">Assignments &amp; Labs</option>
-              <option value="Hackathons &amp; Contests">Hackathons &amp; Contests</option>
-              <option value="Internships &amp; Placements">Internships &amp; Placements</option>
-              <option value="Government Jobs">Government Jobs</option>
-              <option value="Results">Results</option>
-              <option value="Admit Cards">Admit Cards</option>
-              <option value="Seminars &amp; Talks">Seminars &amp; Talks</option>
-              <option value="Academic &amp; Admin">Academic &amp; Admin</option>
-            </select>
-          </div>
-          <div>
-            <label for="input-priority" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Priority</label>
-            <select id="input-priority" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <option value="Normal">Normal</option>
-              <option value="High">High</option>
-              <option value="Urgent">Urgent</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label for="input-cohort" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Target Cohort</label>
-            <select id="input-cohort" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <option value="All Years">All Years</option>
-              <option value="1st Year">1st Year</option>
-              <option value="2nd Year">2nd Year</option>
-              <option value="3rd Year">3rd Year</option>
-              <option value="4th Year">4th Year</option>
-            </select>
-          </div>
-          <div>
-            <label for="input-deadline" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Deadline / Date *</label>
-            <input id="input-deadline" type="date" required value="2026-11-28" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label for="input-sender" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Sender / Course *</label>
-            <input id="input-sender" type="text" required placeholder="e.g., Prof. R. Iyer (CS310)" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
-          </div>
-          <div>
-            <label for="input-venue" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Venue / Portal</label>
-            <input id="input-venue" type="text" placeholder="e.g., GitLab / Official Portal" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label for="input-qualification" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Required Qualification</label>
-            <select id="input-qualification" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <option value="B.E. / B.Tech (CS/IT)">B.E. / B.Tech (CS/IT)</option>
-              <option value="M.E. / M.Tech (CS/IT)">M.E. / M.Tech (CS/IT)</option>
-              <option value="MCA">MCA</option>
-              <option value="B.Sc. / BCA (CS)">B.Sc. / BCA (CS)</option>
-              <option value="Current Students (Pursuing)">Current Students (Pursuing)</option>
-            </select>
-          </div>
-          <div>
-            <label for="input-official-url" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Official URL (optional)</label>
-            <input id="input-official-url" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
-          </div>
-        </div>
-
-        <div>
-          <label for="input-body" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Details *</label>
-          <textarea id="input-body" rows="3" required placeholder="Provide full instructions, requirements, and submission notes..." class="w-full px-3 py-2 rounded-lg text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-        </div>
-
-        <div class="flex items-center justify-end gap-2 pt-2">
-          <button id="btn-cancel-new" type="button" class="px-4 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cancel</button>
-          <button type="submit" class="px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition">Publish Notification</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Preferences Modal -->
-  <div id="prefs-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="prefs-title">
-    <div id="prefs-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs"></div>
-    <div class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-fade-in">
-      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-        <h2 id="prefs-title" class="text-base font-bold">Notification Preferences</h2>
-        <button id="btn-close-prefs" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-      <div class="p-5 space-y-4 text-sm">
-        <label class="flex items-center justify-between gap-3 cursor-pointer">
-          <div>
-            <span class="font-medium block">Urgent Deadline Banners</span>
-            <span class="text-xs text-slate-500 dark:text-slate-400">Highlight alerts due within 48 hours</span>
-          </div>
-          <input id="pref-urgent-highlight" type="checkbox" class="w-4 h-4 accent-indigo-600 rounded" />
-        </label>
-        <label class="flex items-center justify-between gap-3 cursor-pointer">
-          <div>
-            <span class="font-medium block">Daily Morning Digest</span>
-            <span class="text-xs text-slate-500 dark:text-slate-400">Bundle normal-priority updates at 8:00 AM</span>
-          </div>
-          <input id="pref-digest" type="checkbox" class="w-4 h-4 accent-indigo-600 rounded" />
-        </label>
-        <label class="flex items-center justify-between gap-3 cursor-pointer">
-          <div>
-            <span class="font-medium block">Hide Read in Timeline</span>
-            <span class="text-xs text-slate-500 dark:text-slate-400">Show only pending items in Deadline Timeline</span>
-          </div>
-          <input id="pref-hide-read-timeline" type="checkbox" class="w-4 h-4 accent-indigo-600 rounded" />
-        </label>
-        <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex justify-end">
-          <button id="btn-save-prefs" type="button" class="px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition">Save Preferences</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Container -->
-  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
-
-  <script>
-    (function () {
-      const TODAY = '2026-11-20';
-
-      const CATEGORIES = [
-        { id: 'All', label: 'All Categories', icon: 'layers' },
-        { id: 'Exams & Quizzes', label: 'Exams & Quizzes', icon: 'file-check-2' },
-        { id: 'Assignments & Labs', label: 'Assignments & Labs', icon: 'code-2' },
-        { id: 'Hackathons & Contests', label: 'Hackathons & Contests', icon: 'trophy' },
-        { id: 'Internships & Placements', label: 'Internships & Placements', icon: 'briefcase' },
-        { id: 'Government Jobs', label: 'Government Jobs', icon: 'landmark' },
-        { id: 'Results', label: 'Results', icon: 'award' },
-        { id: 'Admit Cards', label: 'Admit Cards', icon: 'id-card' },
-        { id: 'Seminars & Talks', label: 'Seminars & Talks', icon: 'mic' },
-        { id: 'Academic & Admin', label: 'Academic & Admin', icon: 'graduation-cap' },
-      ];
-
-      const QUALIFICATION_OPTIONS = [
-        'All',
-        'B.E. / B.Tech (CS/IT)',
-        'M.E. / M.Tech (CS/IT)',
-        'MCA',
-        'B.Sc. / BCA (CS)',
-        'Current Students (Pursuing)',
-      ];
-
-      const INITIAL_NOTIFICATIONS = [
-        {
-          id: 'off-gate-2027',
-          title: 'GATE 2027 (IIT Madras) — Application Rectification & Exam Schedule',
-          category: 'Exams & Quizzes',
-          priority: 'Urgent',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)', 'M.E. / M.Tech (CS/IT)', 'MCA', 'B.Sc. / BCA (CS)', 'Current Students (Pursuing)'],
-          sender: 'IIT Madras — GATE 2027 Organizing Institute',
-          courseCode: 'GATE-2027',
-          postedAt: '2026-11-14',
-          deadline: '2026-11-30',
-          venue: 'GOAPS Portal (gate2027.iitm.ac.in)',
-          officialUrl: 'https://gate2027ib.iitm.ac.in/GATE2027-IB.pdf',
-          pyqUrl: 'https://gate2027.iitm.ac.in/download',
-          pyqLabel: 'GATE 2021–2026 PYQs & Keys',
-          verified: true,
-          read: false,
-          saved: true,
-          body: 'Official GATE 2027 schedule announced by IIT Madras: Application rectification (scrutiny defects without fee) closes on November 30, 2026. City allotment notification will be released on January 4, 2027.\n\nGATE 2027 Examinations will be conducted on February 6, 7, 13, 14, 20, and 21, 2027, with results scheduled for March 19, 2027. Essential for M.Tech admissions and PSU CS recruitment.',
-          checklist: [
-            { text: 'Check GOAPS portal for any scrutiny defect rectification before Nov 30', done: false },
-            { text: 'Note City Allotment date: Jan 4, 2027', done: false },
-          ],
-          resources: [
-            { name: 'GATE 2027 Official Important Dates', size: 'Official Web' },
-            { name: 'GATE 2027 Information Brochure (PDF)', size: 'Official PDF' },
-          ],
-        },
-        {
-          id: 'off-isro-icrb',
-          title: 'ISRO ICRB Scientist/Engineer "SC" (Computer Science) Recruitment',
-          category: 'Government Jobs',
-          priority: 'Urgent',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)'],
-          sender: 'ISRO Centralised Recruitment Board (ICRB)',
-          courseCode: 'ISRO-ICRB',
-          postedAt: '2026-11-20',
-          deadline: '2026-12-05',
-          venue: 'ISRO Careers & ICRB Portal (isro.gov.in)',
-          officialUrl: 'https://www.isro.gov.in/ICRB_Recruitment13.html',
-          pyqUrl: 'https://www.isro.gov.in/OldQuestionPapers.html',
-          pyqLabel: 'ISRO CS 2023 & 2025 PYQs',
-          verified: true,
-          read: false,
-          saved: true,
-          body: 'Official ISRO ICRB recruitment updates for Scientist/Engineer "SC" in Computer Science (Advt. Nos. ISRO:ICRB:02(EMC-CEPO):2026 and ISRO:ICRB:03(EMC):2026 covering 175 vacancies across Electronics, Mechanical, and Computer Science).\n\nCandidates with B.E./B.Tech in Computer Science & Engineering can check CBT exam schedules, Computer Science 003 updates, and interview screening lists on the official ISRO portal.',
-          checklist: [
-            { text: 'Verify B.E./B.Tech CS eligibility & registration status on ISRO ICRB', done: false },
-            { text: 'Check latest Computer Science 003 screening list & CBT updates', done: false },
-          ],
-          resources: [
-            { name: 'ISRO ICRB Recruitment Official Page', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-nic-scb',
-          title: 'NIC Scientist "B" & Scientific/Technical Assistant "A" Recruitment 2026',
-          category: 'Government Jobs',
-          priority: 'High',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)', 'M.E. / M.Tech (CS/IT)', 'MCA'],
-          sender: 'National Informatics Centre (NIC / MeitY)',
-          courseCode: 'NIC-SCB',
-          postedAt: '2026-11-12',
-          deadline: '2026-12-10',
-          venue: 'NIC Recruitment Portal (recruitment.nic.in)',
-          officialUrl: 'https://recruitment.nic.in/DetailedSciB.pdf',
-          pyqUrl: 'https://gate2027.iitm.ac.in/download',
-          pyqLabel: 'GATE CS Reference PYQs',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'National Informatics Centre (NIC) official recruitment notifications (Advt. No. NIC/SCB/2026/1 for Scientist-B Group-A, Level 10 Pay Matrix ₹56,100–₹1,77,500 across 243 vacancies, and Advt. No. NIC/STA/2026/2 for Scientific/Technical Assistant-A) with GATE Paper Code: CS.\n\nEligible degrees include B.E./B.Tech, M.E./M.Tech, MCA, or M.Sc. in Computer Science/IT.',
-          checklist: [
-            { text: 'Review DetailedSciB.pdf and DetailedSTA.pdf eligibility criteria', done: false },
-            { text: 'Keep valid GATE CS scorecard ready', done: false },
-          ],
-          resources: [
-            { name: 'NIC Official Recruitment Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-cdac-2026',
-          title: 'C-DAC Project Engineer & Project Associate (Fresher) CBT Admit Card',
-          category: 'Admit Cards',
-          priority: 'Urgent',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)', 'M.E. / M.Tech (CS/IT)', 'MCA'],
-          sender: 'Centre for Development of Advanced Computing (C-DAC)',
-          courseCode: 'CDAC-JIT',
-          postedAt: '2026-11-20',
-          deadline: '2026-11-28',
-          venue: 'C-DAC Careers Portal (cdac.in)',
-          officialUrl: 'https://www.cdac.in/index.aspx?id=current_jobs',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'C-DAC Official Update (Nov 20, 2026): Admit Card download is now live for the Computer Based Test (CBT) for Project Engineer (Fresher) and Project Associate (Fresher) under C-DAC TVM-JIT14 and Advt. No. CORP/JIT/03/2026 across 11 C-DAC centres.',
-          checklist: [
-            { text: 'Download CBT Admit Card from C-DAC Current Jobs page', done: false },
-            { text: 'Verify exam center and reporting time', done: false },
-          ],
-          resources: [
-            { name: 'C-DAC Current Job Opportunities', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-ugc-net-dec2026',
-          title: 'NTA UGC-NET December 2026 — Computer Science Exam Schedule Out',
-          category: 'Exams & Quizzes',
-          priority: 'High',
-          cohort: '4th Year',
-          qualifications: ['M.E. / M.Tech (CS/IT)', 'MCA'],
-          sender: 'National Testing Agency (NTA)',
-          courseCode: 'UGC-NET',
-          postedAt: '2026-11-19',
-          deadline: '2026-12-14',
-          venue: 'NTA UGC-NET Portal (ugcnet.nta.nic.in)',
-          officialUrl: 'https://nta.ac.in/Download/Notice/Notice_20261008212430.pdf',
-          pyqUrl: 'https://ugcnet.nta.nic.in/',
-          pyqLabel: 'UGC-NET Official Portal & Papers',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'NTA released the UGC-NET December 2026 subject-wise CBT schedule on November 19, 2026. Examinations run on December 14, 15, 16, 17, 18, and 21, 2026 in two shifts (9:00 AM–12:00 PM and 3:00 PM–6:00 PM).\n\nComputer Science and Applications is scheduled for December 14, 2026. Advance city intimation slips are issued prior to the exam.',
-          checklist: [
-            { text: 'Verify subject code & shift on ugcnet.nta.nic.in', done: false },
-            { text: 'Download advance city intimation slip when released', done: false },
-          ],
-          resources: [
-            { name: 'NTA UGC-NET Official Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-bpsc-tre4',
-          title: 'BPSC TRE 4.0 — Computer Science Teacher (Class 11–12) Exam Calendar',
-          category: 'Government Jobs',
-          priority: 'High',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)', 'M.E. / M.Tech (CS/IT)', 'MCA', 'B.Sc. / BCA (CS)'],
-          sender: 'Bihar Public Service Commission (BPSC)',
-          courseCode: 'BPSC-TRE4',
-          postedAt: '2026-11-19',
-          deadline: '2026-12-15',
-          venue: 'BPSC Official Portal (bpsc.bihar.gov.in)',
-          officialUrl: 'https://bpsc.bihar.gov.in/advertisement/',
-          pyqUrl: 'https://bpsc.bihar.gov.in/question-booklets/',
-          pyqLabel: 'BPSC Question Booklets (PYQs)',
-          verified: true,
-          read: true,
-          saved: false,
-          body: 'Bihar Public Service Commission (BPSC) notified 407 Computer Science Teacher vacancies for Classes 11–12 under TRE 4.0 (Advt. No. 15/2026).\n\nEligible CS candidates include B.E./B.Tech (CS/IT), MCA, M.Sc. (CS), or BCA with PGDCA (with STET Paper-II). Monitor the official BPSC Exam Calendar (updated Nov 19, 2026) for exam and document verification dates.',
-          checklist: [
-            { text: 'Track official exam dates on BPSC Exam Calendar', done: false },
-          ],
-          resources: [
-            { name: 'BPSC Official Exam Calendar', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-icpc-kanpur',
-          title: 'ICPC Asia West Kanpur Multi-Site Regional Contest 2026',
-          category: 'Hackathons & Contests',
-          priority: 'High',
-          cohort: 'All Years',
-          qualifications: ['Current Students (Pursuing)', 'B.E. / B.Tech (CS/IT)', 'B.Sc. / BCA (CS)', 'MCA'],
-          sender: 'ICPC India — Kanpur Regional',
-          courseCode: 'ICPC-2026',
-          postedAt: '2026-11-13',
-          deadline: '2026-12-22',
-          venue: 'Onsite: Kanpur, Gandhinagar & Pune',
-          officialUrl: 'https://kanpur.indiaicpc.in/',
-          verified: true,
-          read: false,
-          saved: true,
-          body: 'Following the ICPC India Preliminary Online Contest, the Kanpur Multi-Site Onsite Regional Contest will take place on December 22–23, 2026 across three centers: Kanpur, Gandhinagar, and Pune.\n\nEach team consists of 3 student contestants and 1 coach from the same institution.',
-          checklist: [
-            { text: 'Check Final Regional Selection Pool status', done: true },
-            { text: 'Confirm onsite center travel & team verification', done: false },
-          ],
-          resources: [
-            { name: 'ICPC Kanpur 2026 Official Site', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-swayam-2026',
-          title: 'NTA SWAYAM July 2026 Semester Certification Exam',
-          category: 'Exams & Quizzes',
-          priority: 'Normal',
-          cohort: 'All Years',
-          qualifications: ['Current Students (Pursuing)', 'B.E. / B.Tech (CS/IT)', 'B.Sc. / BCA (CS)', 'MCA', 'M.E. / M.Tech (CS/IT)'],
-          sender: 'National Testing Agency (NTA) / SWAYAM',
-          courseCode: 'SWAYAM',
-          postedAt: '2026-11-20',
-          deadline: '2026-12-08',
-          venue: 'NTA SWAYAM Portal (exams.nta.nic.in/swayam)',
-          officialUrl: 'https://exams.nta.nic.in/swayam/',
-          pyqUrl: 'https://nptel.ac.in/',
-          pyqLabel: 'NPTEL Course Archive',
-          verified: true,
-          read: true,
-          saved: false,
-          body: 'Official NTA SWAYAM July 2026 Semester Exam portal updates for NPTEL & SWAYAM courses. Registered CS students taking credit-transfer courses can check admit card notices and December 2026 exam schedules directly on the NTA SWAYAM portal.',
-          checklist: [
-            { text: 'Download SWAYAM admit card from exams.nta.nic.in/swayam', done: false },
-          ],
-          resources: [
-            { name: 'NTA SWAYAM Official Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-sih-2026',
-          title: 'Smart India Hackathon (SIH) 2026 — Official Themes & Guidelines',
-          category: 'Hackathons & Contests',
-          priority: 'Normal',
-          cohort: 'All Years',
-          qualifications: ['Current Students (Pursuing)', 'B.E. / B.Tech (CS/IT)', 'B.Sc. / BCA (CS)', 'MCA'],
-          sender: 'Ministry of Education Innovation Cell & AICTE',
-          courseCode: 'SIH-2026',
-          postedAt: '2026-10-09',
-          deadline: '2026-12-10',
-          venue: 'SIH Official Portal (sih.gov.in)',
-          officialUrl: 'https://www.sih.gov.in/SIH_Themes',
-          verified: true,
-          read: true,
-          saved: false,
-          body: 'Official Smart India Hackathon 2026 portal guidelines and problem statement themes (Smart Automation, AI/ML, Cybersecurity, Blockchain, MedTech, and CleanTech). College SPOCs and shortlisted teams can track grand finale updates on sih.gov.in.',
-          checklist: [
-            { text: 'Coordinate with college SPOC for grand finale round updates', done: false },
-          ],
-          resources: [
-            { name: 'SIH 2026 Themes & Official Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-gsoc-2026',
-          title: 'Google Summer of Code (GSoC) 2026 Program & 2027 Prep Archive',
-          category: 'Internships & Placements',
-          priority: 'Normal',
-          cohort: 'All Years',
-          qualifications: ['Current Students (Pursuing)', 'B.E. / B.Tech (CS/IT)', 'M.E. / M.Tech (CS/IT)', 'MCA', 'B.Sc. / BCA (CS)'],
-          sender: 'Google Open Source',
-          courseCode: 'GSoC',
-          postedAt: '2026-11-15',
-          deadline: '2026-12-20',
-          venue: 'GSoC Portal (summerofcode.withgoogle.com)',
-          officialUrl: 'https://summerofcode.withgoogle.com/programs/2026',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'Explore the official Google Summer of Code 2026 archive featuring 1,096 successful contributors and participating open-source organizations. Ideal for CS students preparing early PRs and proposals ahead of the 2027 organization application cycle.',
-          checklist: [
-            { text: 'Shortlist 2–3 open-source organizations from the 2026 archive', done: false },
-            { text: 'Start contributing starter PRs to build mentor rapport', done: false },
-          ],
-          resources: [
-            { name: 'GSoC 2026 Official Organizations Archive', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-res-isro',
-          title: 'ISRO ICRB Scientist/Engineer "SC" (CS BE003) Interview Shortlist',
-          category: 'Results',
-          priority: 'High',
-          cohort: '4th Year',
-          qualifications: ['B.E. / B.Tech (CS/IT)'],
-          sender: 'ISRO Centralised Recruitment Board (ICRB)',
-          courseCode: 'RESULT-ISRO',
-          postedAt: '2026-11-12',
-          deadline: '2026-12-05',
-          venue: 'ISRO ICRB Results & Shortlist PDF (isro.gov.in)',
-          officialUrl: 'https://www.isro.gov.in/media_isro/pdf/recruitmentNotice/2026/Jan/Computer_Science_BE003_BE003A_29012026.pdf',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'Official ISRO ICRB roll-number shortlist PDF for Scientist/Engineer "SC" [Computer Science] [BE003] candidates shortlisted for personal interview. Check your roll number and interview call letter instructions.',
-          checklist: [
-            { text: 'Check roll number in the official ISRO CS BE003 shortlist PDF', done: false },
-          ],
-          resources: [
-            { name: 'ISRO CS BE003 Shortlist (Official PDF)', size: 'Official PDF' },
-          ],
-        },
-        {
-          id: 'off-res-icpc',
-          title: 'ICPC India Preliminary 2026 — Final Regional Selection Pool',
-          category: 'Results',
-          priority: 'Normal',
-          cohort: 'All Years',
-          qualifications: ['Current Students (Pursuing)', 'B.E. / B.Tech (CS/IT)', 'B.Sc. / BCA (CS)', 'MCA'],
-          sender: 'ICPC India',
-          courseCode: 'RESULT-ICPC',
-          postedAt: '2026-11-13',
-          deadline: '2026-12-22',
-          venue: 'ICPC India Selection Portal (indiaicpc.in)',
-          officialUrl: 'https://indiaicpc.in/selection_pool_2026.html',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'Official Final Regional Selection Pool standings published for the ICPC India Preliminary Contest 2026, listing qualifying teams, institute names, problems solved, and scores.',
-          checklist: [
-            { text: 'Verify team standing and regional site allocation', done: false },
-          ],
-          resources: [
-            { name: 'ICPC India 2026 Selection Pool', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-res-nielit',
-          title: 'NIELIT ITL / Basic Computer & Certification Exam Results',
-          category: 'Results',
-          priority: 'Normal',
-          cohort: 'All Years',
-          qualifications: ['B.Sc. / BCA (CS)', 'MCA', 'Current Students (Pursuing)'],
-          sender: 'NIELIT Student Portal',
-          courseCode: 'RESULT-NIELIT',
-          postedAt: '2026-11-06',
-          deadline: '2026-12-15',
-          venue: 'NIELIT Student Portal (student.nielit.gov.in)',
-          officialUrl: 'https://student.nielit.gov.in/Home.aspx',
-          verified: true,
-          read: true,
-          saved: false,
-          body: 'NIELIT September/November 2026 certification and ITL results are available for viewing and printing by roll number and date of birth on the official NIELIT Student Information and Enrollment System.',
-          checklist: [
-            { text: 'Enter Roll Number and DOB on student.nielit.gov.in to view result', done: false },
-          ],
-          resources: [
-            { name: 'NIELIT Official Result Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-admit-csir',
-          title: 'NTA Joint CSIR-UGC NET Dec 2026 — Exam City & Admit Card Portal',
-          category: 'Admit Cards',
-          priority: 'High',
-          cohort: '4th Year',
-          qualifications: ['M.E. / M.Tech (CS/IT)', 'MCA'],
-          sender: 'National Testing Agency (NTA)',
-          courseCode: 'ADMIT-NTA',
-          postedAt: '2026-11-20',
-          deadline: '2026-12-14',
-          venue: 'NTA CSIR-NET Portal (csirnet.nta.nic.in)',
-          officialUrl: 'https://nta.ac.in/Download/Notice/Notice_20261008083141.pdf',
-          pyqUrl: 'https://csirnet.nta.nic.in/',
-          pyqLabel: 'CSIR-NET Portal & Papers',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'Official NTA portal for Joint CSIR-UGC NET December 2026 Exam City Intimation Slips and Admit Card downloads using Application Number and Date of Birth.',
-          checklist: [
-            { text: 'Log in with Application Number & DOB to download slip/admit card', done: false },
-          ],
-          resources: [
-            { name: 'NTA CSIR-NET Official Portal', size: 'Official Web' },
-          ],
-        },
-        {
-          id: 'off-admit-nielit',
-          title: 'NIELIT Examination — Revised Admit Cards Available',
-          category: 'Admit Cards',
-          priority: 'High',
-          cohort: 'All Years',
-          qualifications: ['B.Sc. / BCA (CS)', 'MCA', 'Current Students (Pursuing)'],
-          sender: 'NIELIT (MeitY, Govt. of India)',
-          courseCode: 'ADMIT-NIELIT',
-          postedAt: '2026-11-14',
-          deadline: '2026-11-30',
-          venue: 'NIELIT Student Portal (student.nielit.gov.in)',
-          officialUrl: 'https://student.nielit.gov.in/ImportantNotificationnew.aspx?99=1',
-          pyqUrl: 'https://student.nielit.gov.in/',
-          pyqLabel: 'NIELIT Student Portal',
-          verified: true,
-          read: false,
-          saved: false,
-          body: 'Candidates appearing in NIELIT examination cycles are instructed to download their revised admit cards from the official NIELIT Student Web Portal and verify exam center details.',
-          checklist: [
-            { text: 'Download revised admit card from student.nielit.gov.in', done: false },
-            { text: 'Carry printed admit card and valid photo ID', done: false },
-          ],
-          resources: [
-            { name: 'NIELIT Official Notifications', size: 'Official Web' },
-          ],
-        },
-      ];
-
-      const DEFAULT_PREFS = {
-        urgentHighlight: true,
-        digest: false,
-        hideReadTimeline: false,
-        darkMode: false,
-      };
-
-      function loadState() {
-        try {
-          const savedData = localStorage.getItem('cs_pulse_notifications_v4');
-          const savedPrefs = localStorage.getItem('cs_pulse_prefs_v1');
-          return {
-            notifications: savedData ? JSON.parse(savedData) : INITIAL_NOTIFICATIONS,
-            prefs: savedPrefs ? { ...DEFAULT_PREFS, ...JSON.parse(savedPrefs) } : { ...DEFAULT_PREFS },
-          };
-        } catch (e) {
-          return {
-            notifications: INITIAL_NOTIFICATIONS,
-            prefs: { ...DEFAULT_PREFS },
-          };
-        }
-      }
-
-      function persistState() {
-        try {
-          localStorage.setItem('cs_pulse_notifications_v4', JSON.stringify(state.notifications));
-          localStorage.setItem('cs_pulse_prefs_v1', JSON.stringify(state.prefs));
-        } catch (e) {
-          // Ignore storage quota / sandbox restrictions
-        }
-      }
-
-      const persisted = loadState();
-      const state = {
-        notifications: persisted.notifications,
-        prefs: persisted.prefs,
-        view: 'all',
-        category: 'All',
-        qualification: 'All',
-        cohort: 'All',
-        priority: 'All',
-        search: '',
-        sort: 'newest',
-        selectedId: null,
-      };
-
-      // Helpers
-      function daysBetween(dateStrA, dateStrB) {
-        const a = new Date(dateStrA + 'T00:00:00');
-        const b = new Date(dateStrB + 'T00:00:00');
-        return Math.round((b - a) / (1000 * 60 * 60 * 24));
-      }
-
-      function formatDate(dateStr) {
-        if (!dateStr) return 'TBD';
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      }
-
-      function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
-      }
-
-      function getPriorityWeight(p) {
-        if (p === 'Urgent') return 3;
-        if (p === 'High') return 2;
-        return 1;
-      }
-
-      function getPriorityBadgeClass(p) {
-        if (p === 'Urgent') {
-          return 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/70 dark:text-rose-300 dark:border-rose-800';
-        }
-        if (p === 'High') {
-          return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/70 dark:text-amber-300 dark:border-amber-800';
-        }
-        return 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700';
-      }
-
-      function getCategoryBadgeClass(cat) {
-        switch (cat) {
-          case 'Exams & Quizzes':
-            return 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300';
-          case 'Assignments & Labs':
-            return 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300';
-          case 'Hackathons & Contests':
-            return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300';
-          case 'Internships & Placements':
-            return 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300';
-          case 'Government Jobs':
-            return 'bg-amber-50 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300';
-          case 'Results':
-            return 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300';
-          case 'Admit Cards':
-            return 'bg-sky-50 text-sky-800 dark:bg-sky-950/70 dark:text-sky-300';
-          case 'Seminars & Talks':
-            return 'bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300';
-          default:
-            return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
-        }
-      }
-
-      function showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        const colorCls =
-          type === 'success'
-            ? 'bg-emerald-600 text-white'
-            : type === 'warning'
-            ? 'bg-amber-600 text-white'
-            : 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900';
-
-        toast.className = `pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-xl shadow-lg text-xs font-medium animate-fade-in ${colorCls}`;
-        toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
-        container.appendChild(toast);
-
-        setTimeout(() => {
-          toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-          setTimeout(() => toast.remove(), 300);
-        }, 2800);
-      }
-
-      function applyTheme() {
-        const html = document.documentElement;
-        const icon = document.getElementById('theme-icon');
-        if (state.prefs.darkMode) {
-          html.classList.add('dark');
-          icon.setAttribute('data-lucide', 'sun');
-        } else {
-          html.classList.remove('dark');
-          icon.setAttribute('data-lucide', 'moon');
-        }
-        if (window.lucide) lucide.createIcons();
-      }
-
-      function getFilteredNotifications() {
-        const q = state.search.trim().toLowerCase();
-        let list = state.notifications.filter((item) => {
-          if (state.view === 'unread' && item.read) return false;
-          if (state.view === 'jobs' && item.category !== 'Government Jobs' && item.category !== 'Internships & Placements') return false;
-          if (state.view === 'results' && item.category !== 'Results') return false;
-          if (state.view === 'admit' && item.category !== 'Admit Cards') return false;
-          if (state.view === 'saved' && !item.saved) return false;
-          if (state.view === 'deadlines' && state.prefs.hideReadTimeline && item.read) return false;
-          if (state.category !== 'All' && item.category !== state.category) return false;
-          if (state.qualification !== 'All') {
-            const quals = item.qualifications || [];
-            if (!quals.includes(state.qualification)) return false;
-          }
-          if (state.cohort !== 'All' && item.cohort !== 'All Years' && item.cohort !== state.cohort) return false;
-          if (state.priority !== 'All' && item.priority !== state.priority) return false;
-          if (q) {
-            const qualStr = (item.qualifications || []).join(' ');
-            const hay = `${item.title} ${item.sender} ${item.courseCode} ${item.category} ${qualStr} ${item.body}`.toLowerCase();
-            if (!hay.includes(q)) return false;
-          }
-          return true;
-        });
-
-        const sortMode = state.view === 'deadlines' ? 'deadline' : state.sort;
-        list = [...list].sort((a, b) => {
-          if (sortMode === 'deadline') {
-            return a.deadline.localeCompare(b.deadline);
-          }
-          if (sortMode === 'priority') {
-            const diff = getPriorityWeight(b.priority) - getPriorityWeight(a.priority);
-            return diff !== 0 ? diff : a.deadline.localeCompare(b.deadline);
-          }
-          // newest
-          return b.postedAt.localeCompare(a.postedAt) || getPriorityWeight(b.priority) - getPriorityWeight(a.priority);
-        });
-
-        return list;
-      }
-
-      function renderKPIs() {
-        const unread = state.notifications.filter((n) => !n.read).length;
-        const urgent = state.notifications.filter((n) => n.priority === 'Urgent' && !n.read).length;
-        const upcoming = state.notifications.filter((n) => {
-          const d = daysBetween(TODAY, n.deadline);
-          return d >= 0 && d <= 7;
-        }).length;
-        const saved = state.notifications.filter((n) => n.saved).length;
-
-        document.getElementById('kpi-unread').textContent = unread;
-        document.getElementById('kpi-urgent').textContent = urgent;
-        document.getElementById('kpi-upcoming').textContent = upcoming;
-        document.getElementById('kpi-saved').textContent = saved;
-        const jobsCount = state.notifications.filter((n) => n.category === 'Government Jobs' || n.category === 'Internships & Placements').length;
-        const resultsCount = state.notifications.filter((n) => n.category === 'Results').length;
-        const admitCount = state.notifications.filter((n) => n.category === 'Admit Cards').length;
-        document.getElementById('tab-unread-badge').textContent = unread;
-        document.getElementById('tab-jobs-badge').textContent = jobsCount;
-        document.getElementById('tab-results-badge').textContent = resultsCount;
-        document.getElementById('tab-admit-badge').textContent = admitCount;
-      }
-
-      function renderViewTabs() {
-        document.querySelectorAll('.view-tab').forEach((btn) => {
-          const active = btn.dataset.view === state.view;
-          btn.className = active
-            ? 'view-tab px-3.5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap bg-indigo-600 text-white shadow-xs transition'
-            : 'view-tab px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800 transition';
-        });
-      }
-
-      function renderCategoryChips() {
-        const container = document.getElementById('category-chips');
-        container.innerHTML = CATEGORIES.map((cat) => {
-          const active = state.category === cat.id;
-          const count =
-            cat.id === 'All'
-              ? state.notifications.length
-              : state.notifications.filter((n) => n.category === cat.id).length;
-
-          const cls = active
-            ? 'bg-slate-900 text-white dark:bg-indigo-600 dark:text-white border-slate-900 dark:border-indigo-600'
-            : 'bg-slate-50 text-slate-600 dark:bg-slate-800/70 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800';
-
-          return `
-            <button type="button" data-category="${escapeHtml(cat.id)}" class="cat-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition ${cls}">
-              <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
-              <span>${escapeHtml(cat.label)}</span>
-              <span class="opacity-70 text-[11px]">(${count})</span>
-            </button>
-          `;
-        }).join('');
-      }
-
-      function renderQualChips() {
-        const container = document.getElementById('qual-chips');
-        container.innerHTML = QUALIFICATION_OPTIONS.map((qual) => {
-          const active = state.qualification === qual;
-          const label = qual === 'All' ? 'All Degrees' : qual;
-          const cls = active
-            ? 'bg-indigo-600 text-white border-indigo-600'
-            : 'bg-slate-50 text-slate-600 dark:bg-slate-800/70 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-indigo-950/50';
-          return `<button type="button" data-qual="${escapeHtml(qual)}" class="qual-chip px-2.5 py-1 rounded-md text-[11px] font-medium border transition ${cls}">${escapeHtml(label)}</button>`;
-        }).join('');
-        document.getElementById('filter-qualification').value = state.qualification;
-      }
-
-      function renderNotifications() {
-        const list = getFilteredNotifications();
-        const container = document.getElementById('notifications-container');
-        const empty = document.getElementById('empty-state');
-        const countEl = document.getElementById('results-count');
-        const resetBtn = document.getElementById('btn-reset-filters');
-
-        const hasActiveFilter =
-          state.category !== 'All' || state.qualification !== 'All' || state.cohort !== 'All' || state.priority !== 'All' || state.search.trim() !== '';
-        resetBtn.classList.toggle('hidden', !hasActiveFilter);
-        document.getElementById('btn-clear-search').classList.toggle('hidden', state.search.trim() === '');
-
-        countEl.textContent = `Showing ${list.length} of ${state.notifications.length} notifications`;
-
-        if (list.length === 0) {
-          container.innerHTML = '';
-          empty.classList.remove('hidden');
-          if (window.lucide) lucide.createIcons();
-          return;
-        }
-
-        empty.classList.add('hidden');
-        container.innerHTML = list
-          .map((item) => {
-            const daysLeft = daysBetween(TODAY, item.deadline);
-            let dueText = `Due ${formatDate(item.deadline)}`;
-            let dueClass = 'text-slate-500 dark:text-slate-400';
-
-            if (daysLeft === 0) {
-              dueText = 'Due Today';
-              dueClass = 'text-rose-600 dark:text-rose-400 font-semibold';
-            } else if (daysLeft === 1) {
-              dueText = 'Due Tomorrow';
-              dueClass = 'text-rose-600 dark:text-rose-400 font-semibold';
-            } else if (daysLeft > 1 && daysLeft <= 3) {
-              dueText = `In ${daysLeft} days (${formatDate(item.deadline)})`;
-              dueClass = 'text-amber-600 dark:text-amber-400 font-semibold';
-            } else if (daysLeft < 0) {
-              dueText = `Closed (${formatDate(item.deadline)})`;
-              dueClass = 'text-slate-400 dark:text-slate-500';
-            }
-
-            const urgentRing =
-              state.prefs.urgentHighlight && daysLeft >= 0 && daysLeft <= 2 && !item.read
-                ? 'border-l-4 border-l-rose-500'
-                : !item.read
-                ? 'border-l-4 border-l-indigo-500'
-                : '';
-
-            const unreadBg = !item.read
-              ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700/90'
-              : 'bg-white/75 dark:bg-slate-900/60 border-slate-200/70 dark:border-slate-800 opacity-90';
-
-            return `
-              <article data-id="${escapeHtml(item.id)}" class="notif-card group rounded-xl border ${unreadBg} ${urgentRing} p-4 shadow-xs hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-700 transition cursor-pointer">
-                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                  <div class="space-y-1.5 min-w-0 flex-1">
-                    <div class="flex flex-wrap items-center gap-1.5">
-                      ${
-                        !item.read
-                          ? '<span class="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 shrink-0" title="Unread"></span>'
-                          : ''
-                      }
-                      <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold border ${getPriorityBadgeClass(item.priority)}">
-                        ${escapeHtml(item.priority)}
-                      </span>
-                      <span class="px-2 py-0.5 rounded-md text-[11px] font-medium ${getCategoryBadgeClass(item.category)}">
-                        ${escapeHtml(item.category)}
-                      </span>
-                      <span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                        ${escapeHtml(item.courseCode)}
-                      </span>
-                      ${
-                        item.verified
-                          ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800"><i data-lucide="badge-check" class="w-3 h-3"></i>Official</span>'
-                          : ''
-                      }
-                      ${
-                        item.pyqUrl
-                          ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800"><i data-lucide="book-open" class="w-3 h-3"></i>PYQs</span>'
-                          : ''
-                      }
-                      <span class="text-[11px] text-slate-400 dark:text-slate-500">&bull; ${escapeHtml(item.cohort)}</span>
-                    </div>
-
-                    <h3 class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">
-                      ${escapeHtml(item.title)}
-                    </h3>
-
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
-                      ${escapeHtml(item.body)}
-                    </p>
-
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-xs">
-                      <span class="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
-                        <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                        ${escapeHtml(item.sender)}
-                      </span>
-                      <span class="inline-flex items-center gap-1 ${dueClass}">
-                        <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i>
-                        ${escapeHtml(dueText)}
-                      </span>
-                      ${
-                        item.venue
-                          ? `<span class="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 truncate max-w-xs">
-                              <i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0"></i>
-                              <span class="truncate">${escapeHtml(item.venue)}</span>
-                            </span>`
-                          : ''
-                      }
-                    </div>
-                  </div>
-
-                  <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-                    <div class="flex items-center gap-1">
-                      <button type="button" data-action="toggle-save" data-id="${escapeHtml(item.id)}" title="${item.saved ? 'Remove bookmark' : 'Bookmark'}" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition ${
-                        item.saved ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-                      }">
-                        <i data-lucide="bookmark" class="w-4 h-4 ${item.saved ? 'fill-current' : ''}"></i>
-                      </button>
-                      <button type="button" data-action="toggle-read" data-id="${escapeHtml(item.id)}" title="${item.read ? 'Mark as unread' : 'Mark as read'}" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition ${
-                        item.read ? 'text-slate-400' : 'text-indigo-600 dark:text-indigo-400'
-                      }">
-                        <i data-lucide="${item.read ? 'mail-open' : 'mail'}" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                    <span class="text-[11px] text-slate-400 dark:text-slate-500">Posted ${formatDate(item.postedAt)}</span>
-                  </div>
-                </div>
-              </article>
-            `;
-          })
-          .join('');
-
-        if (window.lucide) lucide.createIcons();
-      }
-
-      function renderDetailModal() {
-        const modal = document.getElementById('detail-modal');
-        if (!state.selectedId) {
-          modal.classList.add('hidden');
-          return;
-        }
-        const item = state.notifications.find((n) => n.id === state.selectedId);
-        if (!item) {
-          modal.classList.add('hidden');
-          return;
-        }
-
-        modal.classList.remove('hidden');
-        document.getElementById('detail-title').textContent = item.title;
-        document.getElementById('detail-badges').innerHTML = `
-          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold border ${getPriorityBadgeClass(item.priority)}">${escapeHtml(item.priority)}</span>
-          <span class="px-2 py-0.5 rounded-md text-[11px] font-medium ${getCategoryBadgeClass(item.category)}">${escapeHtml(item.category)}</span>
-          <span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${escapeHtml(item.courseCode)}</span>
-        `;
-        document.getElementById('detail-sender').textContent = item.sender;
-        document.getElementById('detail-cohort').textContent = item.cohort;
-        document.getElementById('detail-posted').textContent = formatDate(item.postedAt);
-        document.getElementById('detail-deadline').textContent = formatDate(item.deadline);
-        const quals = item.qualifications && item.qualifications.length ? item.qualifications : ['All CS Students'];
-        document.getElementById('detail-qualifications').innerHTML = quals
-          .map((q) => `<span class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">${escapeHtml(q)}</span>`)
-          .join('');
-
-        const officialBox = document.getElementById('detail-official-box');
-        if (item.officialUrl) {
-          officialBox.classList.remove('hidden');
-          document.getElementById('detail-official-link').href = item.officialUrl;
-          try {
-            document.getElementById('detail-official-domain').textContent = new URL(item.officialUrl).hostname;
-          } catch (e) {
-            document.getElementById('detail-official-domain').textContent = item.officialUrl;
-          }
-          const pyqLink = document.getElementById('detail-pyq-link');
-          if (item.pyqUrl) {
-            pyqLink.classList.remove('hidden');
-            pyqLink.href = item.pyqUrl;
-            document.getElementById('detail-pyq-label').textContent = item.pyqLabel || 'Download PYQs';
-          } else {
-            pyqLink.classList.add('hidden');
-          }
-        } else {
-          officialBox.classList.add('hidden');
-        }
-
-        document.getElementById('detail-body').textContent = item.body;
-
-        const venueBox = document.getElementById('detail-venue-box');
-        if (item.venue) {
-          venueBox.classList.remove('hidden');
-          document.getElementById('detail-venue').textContent = item.venue;
-        } else {
-          venueBox.classList.add('hidden');
-        }
-
-        const checklistSec = document.getElementById('detail-checklist-section');
-        const checklistUl = document.getElementById('detail-checklist');
-        if (item.checklist && item.checklist.length > 0) {
-          checklistSec.classList.remove('hidden');
-          checklistUl.innerHTML = item.checklist
-            .map(
-              (c, idx) => `
-              <li class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60">
-                <input type="checkbox" data-check-idx="${idx}" ${c.done ? 'checked' : ''} class="detail-check w-4 h-4 accent-indigo-600 rounded cursor-pointer" />
-                <span class="text-xs sm:text-sm ${c.done ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}">${escapeHtml(c.text)}</span>
-              </li>
-            `
-            )
-            .join('');
-        } else {
-          checklistSec.classList.add('hidden');
-        }
-
-        const resSec = document.getElementById('detail-resources-section');
-        const resDiv = document.getElementById('detail-resources');
-        if (item.resources && item.resources.length > 0) {
-          resSec.classList.remove('hidden');
-          resDiv.innerHTML = item.resources
-            .map(
-              (r) => `
-              <div class="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 text-xs">
-                <span class="inline-flex items-center gap-2 font-medium text-slate-700 dark:text-slate-200">
-                  <i data-lucide="paperclip" class="w-3.5 h-3.5 text-slate-400"></i>
-                  ${escapeHtml(r.name)}
-                </span>
-                <span class="text-slate-400 font-mono">${escapeHtml(r.size)}</span>
-              </div>
-            `
-            )
-            .join('');
-        } else {
-          resSec.classList.add('hidden');
-        }
-
-        document.getElementById('detail-bookmark-label').textContent = item.saved ? 'Saved' : 'Save';
-        document.getElementById('detail-read-label').textContent = item.read ? 'Mark as Unread' : 'Mark as Read';
-
-        if (window.lucide) lucide.createIcons();
-      }
-
-      function renderSectionCards(containerId, countId, items, accentClass) {
-        const container = document.getElementById(containerId);
-        const countBadge = document.getElementById(countId);
-        countBadge.textContent = `${items.length}`;
-
-        if (items.length === 0) {
-          container.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400 py-4 text-center">No matching items for selected qualification.</p>';
-          return;
-        }
-
-        container.innerHTML = items
-          .map((item) => {
-            const daysLeft = daysBetween(TODAY, item.deadline);
-            const dateText = daysLeft >= 0 ? `${formatDate(item.deadline)} (${daysLeft}d)` : formatDate(item.deadline);
-            return `
-              <article data-id="${escapeHtml(item.id)}" class="notif-card group bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200/90 dark:border-slate-700 p-3 shadow-2xs hover:shadow-sm ${accentClass} transition cursor-pointer space-y-1.5">
-                <div class="flex items-center justify-between gap-2">
-                  <div class="flex items-center gap-1.5 min-w-0">
-                    ${!item.read ? '<span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0" title="Unread"></span>' : ''}
-                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 truncate">${escapeHtml(item.courseCode)}</span>
-                    ${item.verified ? '<span class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400"><i data-lucide="badge-check" class="w-3 h-3"></i>Official</span>' : ''}
-                  </div>
-                  <button type="button" data-action="toggle-save" data-id="${escapeHtml(item.id)}" title="${item.saved ? 'Remove bookmark' : 'Bookmark'}" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition ${
-                    item.saved ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 hover:text-slate-600'
-                  }">
-                    <i data-lucide="bookmark" class="w-3.5 h-3.5 ${item.saved ? 'fill-current' : ''}"></i>
-                  </button>
-                </div>
-                <h3 class="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 line-clamp-2 leading-snug">
-                  ${escapeHtml(item.title)}
-                </h3>
-                <div class="flex items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                  <span class="truncate">${escapeHtml(item.sender)}</span>
-                  <span class="font-medium shrink-0">${escapeHtml(dateText)}</span>
-                </div>
-              </article>
-            `;
-          })
-          .join('');
-      }
-
-      function renderPortalSections() {
-        const matchesQual = (n) =>
-          state.qualification === 'All' || (n.qualifications || []).includes(state.qualification);
-
-        const jobItems = state.notifications
-          .filter((n) => (n.category === 'Government Jobs' || n.category === 'Internships & Placements') && matchesQual(n))
-          .sort((a, b) => a.deadline.localeCompare(b.deadline));
-
-        const resultItems = state.notifications
-          .filter((n) => n.category === 'Results' && matchesQual(n))
-          .sort((a, b) => b.postedAt.localeCompare(a.postedAt));
-
-        const admitItems = state.notifications
-          .filter((n) => n.category === 'Admit Cards' && matchesQual(n))
-          .sort((a, b) => a.deadline.localeCompare(b.deadline));
-
-        renderSectionCards('jobs-section-container', 'jobs-section-count', jobItems, 'hover:border-amber-400 dark:hover:border-amber-600');
-        renderSectionCards('results-section-container', 'results-section-count', resultItems, 'hover:border-emerald-400 dark:hover:border-emerald-600');
-        renderSectionCards('admit-section-container', 'admit-section-count', admitItems, 'hover:border-sky-400 dark:hover:border-sky-600');
-      }
-
-      function renderPyqHub() {
-        const container = document.getElementById('pyq-hub-container');
-        const countEl = document.getElementById('pyq-hub-count');
-        const items = state.notifications.filter((n) => n.pyqUrl || n.officialUrl);
-        countEl.textContent = `${items.length} Official Notices`;
-
-        container.innerHTML = items
-          .map((item) => `
-            <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 p-3.5 flex flex-col justify-between gap-3">
-              <div class="space-y-1">
-                <div class="flex items-center justify-between gap-2">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">${escapeHtml(item.courseCode)}</span>
-                  <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">${escapeHtml(item.category)}</span>
-                </div>
-                <h3 class="text-xs font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug">${escapeHtml(item.title)}</h3>
-              </div>
-              <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/70 dark:border-slate-700/70">
-                ${
-                  item.officialUrl
-                    ? `<a href="${escapeHtml(item.officialUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition">
-                        <i data-lucide="file-check" class="w-3 h-3"></i>
-                        <span>Official Notice</span>
-                      </a>`
-                    : ''
-                }
-                ${
-                  item.pyqUrl
-                    ? `<a href="${escapeHtml(item.pyqUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition">
-                        <i data-lucide="book-open" class="w-3 h-3"></i>
-                        <span>${escapeHtml(item.pyqLabel || 'PYQs')}</span>
-                      </a>`
-                    : ''
-                }
-              </div>
-            </div>
-          `)
-          .join('');
-      }
-
-      function renderAll() {
-        applyTheme();
-        renderKPIs();
-        renderViewTabs();
-        renderCategoryChips();
-        renderQualChips();
-        renderNotifications();
-        renderPortalSections();
-        renderPyqHub();
-        renderDetailModal();
-      }
-
-      // Event Listeners
-      document.querySelectorAll('.view-tab').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          state.view = btn.dataset.view;
-          renderAll();
-        });
-      });
-
-      document.getElementById('category-chips').addEventListener('click', (e) => {
-        const btn = e.target.closest('.cat-chip');
-        if (!btn) return;
-        state.category = btn.dataset.category;
-        renderAll();
-      });
-
-      document.getElementById('search-input').addEventListener('input', (e) => {
-        state.search = e.target.value;
-        renderNotifications();
-      });
-
-      document.getElementById('btn-clear-search').addEventListener('click', () => {
-        state.search = '';
-        document.getElementById('search-input').value = '';
-        renderNotifications();
-      });
-
-      document.getElementById('filter-qualification').addEventListener('change', (e) => {
-        state.qualification = e.target.value;
-        renderAll();
-      });
-
-      document.getElementById('qual-chips').addEventListener('click', (e) => {
-        const btn = e.target.closest('.qual-chip');
-        if (!btn) return;
-        state.qualification = btn.dataset.qual;
-        renderAll();
-      });
-
-      document.getElementById('filter-year').addEventListener('change', (e) => {
-        state.cohort = e.target.value;
-        renderNotifications();
-      });
-
-      document.getElementById('filter-priority').addEventListener('change', (e) => {
-        state.priority = e.target.value;
-        renderNotifications();
-      });
-
-      document.getElementById('sort-select').addEventListener('change', (e) => {
-        state.sort = e.target.value;
-        renderNotifications();
-      });
-
-      function resetFilters() {
-        state.category = 'All';
-        state.qualification = 'All';
-        state.cohort = 'All';
-        state.priority = 'All';
-        state.search = '';
-        document.getElementById('search-input').value = '';
-        document.getElementById('filter-qualification').value = 'All';
-        document.getElementById('filter-year').value = 'All';
-        document.getElementById('filter-priority').value = 'All';
-        renderAll();
-      }
-
-      document.getElementById('btn-reset-filters').addEventListener('click', resetFilters);
-      document.getElementById('btn-empty-reset').addEventListener('click', () => {
-        state.view = 'all';
-        resetFilters();
-      });
-
-      document.getElementById('btn-mark-all-read').addEventListener('click', () => {
-        const unreadCount = state.notifications.filter((n) => !n.read).length;
-        if (unreadCount === 0) {
-          showToast('All notifications are already read.');
-          return;
-        }
-        state.notifications.forEach((n) => (n.read = true));
-        persistState();
-        renderAll();
-        showToast(`Marked ${unreadCount} notification(s) as read.`, 'success');
-      });
-
-      function switchToView(viewName) {
-        state.view = viewName;
-        state.category = 'All';
-        renderAll();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      document.getElementById('btn-view-jobs-tab').addEventListener('click', () => switchToView('jobs'));
-      document.getElementById('btn-view-results-tab').addEventListener('click', () => switchToView('results'));
-      document.getElementById('btn-view-admit-tab').addEventListener('click', () => switchToView('admit'));
-
-      function handleCardContainerClick(e) {
-        const actionBtn = e.target.closest('button[data-action]');
-        if (actionBtn) {
-          e.stopPropagation();
-          const id = actionBtn.dataset.id;
-          const item = state.notifications.find((n) => n.id === id);
-          if (!item) return;
-
-          if (actionBtn.dataset.action === 'toggle-save') {
-            item.saved = !item.saved;
-            showToast(item.saved ? 'Notification bookmarked.' : 'Removed from saved.');
-          } else if (actionBtn.dataset.action === 'toggle-read') {
-            item.read = !item.read;
-            showToast(item.read ? 'Marked as read.' : 'Marked as unread.');
-          }
-          persistState();
-          renderAll();
-          return;
-        }
-
-        const card = e.target.closest('.notif-card');
-        if (card) {
-          const id = card.dataset.id;
-          const item = state.notifications.find((n) => n.id === id);
-          if (item && !item.read) {
-            item.read = true;
-            persistState();
-          }
-          state.selectedId = id;
-          renderAll();
-        }
-      }
-
-      // Card clicks & inline action buttons via delegation
-      document.getElementById('notifications-container').addEventListener('click', handleCardContainerClick);
-      document.getElementById('jobs-section-container').addEventListener('click', handleCardContainerClick);
-      document.getElementById('results-section-container').addEventListener('click', handleCardContainerClick);
-      document.getElementById('admit-section-container').addEventListener('click', handleCardContainerClick);
-
-      // Detail Drawer Controls
-      function closeDetail() {
-        state.selectedId = null;
-        renderDetailModal();
-      }
-      document.getElementById('btn-close-detail').addEventListener('click', closeDetail);
-      document.getElementById('detail-backdrop').addEventListener('click', closeDetail);
-
-      document.getElementById('detail-checklist').addEventListener('change', (e) => {
-        const cb = e.target.closest('.detail-check');
-        if (!cb || !state.selectedId) return;
-        const item = state.notifications.find((n) => n.id === state.selectedId);
-        const idx = Number(cb.dataset.checkIdx);
-        if (item && item.checklist[idx]) {
-          item.checklist[idx].done = cb.checked;
-          persistState();
-          renderDetailModal();
-        }
-      });
-
-      document.getElementById('btn-detail-bookmark').addEventListener('click', () => {
-        const item = state.notifications.find((n) => n.id === state.selectedId);
-        if (!item) return;
-        item.saved = !item.saved;
-        persistState();
-        renderAll();
-        showToast(item.saved ? 'Notification bookmarked.' : 'Removed from saved.');
-      });
-
-      document.getElementById('btn-detail-toggle-read').addEventListener('click', () => {
-        const item = state.notifications.find((n) => n.id === state.selectedId);
-        if (!item) return;
-        item.read = !item.read;
-        persistState();
-        renderAll();
-        showToast(item.read ? 'Marked as read.' : 'Marked as unread.');
-      });
-
-      document.getElementById('btn-detail-copy').addEventListener('click', () => {
-        const item = state.notifications.find((n) => n.id === state.selectedId);
-        if (!item) return;
-        const summary = `[${item.courseCode}] ${item.title}\nBy: ${item.sender} | Cohort: ${item.cohort}\nDeadline: ${formatDate(item.deadline)}\nVenue: ${item.venue || 'N/A'}\n\n${item.body}`;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(summary).then(
-            () => showToast('Summary copied to clipboard.', 'success'),
-            () => fallbackCopy(summary)
-          );
-        } else {
-          fallbackCopy(summary);
-        }
-      });
-
-      function fallbackCopy(text) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-          document.execCommand('copy');
-          showToast('Summary copied to clipboard.', 'success');
-        } catch (e) {
-          showToast('Unable to copy automatically.', 'warning');
-        }
-        ta.remove();
-      }
-
-      // New Notification Modal
-      const newModal = document.getElementById('new-modal');
-      function openNewModal() {
-        newModal.classList.remove('hidden');
-      }
-      function closeNewModal() {
-        newModal.classList.add('hidden');
-      }
-      document.getElementById('btn-open-new').addEventListener('click', openNewModal);
-      document.getElementById('btn-close-new').addEventListener('click', closeNewModal);
-      document.getElementById('btn-cancel-new').addEventListener('click', closeNewModal);
-      document.getElementById('new-backdrop').addEventListener('click', closeNewModal);
-
-      document.getElementById('new-notification-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = document.getElementById('input-title').value.trim();
-        const category = document.getElementById('input-category').value;
-        const priority = document.getElementById('input-priority').value;
-        const cohort = document.getElementById('input-cohort').value;
-        const deadline = document.getElementById('input-deadline').value;
-        const sender = document.getElementById('input-sender').value.trim();
-        const venue = document.getElementById('input-venue').value.trim();
-        const qualification = document.getElementById('input-qualification').value;
-        const officialUrl = document.getElementById('input-official-url').value.trim();
-        const body = document.getElementById('input-body').value.trim();
-
-        if (!title || !sender || !body || !deadline) return;
-
-        const codeMatch = sender.match(/\b([A-Z]{2,5}\d{2,3})\b/);
-        const courseCode = codeMatch ? codeMatch[1] : 'CS-ALERT';
-
-        const newItem = {
-          id: 'cs-' + Date.now(),
-          title,
-          category,
-          priority,
-          cohort,
-          qualifications: [qualification],
-          sender,
-          courseCode,
-          postedAt: TODAY,
-          deadline,
-          venue,
-          officialUrl: officialUrl || '',
-          verified: Boolean(officialUrl),
-          read: false,
-          saved: false,
-          body,
-          checklist: [],
-          resources: [],
-        };
-
-        state.notifications.unshift(newItem);
-        state.view = 'all';
-        persistState();
-        renderAll();
-        e.target.reset();
-        document.getElementById('input-deadline').value = '2026-11-28';
-        closeNewModal();
-        showToast('New CS notification published!', 'success');
-      });
-
-      // Preferences Modal
-      const prefsModal = document.getElementById('prefs-modal');
-      function openPrefs() {
-        document.getElementById('pref-urgent-highlight').checked = state.prefs.urgentHighlight;
-        document.getElementById('pref-digest').checked = state.prefs.digest;
-        document.getElementById('pref-hide-read-timeline').checked = state.prefs.hideReadTimeline;
-        prefsModal.classList.remove('hidden');
-      }
-      function closePrefs() {
-        prefsModal.classList.add('hidden');
-      }
-      document.getElementById('btn-open-prefs').addEventListener('click', openPrefs);
-      document.getElementById('btn-close-prefs').addEventListener('click', closePrefs);
-      document.getElementById('prefs-backdrop').addEventListener('click', closePrefs);
-
-      document.getElementById('btn-save-prefs').addEventListener('click', () => {
-        state.prefs.urgentHighlight = document.getElementById('pref-urgent-highlight').checked;
-        state.prefs.digest = document.getElementById('pref-digest').checked;
-        state.prefs.hideReadTimeline = document.getElementById('pref-hide-read-timeline').checked;
-        persistState();
-        renderAll();
-        closePrefs();
-        showToast('Notification preferences updated.', 'success');
-      });
-
-      // Theme Toggle
-      document.getElementById('btn-theme-toggle').addEventListener('click', () => {
-        state.prefs.darkMode = !state.prefs.darkMode;
-        persistState();
-        applyTheme();
-      });
-
-      // Keyboard Escape to close modals
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          if (state.selectedId) closeDetail();
-          if (!newModal.classList.contains('hidden')) closeNewModal();
-          if (!prefsModal.classList.contains('hidden')) closePrefs();
-        }
-      });
-
-      // Initial render
-      renderAll();
-    })();
-  </script>
+<body>
+<div class="page">
+<svg class="sw" viewBox="0 0 440 1000" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><path pathLength="1" d="M-20 210C60 130 150 120 170 200C190 280 60 330 110 390C160 450 300 340 250 270C210 215 150 260 220 310C300 365 420 310 470 390"/></svg>
+
+<div class="top">
+  <div class="hi"><span class="av"><svg class="i" viewBox="0 0 24 24"><path d="M2 12h5l3-7 4 14 3-7h5"/></svg></span><span>Hi,<br>Student</span></div>
+  <button class="pw" id="instBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Install</button>
+  <button class="cb" id="menuBtn" aria-label="Menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div>
+
+<section class="hero">
+  <h1 aria-label="Current Alerts"><span class="ln"><span>Current</span></span><span class="ln"><span>Alerts</span></span></h1>
+  <a class="pw" href="#feed"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Filters</a>
+  <p class="kick">Computer Science<br>Students</p>
+</section>
+
+<div class="stack rv" id="stack"></div>
+
+<section class="sec" id="feed">
+  <h2>All<br>notifications</h2>
+  <div class="chips" id="chips"></div>
+  <div class="list" id="list"></div>
+</section>
+
+<section class="st rv" id="st">
+  <h2>Upcoming<b>deadlines</b></h2>
+  <div class="sr"><span>soonest <i class="vp" id="soon"></i></span><span>farthest <i class="vp" id="farv"></i></span></div>
+  <div class="bars" id="bars"></div>
+</section>
+
+<h2 class="big rv"><span>Stay ahead</span><span>of every</span><span class="r">deadline</span></h2>
+<div class="av2">
+  <div class="stk"><i style="background:var(--bei)">C</i><i style="background:var(--sal)">S</i><i style="background:var(--cy);width:82px;height:82px" id="nUn"></i></div>
+  <a class="fm" href="#archive">Find out more</a>
+</div>
+
+<section class="sec" id="archive">
+  <h2>Official<br>sites</h2>
+  <div class="ar" id="ar"></div>
+</section>
+<footer>CS Pulse · notices checked Nov 21, 2026</footer>
+</div>
+
+<button class="fab" id="fab" aria-label="Post alert"><span><svg class="i" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span></button>
+
+<dialog id="menu"><div class="sheet menu">
+  <button data-act="post">Post an alert</button>
+  <button data-act="install">Install app</button>
+  <button data-act="theme" id="thm">Dark mode</button>
+  <button data-x>Close</button>
+</div></dialog>
+
+<dialog id="det"><div class="sheet" id="dBody" style="color:#0B0B0B"></div></dialog>
+
+<dialog id="post"><div class="sheet">
+  <h3 style="margin-top:0">Post an alert</h3>
+  <label for="pt">Title</label><input id="pt" placeholder="e.g. DBMS lab record due">
+  <label for="pc">Category</label><select id="pc"><option>Jobs</option><option>Exams</option><option>Admit Cards</option><option>Results</option></select>
+  <label for="pd">Date</label><input id="pd" type="date">
+  <label for="px">Details</label><textarea id="px" rows="3"></textarea>
+  <div class="acts"><button class="bk" id="pub" style="background:var(--ink);color:var(--bg)">Publish</button><button class="gh" data-x>Cancel</button></div>
+</div></dialog>
+
+<dialog id="inst"><div class="sheet">
+  <h3 style="margin-top:0">Install CS Pulse</h3>
+  <p>Open this page in your browser, then:</p>
+  <p><b>iPhone:</b> Safari, tap Share, then Add to Home Screen.<br><b>Android:</b> Chrome menu, then Install app.<br><b>Desktop:</b> click the install icon in the address bar.</p>
+  <div class="acts"><button class="gh" data-x>Got it</button></div>
+</div></dialog>
+
+<script>
+const D=[
+{id:1,t:"Walk-in: contract faculty (CS/MCA)",c:"Jobs",d:"2026-11-21",s:"Central University of Karnataka",x:"Walk-in interview today at 11:00 AM in the Dept. of Computer Science. Retired teachers below 65 can also apply."},
+{id:2,t:"BHU Computer Centre: 11 posts",c:"Jobs",d:"2026-11-25",s:"Banaras Hindu University",x:"Includes Computer Operator Gr.-I, AC Operator and Workshop Attendant. Apply online by 5 PM. The hard copy must reach BHU by 30 Nov."},
+{id:3,t:"Technical Assistant (Computer)",c:"Jobs",d:"2026-11-27",s:"Central University of Haryana",x:"2 permanent posts for B.Tech or MCA with 2 years of experience. Pay is ₹29,200 to ₹92,300. Apply on the Samarth portal by 5 PM.",l:"https://cuhnt.samarth.edu.in"},
+{id:4,t:"Technical Assistant Gr. I",c:"Jobs",d:"2026-11-26",s:"Cochin University of Science and Technology",x:"Contract post. The online window closed on 19 Nov. If you applied, the hard copy must reach CUSAT by 26 Nov.",l:"https://recruit.cusat.ac.in"},
+{id:5,t:"UGC NET Dec 2026 admit card",c:"Admit Cards",d:"2026-12-07",s:"NTA",x:"Expected around 7 Dec. Keep your application number and password ready.",l:"https://ugcnet.nta.nic.in"},
+{id:6,t:"UGC NET Dec 2026 exam starts",c:"Exams",d:"2026-12-14",s:"NTA",x:"Computer-based test from 14 Dec. Applications closed on 31 Oct. Dates can change, so check the NTA site.",l:"https://ugcnet.nta.nic.in"},
+{id:7,t:"CSIR-UGC NET Dec 2026",c:"Exams",d:"2026-12-19",s:"NTA",x:"Exam days are 19, 22 and 27 Dec. Applications closed on 5 Nov.",l:"https://csirnet.nta.nic.in"},
+{id:8,t:"GATE 2027 city allotment",c:"Admit Cards",d:"2027-01-04",s:"IIT Madras",x:"City allotment is on 4 Jan 2027. Exams run on 6, 7, 13, 14, 20 and 21 Feb 2027. Registration is closed.",l:"https://gate2027.iitm.ac.in"},
+{id:9,t:"UGC NET June 2026 re-exam result",c:"Results",d:"2026-09-17",s:"NTA",x:"Result declared on 17 Sep for the re-held subjects. Check your score on the NTA site.",l:"https://ugcnet.nta.nic.in",r:true}
+];
+const SITES=[["GATE 2027","IIT Madras","https://gate2027.iitm.ac.in"],["UGC NET","NTA","https://ugcnet.nta.nic.in"],["CSIR-UGC NET","NTA","https://csirnet.nta.nic.in"],["CUH recruitment portal","Central University of Haryana","https://cuhnt.samarth.edu.in"],["CUSAT recruitment","Cochin University of Science and Technology","https://recruit.cusat.ac.in"]];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TODAY=new Date("2026-11-21"),days=d=>Math.round((new Date(d)-TODAY)/864e5);
+const fmt=d=>new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+const COL={Jobs:"var(--lime)",Exams:"var(--cy)","Admit Cards":"var(--sal)",Results:"var(--bei)"};
+const PAL=["var(--lime)","var(--cy)","var(--sal)","var(--bei)"];
+const left=n=>{const k=days(n.d);return k<0?"Closed":k===0?"Today":k===1?"1 day left":k+" days left"};
+const HEART='<svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
+const INFO='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+const ARW='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+let filter="all",order=[],io;
+
+function buildStack(){
+ const up=D.filter(n=>days(n.d)>=0).sort((a,b)=>new Date(a.d)-new Date(b.d)).slice(0,4);
+ order=up.map(n=>n.id);
+ $("#stack").style.height=((up.length-1)*60+300)+"px";
+ $("#stack").innerHTML=up.map(n=>`<div class="sc" role="button" tabindex="0" data-id="${n.id}"><div class="sh"><span class="lg">${esc(n.s[0])}</span><span class="ic"><i data-save class="${n.sv?"on":""}">${HEART}</i><i data-info>${INFO}</i></span></div><div class="org">${esc(n.s)}</div><h3>${esc(n.t)}</h3><div class="mt">${esc(n.c)} · ${left(n)}</div><span class="go">See details</span></div>`).join("");
+ place();
+}
+function place(){
+ const n=order.length;
+ $$(".sc").forEach(el=>{const r=order.indexOf(+el.dataset.id);el.style.top=(n-1-r)*60+"px";el.style.left=el.style.right=r*12+"px";el.style.zIndex=10-r;el.style.background=PAL[r]});
+}
+function pick(e){
+ const c=e.target.closest(".sc");if(!c)return;
+ const id=+c.dataset.id,n=D.find(x=>x.id===id);
+ if(e.target.closest("[data-save]")){n.sv=!n.sv;e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
+ if(order[0]===id||e.target.closest("[data-info]"))det(id);
+ else{order=[id,...order.filter(x=>x!==id)];place()}
+}
+$("#stack").addEventListener("click",pick);
+$("#stack").addEventListener("keydown",e=>{if(e.key==="Enter")pick(e)});
+
+function chips(){
+ const C=[["all","All"],["Jobs","Jobs"],["Exams","Exams"],["Admit Cards","Admit cards"],["Results","Results"],["saved","Saved"]];
+ $("#chips").innerHTML=C.map(c=>`<button class="chip" data-f="${c[0]}" aria-pressed="${filter===c[0]}">${c[1]}</button>`).join("");
+}
+$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;chips();list()});
+function list(){
+ const L=D.filter(n=>filter==="all"||(filter==="saved"?n.sv:n.c===filter));
+ $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing here yet. Tap the heart on a card to save it.</p>';
+ obs();
+}
+$("#list").addEventListener("click",e=>{const b=e.target.closest(".li");if(b)det(+b.dataset.id)});
+
+function stats(){
+ const S=[...D].sort((a,b)=>new Date(a.d)-new Date(b.d)),up=S.filter(n=>days(n.d)>=0),far=up[up.length-1];
+ $("#bars").innerHTML=S.map(n=>{const k=days(n.d),h=k<0?14:Math.max(30,100-k*1.3);return `<i class="bar ${n===far?"k":k>=0&&k<=14?"w":""}" style="--h:${h}%"></i>`}).join("");
+ $("#soon").textContent=left(up[0]).replace(" left","");
+ $("#farv").textContent=days(far.d)+" days";
+ $("#nUn").textContent="+"+D.filter(n=>!n.r).length;
+}
+$("#ar").innerHTML=SITES.map(a=>`<a class="rv" href="${a[2]}" target="_blank" rel="noopener"><span>${a[0]}<small>${a[1]}</small></span><span class="cb">${ARW}</span></a>`).join("");
+
+function det(id){
+ const n=D.find(x=>x.id===id);n.r=true;stats();
+ $("#dBody").style.background=COL[n.c]||"var(--bei)";
+ $("#dBody").innerHTML=`<div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><p><b>${esc(n.s)}</b><br>Date: ${fmt(n.d)}</p><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official site</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" data-x>Close</button></div>`;
+ $("#det").showModal();
+ $("#sv").onclick=()=>{n.sv=!n.sv;buildStack();list();$("#det").close()};
+}
+function obs(){
+ io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
+ $$(".rv:not(.in)").forEach((el,i)=>{el.style.transitionDelay=(i%2)*80+"ms";io.observe(el)});
+}
+/* dialogs, theme, install */
+document.addEventListener("click",e=>{if(e.target.closest("[data-x]"))e.target.closest("dialog").close()});
+let dp=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e});
+const inst=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null}else $("#inst").showModal()};
+$("#instBtn").onclick=inst;
+if(matchMedia("(display-mode: standalone)").matches)$("#instBtn").hidden=true;
+addEventListener("appinstalled",()=>{$("#instBtn").hidden=true});
+$("#menuBtn").onclick=()=>$("#menu").showModal();
+$("#fab").onclick=()=>$("#post").showModal();
+let th="light";try{th=localStorage.getItem("csp-theme")||"light"}catch(e){}
+function applyTheme(){document.documentElement.dataset.theme=th;$("#thm").textContent=th==="dark"?"Light mode":"Dark mode";const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==="dark"?"#0C0C0C":"#ECECEC"}
+$("#menu").addEventListener("click",e=>{
+ const b=e.target.closest("[data-act]");if(!b)return;
+ const a=b.dataset.act;
+ if(a==="theme"){th=th==="dark"?"light":"dark";try{localStorage.setItem("csp-theme",th)}catch(x){}applyTheme();return}
+ $("#menu").close();
+ if(a==="post")$("#post").showModal();else inst();
+});
+$("#pub").onclick=()=>{
+ const t=$("#pt").value.trim(),d=$("#pd").value;if(!t||!d){$("#pt").focus();return}
+ D.unshift({id:Date.now(),t,c:$("#pc").value,d,s:"You",x:$("#px").value||"No extra details."});
+ $("#pt").value="";$("#px").value="";$("#post").close();buildStack();list();stats();
+};
+applyTheme();chips();buildStack();list();stats();obs();
+</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
 </body>
 </html>
