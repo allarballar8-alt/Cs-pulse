@@ -113,19 +113,45 @@ dialog[open] .sheet{animation:pop .6s var(--e)}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
 .bk{background:#0B0B0B;color:#fff;border-radius:999px;padding:13px 22px;font-weight:600}
 .gh{border:1.5px solid currentColor;border-radius:999px;padding:11px 20px;font-weight:600}
-.menu button{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:40px;letter-spacing:-.05em;font-weight:700;padding:10px 0;border-bottom:1.5px solid rgba(128,128,128,.28);text-align:left}
+.menu button{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:22px;letter-spacing:-.03em;font-weight:600;padding:16px 0;border-bottom:1.5px solid rgba(128,128,128,.28);text-align:left}
 label{display:block;font-size:13px;margin:14px 0 6px;font-weight:600}
 input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5px solid rgba(128,128,128,.4);background:transparent;color:inherit;font:inherit}
 @media(min-width:760px){.page{max-width:900px}.list{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ln>span{transform:none}.kick{opacity:1}.sw path{stroke-dashoffset:0}.rv{clip-path:none;transform:none}.bar{height:var(--h)}}
+/* animated logo, wordmark, split text, glossy dock */
+.logo{background:#0B0B0B;position:relative}
+.logo svg{width:28px;height:28px;fill:none;stroke:var(--lime);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.logo svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:beat 2.6s var(--e) infinite}
+@keyframes beat{0%{stroke-dashoffset:1;opacity:1}55%{stroke-dashoffset:0}85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.wm{display:flex;font-size:22px;font-weight:700;letter-spacing:-.04em}
+.wm i{font-style:normal;display:inline-block;opacity:0;transform:translateY(60%) scale(.8);filter:blur(6px);animation:lIn .9s var(--e) forwards;animation-delay:calc(.2s + var(--i)*.06s)}
+.wm .sp{width:.28em}
+@keyframes lIn{to{opacity:1;transform:none;filter:blur(0)}}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin-bottom:-.12em}
+.w>span{display:inline-block;transform:translateY(110%) rotate(4deg);transition:transform 1s var(--e);transition-delay:calc(var(--i)*70ms)}
+.go .w>span{transform:none}
+.big .w{display:inline-block}.big .w>span{display:inline-block}
+.dock{position:fixed;z-index:30;left:max(18px,calc(50% - 262px));width:min(calc(100% - 112px),420px);bottom:calc(20px + env(safe-area-inset-bottom));height:66px;padding:5px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,255,255,.5));-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1.5px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.06),0 14px 34px rgba(0,0,0,.18);overflow:hidden;isolation:isolate}
+[data-theme=dark] .dock{background:linear-gradient(180deg,rgba(70,70,70,.72),rgba(24,24,24,.65));border-color:rgba(255,255,255,.18);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.35),0 14px 34px rgba(0,0,0,.6)}
+.dock::before{content:"";position:absolute;left:0;right:0;top:0;height:48%;background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0));pointer-events:none;z-index:3}
+.dock::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sweep 5.5s ease-in-out infinite;pointer-events:none;z-index:3}
+@keyframes sweep{0%,60%{left:-50%}100%{left:130%}}
+.dock a{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;font-weight:600;color:var(--ink);opacity:.6;transition:opacity .3s}
+.dock a.on{opacity:1;color:#0B0B0B}
+.dock a.on svg{animation:bob .7s var(--e)}
+@keyframes bob{0%{transform:translateY(6px) scale(.8)}60%{transform:translateY(-3px) scale(1.15)}100%{transform:none}}
+.ind{position:absolute;z-index:1;top:5px;bottom:5px;left:5px;width:calc((100% - 10px)/4);border-radius:999px;background:linear-gradient(180deg,#C8FF5A,var(--lime) 55%,#7FCB0C);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(60,110,0,.25),0 6px 18px rgba(162,238,32,.55);transform:translateX(calc(var(--k,0)*100%));transition:transform .6s var(--e);animation:glow 3s ease-in-out infinite}
+.ind::after{content:"";position:absolute;left:10%;right:10%;top:3px;height:42%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0))}
+@keyframes glow{50%{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(60,110,0,.25),0 6px 28px rgba(162,238,32,.95)}}
+@media(prefers-reduced-motion:reduce){.w>span,.wm i{transform:none!important;opacity:1!important;filter:none!important}.logo svg path{stroke-dashoffset:0!important}}
 </style>
 </head>
 <body>
 <div class="page">
 <svg class="sw" viewBox="0 0 440 1000" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><path pathLength="1" d="M-20 210C60 130 150 120 170 200C190 280 60 330 110 390C160 450 300 340 250 270C210 215 150 260 220 310C300 365 420 310 470 390"/></svg>
 
-<div class="top">
-  <div class="hi"><span class="av"><svg class="i" viewBox="0 0 24 24"><path d="M2 12h5l3-7 4 14 3-7h5"/></svg></span><span>Hi,<br>Student</span></div>
+<div class="top" id="top">
+  <div class="hi"><span class="av logo"><svg viewBox="0 0 24 24"><path pathLength="1" d="M2 12h5l3-7 4 14 3-7h5"/></svg></span><span class="wm" aria-label="CS Pulse"><i style="--i:0">C</i><i style="--i:1">S</i><i class="sp"></i><i style="--i:3">P</i><i style="--i:4">u</i><i style="--i:5">l</i><i style="--i:6">s</i><i style="--i:7">e</i></span></div>
   <button class="pw" id="instBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Install</button>
   <button class="cb" id="menuBtn" aria-label="Menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div>
@@ -150,7 +176,7 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
   <div class="bars" id="bars"></div>
 </section>
 
-<h2 class="big rv"><span>Stay ahead</span><span>of every</span><span class="r">deadline</span></h2>
+<h2 class="big"><span>Stay ahead</span><span>of every</span><span class="r">deadline</span></h2>
 <div class="av2">
   <div class="stk"><i style="background:var(--bei)">C</i><i style="background:var(--sal)">S</i><i style="background:var(--cy);width:82px;height:82px" id="nUn"></i></div>
   <a class="fm" href="#archive">Find out more</a>
@@ -163,6 +189,12 @@ input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5
 <footer>CS Pulse · notices checked Nov 21, 2026</footer>
 </div>
 
+<nav class="dock" id="dock" aria-label="Sections"><i class="ind"></i>
+  <a href="#top" class="on"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+  <a href="#feed"><svg class="i" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><span>Alerts</span></a>
+  <a href="#st"><svg class="i" viewBox="0 0 24 24"><path d="M6 20V11M12 20V4M18 20v-6"/></svg><span>Stats</span></a>
+  <a href="#archive"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Sites</span></a>
+</nav>
 <button class="fab" id="fab" aria-label="Post alert"><span><svg class="i" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span></button>
 
 <dialog id="menu"><div class="sheet menu">
@@ -205,18 +237,18 @@ const D=[
 const SITES=[["GATE 2027","IIT Madras","https://gate2027.iitm.ac.in"],["UGC NET","NTA","https://ugcnet.nta.nic.in"],["CSIR-UGC NET","NTA","https://csirnet.nta.nic.in"],["CUH recruitment portal","Central University of Haryana","https://cuhnt.samarth.edu.in"],["CUSAT recruitment","Cochin University of Science and Technology","https://recruit.cusat.ac.in"]];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const TODAY=new Date("2026-11-21"),days=d=>Math.round((new Date(d)-TODAY)/864e5);
+const TODAY=new Date(new Date().toISOString().slice(0,10)),days=d=>Math.round((new Date(d)-TODAY)/864e5);
 const fmt=d=>new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
 const COL={Jobs:"var(--lime)",Exams:"var(--cy)","Admit Cards":"var(--sal)",Results:"var(--bei)"};
 const PAL=["var(--lime)","var(--cy)","var(--sal)","var(--bei)"];
-const left=n=>{const k=days(n.d);return k<0?"Closed":k===0?"Today":k===1?"1 day left":k+" days left"};
+const left=n=>{const k=days(n.d);if(n.n){const a=-k;return a<=0?"New today":a===1?"Yesterday":a+" days ago"}return k<0?"Closed":k===0?"Today":k===1?"1 day left":k+" days left"};
 const HEART='<svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
 const INFO='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 const ARW='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 let filter="all",order=[],io;
 
 function buildStack(){
- const up=D.filter(n=>days(n.d)>=0).sort((a,b)=>new Date(a.d)-new Date(b.d)).slice(0,4);
+ const up=[...D.filter(n=>!n.n&&days(n.d)>=0).sort((a,b)=>new Date(a.d)-new Date(b.d)),...D.filter(n=>n.n).sort((a,b)=>new Date(b.d)-new Date(a.d))].slice(0,4);
  order=up.map(n=>n.id);
  $("#stack").style.height=((up.length-1)*60+300)+"px";
  $("#stack").innerHTML=up.map(n=>`<div class="sc" role="button" tabindex="0" data-id="${n.id}"><div class="sh"><span class="lg">${esc(n.s[0])}</span><span class="ic"><i data-save class="${n.sv?"on":""}">${HEART}</i><i data-info>${INFO}</i></span></div><div class="org">${esc(n.s)}</div><h3>${esc(n.t)}</h3><div class="mt">${esc(n.c)} · ${left(n)}</div><span class="go">See details</span></div>`).join("");
@@ -229,7 +261,7 @@ function place(){
 function pick(e){
  const c=e.target.closest(".sc");if(!c)return;
  const id=+c.dataset.id,n=D.find(x=>x.id===id);
- if(e.target.closest("[data-save]")){n.sv=!n.sv;e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
+ if(e.target.closest("[data-save]")){n.sv=!n.sv;saveSet();e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
  if(order[0]===id||e.target.closest("[data-info]"))det(id);
  else{order=[id,...order.filter(x=>x!==id)];place()}
 }
@@ -243,16 +275,16 @@ function chips(){
 $("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;chips();list()});
 function list(){
  const L=D.filter(n=>filter==="all"||(filter==="saved"?n.sv:n.c===filter));
- $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing here yet. Tap the heart on a card to save it.</p>';
+ $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${!n.n&&days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing here yet. Tap the heart on a card to save it.</p>';
  obs();
 }
 $("#list").addEventListener("click",e=>{const b=e.target.closest(".li");if(b)det(+b.dataset.id)});
 
 function stats(){
- const S=[...D].sort((a,b)=>new Date(a.d)-new Date(b.d)),up=S.filter(n=>days(n.d)>=0),far=up[up.length-1];
+ const S=D.filter(n=>!n.n).sort((a,b)=>new Date(a.d)-new Date(b.d)),up=S.filter(n=>days(n.d)>=0),far=up[up.length-1];
  $("#bars").innerHTML=S.map(n=>{const k=days(n.d),h=k<0?14:Math.max(30,100-k*1.3);return `<i class="bar ${n===far?"k":k>=0&&k<=14?"w":""}" style="--h:${h}%"></i>`}).join("");
- $("#soon").textContent=left(up[0]).replace(" left","");
- $("#farv").textContent=days(far.d)+" days";
+ $("#soon").textContent=up.length?left(up[0]).replace(" left",""):"-";
+ $("#farv").textContent=far?days(far.d)+" days":"-";
  $("#nUn").textContent="+"+D.filter(n=>!n.r).length;
 }
 $("#ar").innerHTML=SITES.map(a=>`<a class="rv" href="${a[2]}" target="_blank" rel="noopener"><span>${a[0]}<small>${a[1]}</small></span><span class="cb">${ARW}</span></a>`).join("");
@@ -260,13 +292,13 @@ $("#ar").innerHTML=SITES.map(a=>`<a class="rv" href="${a[2]}" target="_blank" re
 function det(id){
  const n=D.find(x=>x.id===id);n.r=true;stats();
  $("#dBody").style.background=COL[n.c]||"var(--bei)";
- $("#dBody").innerHTML=`<div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><p><b>${esc(n.s)}</b><br>Date: ${fmt(n.d)}</p><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official site</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" data-x>Close</button></div>`;
+ $("#dBody").innerHTML=`<div class="tp"><span class="tag">${esc(n.c)}</span><span class="tag f">${left(n)}</span></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><p><b>${esc(n.s)}</b><br>${n.n?"Posted":"Date"}: ${fmt(n.d)}</p><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official site</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" data-x>Close</button></div>`;
  $("#det").showModal();
- $("#sv").onclick=()=>{n.sv=!n.sv;buildStack();list();$("#det").close()};
+ $("#sv").onclick=()=>{n.sv=!n.sv;saveSet();buildStack();list();$("#det").close()};
 }
 function obs(){
- io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
- $$(".rv:not(.in)").forEach((el,i)=>{el.style.transitionDelay=(i%2)*80+"ms";io.observe(el)});
+ io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add(e.target.classList.contains("tw")?"go":"in");io.unobserve(e.target)}}),{threshold:.08});
+ $$(".rv:not(.in)").forEach((el,i)=>{el.style.transitionDelay=(i%2)*80+"ms";io.observe(el)});$$(".tw:not(.go)").forEach(el=>io.observe(el));
 }
 /* dialogs, theme, install */
 document.addEventListener("click",e=>{if(e.target.closest("[data-x]"))e.target.closest("dialog").close()});
@@ -292,7 +324,17 @@ $("#pub").onclick=()=>{
  D.unshift({id:Date.now(),t,c:$("#pc").value,d,s:"You",x:$("#px").value||"No extra details."});
  $("#pt").value="";$("#px").value="";$("#post").close();buildStack();list();stats();
 };
-applyTheme();chips();buildStack();list();stats();obs();
+loadSaved();applyTheme();chips();buildStack();list();stats();
+function split(el){let i=0;(function walk(n){[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t.trim()){f.append(t);return}const w=document.createElement("span");w.className="w";w.innerHTML='<span style="--i:'+(i++)+'">'+t+'</span>';f.append(w)});c.replaceWith(f)}else if(c.nodeType===1&&c.tagName!=="BR")walk(c)})})(el)}
+$$("#feed h2,#archive h2,.st h2,.big").forEach(h=>{split(h);h.classList.add("tw")});
+obs();
+const dk=$$(".dock a"),dock=$("#dock"),SEC=["top","feed","st","archive"];
+function setK(k){dock.style.setProperty("--k",k);dk.forEach((a,i)=>a.classList.toggle("on",i===k))}
+function spy(){let k=0;SEC.forEach((id,i)=>{if($("#"+id).getBoundingClientRect().top<innerHeight*.45)k=i});if(!dock.dataset.k||+dock.dataset.k!==k){dock.dataset.k=k;setK(k)}}
+addEventListener("scroll",spy,{passive:true});spy();
+function saveSet(){try{localStorage.setItem("csp-saved",JSON.stringify(D.filter(n=>n.sv).map(n=>n.id)))}catch(e){}}
+function loadSaved(){try{const s=JSON.parse(localStorage.getItem("csp-saved")||"[]");D.forEach(n=>{n.sv=s.includes(n.id)})}catch(e){}}
+fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{if(!j.items||!j.items.length)return;D.length=0;D.push(...j.items);loadSaved();buildStack();list();stats();if(j.updated)$("footer").textContent="CS Pulse · updated "+new Date(j.updated).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})}).catch(()=>{});
 </script>
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
 </body>

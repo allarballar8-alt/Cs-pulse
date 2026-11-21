@@ -1,0 +1,84 @@
+{
+ "updated": "2026-11-21T16:57:19+00:00",
+ "items": [
+  {
+   "id": 1,
+   "t": "Walk-in: contract faculty (CS/MCA)",
+   "c": "Jobs",
+   "d": "2026-11-21",
+   "s": "Central University of Karnataka",
+   "x": "Walk-in interview today at 11:00 AM in the Dept. of Computer Science. Retired teachers below 65 can also apply."
+  },
+  {
+   "id": 2,
+   "t": "BHU Computer Centre: 11 posts",
+   "c": "Jobs",
+   "d": "2026-11-25",
+   "s": "Banaras Hindu University",
+   "x": "Includes Computer Operator Gr.-I, AC Operator and Workshop Attendant. Apply online by 5 PM. The hard copy must reach BHU by 30 Nov."
+  },
+  {
+   "id": 3,
+   "t": "Technical Assistant (Computer)",
+   "c": "Jobs",
+   "d": "2026-11-27",
+   "s": "Central University of Haryana",
+   "x": "2 permanent posts for B.Tech or MCA with 2 years of experience. Pay is ₹29,200 to ₹92,300. Apply on the Samarth portal by 5 PM.",
+   "l": "https://cuhnt.samarth.edu.in"
+  },
+  {
+   "id": 4,
+   "t": "Technical Assistant Gr. I",
+   "c": "Jobs",
+   "d": "2026-11-26",
+   "s": "Cochin University of Science and Technology",
+   "x": "Contract post. The online window closed on 19 Nov. If you applied, the hard copy must reach CUSAT by 26 Nov.",
+   "l": "https://recruit.cusat.ac.in"
+  },
+  {
+   "id": 5,
+   "t": "UGC NET Dec 2026 admit card",
+   "c": "Admit Cards",
+   "d": "2026-12-07",
+   "s": "NTA",
+   "x": "Expected around 7 Dec. Keep your application number and password ready.",
+   "l": "https://ugcnet.nta.nic.in"
+  },
+  {
+   "id": 6,
+   "t": "UGC NET Dec 2026 exam starts",
+   "c": "Exams",
+   "d": "2026-12-14",
+   "s": "NTA",
+   "x": "Computer-based test from 14 Dec. Applications closed on 31 Oct. Dates can change, so check the NTA site.",
+   "l": "https://ugcnet.nta.nic.in"
+  },
+  {
+   "id": 7,
+   "t": "CSIR-UGC NET Dec 2026",
+   "c": "Exams",
+   "d": "2026-12-19",
+   "s": "NTA",
+   "x": "Exam days are 19, 22 and 27 Dec. Applications closed on 5 Nov.",
+   "l": "https://csirnet.nta.nic.in"
+  },
+  {
+   "id": 8,
+   "t": "GATE 2027 city allotment",
+   "c": "Admit Cards",
+   "d": "2027-01-04",
+   "s": "IIT Madras",
+   "x": "City allotment is on 4 Jan 2027. Exams run on 6, 7, 13, 14, 20 and 21 Feb 2027. Registration is closed.",
+   "l": "https://gate2027.iitm.ac.in"
+  },
+  {
+   "id": 9,
+   "t": "UGC NET June 2026 re-exam result",
+   "c": "Results",
+   "d": "2026-09-17",
+   "s": "NTA",
+   "x": "Result declared on 17 Sep for the re-held subjects. Check your score on the NTA site.",
+   "l": "https://ugcnet.nta.nic.in"
+  }
+ ]
+}
