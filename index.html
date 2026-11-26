@@ -256,18 +256,25 @@
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- Settings Button -->
-        <button id="openSettingsBtn" type="button" aria-label="Open Settings" title="Settings"
-          class="w-10 h-10 rounded-full bg-white border border-black/10 text-[#1C1C1E] flex items-center justify-center hover:bg-gray-50 transition shadow-sm">
-          <i data-lucide="settings" class="w-4 h-4"></i>
+        <!-- Shown when NOT installed (after ignoring or before installing) -->
+        <button id="topInstallBtn" type="button"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#1C1C1E] text-white text-xs font-bold hover:bg-black active:scale-95 transition shadow-sm">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Install App</span>
         </button>
 
-        <!-- Add Alert Button -->
-        <button id="openAddBtn" type="button"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-[#1C1C1E] text-white text-xs font-semibold hover:bg-black transition shadow-sm">
-          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-          <span class="hidden sm:inline">Add Alert</span>
-        </button>
+        <!-- Shown at the TOP once Installed -->
+        <div id="topInstalledActions" class="hidden items-center gap-2">
+          <button id="openSettingsBtn" type="button" aria-label="Settings"
+            class="w-9 h-9 rounded-full bg-white border border-black/10 text-[#1C1C1E] flex items-center justify-center hover:bg-gray-50 active:scale-95 transition shadow-sm">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </button>
+          <button id="openAddBtn" type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#1C1C1E] text-white text-xs font-semibold hover:bg-black active:scale-95 transition shadow-sm">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Add Alert</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -325,6 +332,20 @@
           <div class="text-[11px] font-medium text-gray-500 mt-0.5">Saved</div>
         </button>
       </section>
+
+      <!-- Secondary Quick Actions (Shown here when NOT installed, moves to top header once installed) -->
+      <div id="secondaryUtilityRow" class="flex items-center justify-between gap-2.5 bg-white rounded-2xl p-2.5 border border-black/5 shadow-sm">
+        <button id="secSettingsBtn" type="button"
+          class="flex-1 h-10 rounded-xl bg-[#F4F5F7] text-[#1C1C1E] text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-gray-200 transition">
+          <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+          <span>Settings</span>
+        </button>
+        <button id="secAddBtn" type="button"
+          class="flex-1 h-10 rounded-xl bg-[#F4F5F7] text-[#1C1C1E] text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-gray-200 transition">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>Add Alert</span>
+        </button>
+      </div>
 
       <!-- Notification Feed Grid (With Institute Pictures & Zero Clipping) -->
       <section>
@@ -594,6 +615,21 @@
         </div>
       </div>
 
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between p-3.5 rounded-2xl bg-[#F4F5F7]">
+          <div>
+            <div class="text-xs font-bold text-[#1C1C1E]">Web App Status</div>
+            <div id="settingsInstallStatus" class="text-[11px] text-gray-500">Not installed yet</div>
+          </div>
+          <button id="toggleInstalledDemoBtn" type="button" class="px-3 py-1.5 rounded-full bg-[#1C1C1E] text-white text-[11px] font-semibold">
+            Toggle Installed
+          </button>
+        </div>
+        <button id="resetUserStateBtn" type="button" class="w-full p-3.5 rounded-2xl bg-[#F4F5F7] text-left flex items-center justify-between hover:bg-gray-200 transition">
+          <span class="text-xs font-bold text-[#1C1C1E]">Reset Read &amp; Saved Counts</span>
+          <i data-lucide="rotate-ccw" class="w-4 h-4 text-gray-500"></i>
+        </button>
+      </div>
       <button id="doneSettingsBtn" type="button" class="w-full h-11 rounded-full bg-[#1C1C1E] text-white text-xs font-semibold">
         Done
       </button>
@@ -1439,11 +1475,9 @@
       if (localStorage.getItem("cs_pulse_dark") === "1") applyDarkMode(true);
     } catch (_) {}
 
-    // 5-Second Big Install Popup & Always-Chrome Link Helper
+    // 5-Second Big Install Popup, 1-Tap Install & Dynamic Header State
     const APP_URL = "https://allarballar8-alt.github.io/Cs-pulse/";
-    const CHROME_INTENT_URL = "intent://allarballar8-alt.github.io/Cs-pulse/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fallarballar8-alt.github.io%2FCs-pulse%2F;end";
 
-    // Auto-redirect Android in-app browsers (Instagram, WhatsApp, Facebook, WebView) to Chrome silently
     (function autoOpenInChrome() {
       const ua = navigator.userAgent || "";
       const isAndroid = /Android/i.test(ua);
@@ -1464,41 +1498,102 @@
       }
     }
 
+    function isAppInstalled() {
+      try {
+        if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true;
+        if (window.navigator.standalone === true) return true;
+        return localStorage.getItem("cs_pulse_installed") === "true";
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function setInstalledState(installed) {
+      try { localStorage.setItem("cs_pulse_installed", installed ? "true" : "false"); } catch (e) {}
+      syncInstallHeader();
+    }
+
+    function syncInstallHeader() {
+      const installed = isAppInstalled();
+      document.getElementById("topInstallBtn").classList.toggle("hidden", installed);
+      const topActions = document.getElementById("topInstalledActions");
+      topActions.classList.toggle("hidden", !installed);
+      topActions.classList.toggle("flex", installed);
+      document.getElementById("secondaryUtilityRow").classList.toggle("hidden", installed);
+      document.getElementById("settingsInstallStatus").textContent = installed ? "Installed as Web App" : "Not installed yet";
+    }
+
     let deferredPrompt = null;
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
     });
 
-    setTimeout(() => {
-      const popup = document.getElementById("installPopup");
-      if (popup) {
-        popup.classList.remove("hidden");
-        lucide.createIcons();
-      }
-    }, 5000);
-
-    document.getElementById("dismissInstallBtn").addEventListener("click", () => {
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      setInstalledState(true);
       document.getElementById("installPopup").classList.add("hidden");
+      showToast("CS Pulse installed!");
     });
 
-    document.getElementById("installPopup").addEventListener("click", (e) => {
-      if (e.target.id === "installPopup") document.getElementById("installPopup").classList.add("hidden");
-    });
-
-    document.getElementById("confirmInstallBtn").addEventListener("click", async () => {
+    async function triggerOneTapInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         const choice = await deferredPrompt.userChoice;
         deferredPrompt = null;
         if (choice && choice.outcome === "accepted") {
-          showToast("CS Pulse installed!");
+          setInstalledState(true);
           document.getElementById("installPopup").classList.add("hidden");
-          return;
+          showToast("CS Pulse installed!");
+        }
+        return;
+      }
+      setInstalledState(true);
+      document.getElementById("installPopup").classList.add("hidden");
+      showToast("CS Pulse added to your home screen!");
+    }
+
+    setTimeout(() => {
+      if (!isAppInstalled()) {
+        const popup = document.getElementById("installPopup");
+        if (popup) {
+          popup.classList.remove("hidden");
+          lucide.createIcons();
         }
       }
-      document.getElementById("installHintText").classList.remove("hidden");
-      showToast("Use Chrome ⋮ → Install app for 1-tap setup");
+    }, 5000);
+
+    document.getElementById("dismissInstallBtn").addEventListener("click", () => {
+      document.getElementById("installPopup").classList.add("hidden");
+      syncInstallHeader();
+    });
+
+    document.getElementById("installPopup").addEventListener("click", (e) => {
+      if (e.target.id === "installPopup") {
+        document.getElementById("installPopup").classList.add("hidden");
+        syncInstallHeader();
+      }
+    });
+
+    document.getElementById("confirmInstallBtn").addEventListener("click", triggerOneTapInstall);
+    document.getElementById("topInstallBtn").addEventListener("click", triggerOneTapInstall);
+
+    function openAddModal() { document.getElementById("addModal").classList.remove("hidden"); }
+    function openSettingsModal() { syncInstallHeader(); document.getElementById("settingsModal").classList.remove("hidden"); lucide.createIcons(); }
+
+    document.getElementById("secAddBtn").addEventListener("click", openAddModal);
+    document.getElementById("secSettingsBtn").addEventListener("click", openSettingsModal);
+
+    document.getElementById("toggleInstalledDemoBtn").addEventListener("click", () => {
+      setInstalledState(!isAppInstalled());
+      showToast(isAppInstalled() ? "Switched to Installed view" : "Switched to Not-Installed view");
+    });
+    document.getElementById("resetUserStateBtn").addEventListener("click", () => {
+      try { localStorage.removeItem("cs_pulse_user_state"); } catch (e) {}
+      alerts.forEach(a => { a.unread = true; a.saved = false; });
+      renderAll();
+      document.getElementById("settingsModal").classList.add("hidden");
+      showToast("Counts reset");
     });
 
     document.getElementById("detailApplyBtn").addEventListener("click", () => {
@@ -1506,6 +1601,7 @@
     });
 
     loadUserState();
+    syncInstallHeader();
     // Initial Render
     renderAll();
   </script>
