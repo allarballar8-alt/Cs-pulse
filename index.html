@@ -4,370 +4,985 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CS Pulse</title>
-<meta name="theme-color" content="#ECECEC">
+<meta name="theme-color" content="#F4F5F7">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="CS Pulse">
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ECECEC;--ink:#0B0B0B;--card:#fff;--mute:#6A6A6A;--sw:#fff;--lime:#A2EE20;--sal:#FF9C97;--cy:#3ED2DD;--bei:#E6DFCD;--sky:#BFE8FF;--pk:#FFD4CF;--e:cubic-bezier(.16,1,.3,1);color-scheme:light}
-[data-theme=dark]{--bg:#0C0C0C;--ink:#F4F4F4;--card:#1E1E1E;--mute:#9C9C9C;--sw:rgba(255,255,255,.07);color-scheme:dark}
-*{box-sizing:border-box;margin:0}
+:root{
+  --bg:#F4F5F7;
+  --surface:#FFFFFF;
+  --surface-soft:#F0F1F4;
+  --ink:#1C1C1E;
+  --mute:#6B7280;
+  --border:rgba(28,28,30,.08);
+  --shadow:0 8px 26px rgba(15,23,42,.06);
+  --shadow-lg:0 16px 38px rgba(15,23,42,.12);
+  --e:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+[data-theme=dark]{
+  --bg:#0E0F12;
+  --surface:#18191E;
+  --surface-soft:#22242B;
+  --ink:#F4F5F7;
+  --mute:#9CA3AF;
+  --border:rgba(255,255,255,.1);
+  --shadow:0 8px 26px rgba(0,0,0,.35);
+  --shadow-lg:0 16px 38px rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font:500 15px/1.4 "Inter Tight",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);transition:background .4s}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:500 15px/1.45 "Inter","Noto Sans Devanagari",system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  transition:background .3s ease,color .3s ease;
+}
+h1,h2,h3,.disp{font-family:"Plus Jakarta Sans","Inter","Noto Sans Devanagari",sans-serif}
 button,a{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-decoration:none}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.page{position:relative;max-width:560px;margin:0 auto;padding:0 18px 130px;overflow:hidden}
-.page>*:not(.sw){position:relative;z-index:1}
-.sw{position:absolute;left:-40px;top:0;width:calc(100% + 80px);height:1000px;z-index:0;pointer-events:none}
-.sw path{fill:none;stroke:var(--sw);stroke-width:38;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.8s .3s var(--e) forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-/* top */
-.top{display:flex;align-items:center;gap:10px;padding-top:14px}
-.hi{display:flex;align-items:center;gap:12px;flex:1;font-weight:600;font-size:17px;line-height:1.1;min-width:0}
-.av,.cb{width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none}
-.pw{display:inline-flex;align-items:center;gap:8px;background:var(--card);color:var(--ink);border-radius:999px;padding:13px 20px;font-weight:600;font-size:16px;transition:transform .3s var(--e)}
-.pw:active,.cb:active{transform:scale(.94)}
-/* hero */
-.hero{padding-top:34px;position:relative}
-h1{font-size:clamp(60px,18vw,104px);line-height:.86;letter-spacing:-.065em;font-weight:700}
-.ln{display:block;overflow:hidden;padding:.04em 0 .1em}
-.ln>span{display:block;transform:translateY(105%);animation:up 1.1s var(--e) forwards}
-.ln:nth-child(2)>span{animation-delay:.12s}
-@keyframes up{to{transform:none}}
-.hero .pw{position:absolute;right:0;top:48px}
-.kick{text-align:right;font-size:14px;margin-top:22px;opacity:0;animation:fade 1s .8s forwards}
-@keyframes fade{to{opacity:1}}
-/* stack */
-.stack{position:relative;margin-top:30px}
-.sc{position:absolute;height:300px;border-radius:40px 40px 34px 34px;padding:18px 20px;text-align:left;display:flex;flex-direction:column;color:#0B0B0B;cursor:pointer;transition:top .8s var(--e),left .8s var(--e),right .8s var(--e),background .8s}
-.sh{display:flex;align-items:center}
-.lg{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;background:#0B0B0B;color:#fff}
-.ic{display:flex;gap:10px;margin-left:auto}
-.ic i{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.12);display:grid;place-items:center}
-.ic i.on{background:#0B0B0B;color:#fff}
-.org{margin-top:auto;opacity:.55;font-size:15px}
-.sc h3{font-size:27px;line-height:.98;letter-spacing:-.045em;font-weight:600;margin-top:4px;max-width:92%}
-.mt{font-size:14px;margin-top:8px;font-weight:600}
-.go{align-self:flex-start;margin-top:14px;border-radius:999px;padding:11px 20px;background:rgba(0,0,0,.16);font-weight:600;font-size:14px}
-/* feed */
-h2{font-size:clamp(40px,12vw,64px);line-height:.9;letter-spacing:-.055em;font-weight:700}
-.sec{margin-top:54px}
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:18px -18px 16px;padding:2px 18px}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;transition:background .3s,color .3s}
-.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.list{display:grid;gap:12px}
-.li{border-radius:34px;padding:20px;text-align:left;display:flex;flex-direction:column;gap:10px;color:#0B0B0B}
-.tp{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.tag{border:1.5px solid #0B0B0B;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
-.tag.f{background:#0B0B0B;color:#fff}
-.li h3{font-size:28px;line-height:.98;letter-spacing:-.045em;font-weight:600}
-.li p{font-size:14px;opacity:.72}
-.ft{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;margin-top:4px}
-.li.rd{opacity:.6}
-.empty{padding:40px 0;color:var(--mute)}
-/* stats */
-.st{background:var(--lime);border-radius:40px;padding:22px 18px 0;margin-top:54px;color:#0B0B0B;overflow:hidden}
-.st h2{font-size:clamp(36px,10.5vw,56px)}
-.st h2 b{display:block;text-align:right;color:#fff;font-weight:700}
-.sr{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;font-weight:600}
-.sr span{display:flex;align-items:center;gap:8px}
-.vp{background:#fff;border-radius:999px;padding:6px 16px;font-size:18px}
-.bars{display:flex;align-items:flex-end;gap:7px;height:220px;margin-top:20px}
-.bar{flex:1;border-radius:999px;border:2px solid #fff;height:0;transition:height 1.3s var(--e)}
-.bar.w{background:#fff}.bar.k{background:#0B0B0B;border-color:#0B0B0B}
-.st.in .bar{height:var(--h)}
-/* cta */
-.big{font-size:clamp(52px,16vw,88px);line-height:.88;letter-spacing:-.06em;font-weight:700;margin-top:54px}
-.big span{display:block}.big .r{text-align:right}
-.av2{display:flex;align-items:center;justify-content:space-between;margin-top:24px}
-.stk{display:flex}
-.stk i{width:72px;height:72px;border-radius:50%;border:4px solid var(--bg);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:22px;margin-left:-14px;color:#0B0B0B}
-.stk i:first-child{margin-left:0}
-.fm{border-bottom:2px solid var(--ink);font-weight:600;font-size:17px}
-.ar{display:grid;gap:10px;margin-top:20px}
-.ar a{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border-radius:28px;padding:14px 14px 14px 20px;font-weight:600}
-.ar small{display:block;color:var(--mute);font-weight:500}
-.ar .cb{width:40px;height:40px}
-footer{margin-top:40px;color:var(--mute);font-size:13px}
-/* fab */
-.fab{position:fixed;right:max(18px,calc(50% - 262px));bottom:calc(20px + env(safe-area-inset-bottom));width:66px;height:66px;border-radius:50%;background:var(--card);display:grid;place-items:center;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.2);transition:transform .3s var(--e)}
-.fab:active{transform:scale(.92)}
-.fab span{width:46px;height:46px;border-radius:50%;background:#0B0B0B;display:grid;place-items:center;color:#fff}
-/* reveal */
-.rv{clip-path:inset(0 0 100% 0 round 36px);transform:translateY(34px);transition:clip-path 1.1s var(--e),transform 1.1s var(--e)}
-.rv.in{clip-path:inset(0 0 -1% 0 round 36px);transform:none}
-/* dialogs */
-dialog{border:0;padding:0;background:transparent;width:min(520px,calc(100% - 20px));max-height:90svh;overflow:auto;margin:auto;color:var(--ink)}
-dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(6px)}
-.sheet{border-radius:38px;padding:24px;background:var(--card)}
-dialog[open] .sheet{animation:pop .6s var(--e)}
-@keyframes pop{from{clip-path:inset(45% 8% 45% 8% round 38px);opacity:0}to{clip-path:inset(0 round 38px);opacity:1}}
-.sheet h3{font-size:36px;line-height:.95;letter-spacing:-.05em;font-weight:700;margin:14px 0 10px}
-.sheet p{opacity:.78;margin-bottom:8px}
-.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
-.bk{background:#0B0B0B;color:#fff;border-radius:999px;padding:13px 22px;font-weight:600}
-.gh{border:1.5px solid currentColor;border-radius:999px;padding:11px 20px;font-weight:600}
-.menu button{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:22px;letter-spacing:-.03em;font-weight:600;padding:16px 0;border-bottom:1.5px solid rgba(128,128,128,.28);text-align:left}
-label{display:block;font-size:13px;margin:14px 0 6px;font-weight:600}
-input,select,textarea{width:100%;padding:14px 16px;border-radius:20px;border:1.5px solid rgba(128,128,128,.4);background:transparent;color:inherit;font:inherit}
-@media(min-width:760px){.page{max-width:900px}.list{grid-template-columns:1fr 1fr}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ln>span{transform:none}.kick{opacity:1}.sw path{stroke-dashoffset:0}.rv{clip-path:none;transform:none}.bar{height:var(--h)}}
-/* animated logo, wordmark, split text, glossy dock */
-.logo{background:#0B0B0B;position:relative}
-.logo svg{width:28px;height:28px;fill:none;stroke:var(--lime);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+svg.i{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.page{
+  max-width:920px;
+  margin:0 auto;
+  padding:16px 16px 132px;
+}
+
+/* Header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{
+  width:44px;height:44px;border-radius:50%;
+  background:#1C1C1E;color:#fff;
+  display:grid;place-items:center;position:relative;flex:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+[data-theme=dark] .logo{background:#262830}
+.logo svg{width:22px;height:22px;fill:none;stroke:#34D399;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .logo svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:beat 2.6s var(--e) infinite}
 @keyframes beat{0%{stroke-dashoffset:1;opacity:1}55%{stroke-dashoffset:0}85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
-.wm{display:flex;font-size:22px;font-weight:700;letter-spacing:-.04em}
-.wm i{font-style:normal;display:inline-block;opacity:0;transform:translateY(60%) scale(.8);filter:blur(6px);animation:lIn .9s var(--e) forwards;animation-delay:calc(.2s + var(--i)*.06s)}
-.wm .sp{width:.28em}
-@keyframes lIn{to{opacity:1;transform:none;filter:blur(0)}}
-.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin-bottom:-.12em}
-.w>span{display:inline-block;transform:translateY(110%) rotate(4deg);transition:transform 1s var(--e);transition-delay:calc(var(--i)*70ms)}
-.go .w>span{transform:none}
-.big .w{display:inline-block}.big .w>span{display:inline-block}
-.dock{position:fixed;z-index:30;left:max(18px,calc(50% - 262px));width:min(calc(100% - 112px),420px);bottom:calc(20px + env(safe-area-inset-bottom));height:66px;padding:5px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,255,255,.5));-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1.5px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.06),0 14px 34px rgba(0,0,0,.18);overflow:hidden;isolation:isolate}
-[data-theme=dark] .dock{background:linear-gradient(180deg,rgba(70,70,70,.72),rgba(24,24,24,.65));border-color:rgba(255,255,255,.18);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.35),0 14px 34px rgba(0,0,0,.6)}
-.dock::before{content:"";position:absolute;left:0;right:0;top:0;height:48%;background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0));pointer-events:none;z-index:3}
-.dock::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sweep 5.5s ease-in-out infinite;pointer-events:none;z-index:3}
-@keyframes sweep{0%,60%{left:-50%}100%{left:130%}}
-.dock a{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;font-weight:600;color:var(--ink);opacity:.6;transition:opacity .3s}
-.dock a.on{opacity:1;color:#0B0B0B}
-.dock a.on svg{animation:bob .7s var(--e)}
-@keyframes bob{0%{transform:translateY(6px) scale(.8)}60%{transform:translateY(-3px) scale(1.15)}100%{transform:none}}
-.ind{position:absolute;z-index:1;top:5px;bottom:5px;left:5px;width:calc((100% - 10px)/4);border-radius:999px;background:linear-gradient(180deg,#C8FF5A,var(--lime) 55%,#7FCB0C);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(60,110,0,.25),0 6px 18px rgba(162,238,32,.55);transform:translateX(calc(var(--k,0)*100%));transition:transform .6s var(--e);animation:glow 3s ease-in-out infinite}
-.ind::after{content:"";position:absolute;left:10%;right:10%;top:3px;height:42%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0))}
-@keyframes glow{50%{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(60,110,0,.25),0 6px 28px rgba(162,238,32,.95)}}
-@media(prefers-reduced-motion:reduce){.w>span,.wm i{transform:none!important;opacity:1!important;filter:none!important}.logo svg path{stroke-dashoffset:0!important}}
-.srch{width:100%;margin-top:18px;padding:14px 18px;border-radius:999px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font:inherit}
-.cn{font-size:13px;color:var(--mute);margin:0 0 14px;font-weight:600}
-.chips{margin-bottom:8px}
-.li p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.sc h3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:25px}
-.tg{display:flex;gap:6px;flex-wrap:wrap}
-.cnts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
-.cnts div{background:var(--card);border-radius:24px;padding:14px 12px}
-.cnts b{display:block;font-size:30px;letter-spacing:-.05em;line-height:1;font-weight:700}
-.cnts small{font-size:11.5px;color:var(--mute);font-weight:600}
-.tl{list-style:none;padding:0;margin-top:18px;display:grid;gap:8px}
-.tl li{display:flex;gap:14px;align-items:center;background:var(--card);border-radius:26px;padding:14px 18px;font-weight:600;cursor:pointer}
-.tl time{flex:none;width:58px;font-weight:700;font-size:20px;letter-spacing:-.04em;line-height:1}
-.tl small{display:block;color:var(--mute);font-weight:500;font-size:13px}
-.ar>div{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border-radius:28px;padding:14px 16px 14px 20px;font-weight:600}
-.ar>div>span:first-child{flex:1;min-width:0}
-.lk{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:46%}
-.ar .lk a{display:inline-flex;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px;gap:0}
-.dr{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-top:1.5px solid rgba(0,0,0,.14);font-size:14px}
-.dr small{opacity:.65;font-weight:600;flex:none}
-.dr b{text-align:right;font-weight:600}
-.tp b{font-size:14px}
+.dot-live{
+  position:absolute;top:-1px;right:-1px;width:12px;height:12px;border-radius:50%;
+  background:#10B981;border:2px solid var(--bg);
+}
+.brand-txt h1{font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.brand-txt p{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.top-acts{display:flex;align-items:center;gap:8px;flex:none}
+.pill-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  height:40px;padding:0 14px;border-radius:999px;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--border);
+  font-size:13px;font-weight:600;
+  box-shadow:var(--shadow);
+  transition:transform .2s var(--e),background .2s;
+}
+.pill-btn:active{transform:scale(.95)}
+.pill-btn.dark{background:var(--ink);color:var(--bg);border-color:transparent}
+.icon-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--border);
+  display:grid;place-items:center;
+  box-shadow:var(--shadow);
+  transition:transform .2s var(--e);
+}
+.icon-btn:active{transform:scale(.93)}
+
+/* Search Row */
+.search-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.search-box{position:relative;flex:1}
+.search-box svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--mute);pointer-events:none}
+.srch{
+  width:100%;height:48px;padding:0 18px 0 44px;
+  border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);color:var(--ink);font:inherit;font-size:14px;
+  box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s;
+}
+.srch:focus{outline:none;border-color:var(--ink)}
+.filter-circle{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--ink);color:var(--bg);
+  display:grid;place-items:center;flex:none;
+  box-shadow:var(--shadow);transition:transform .2s var(--e);
+}
+.filter-circle:active{transform:scale(.93)}
+
+/* Section Title & Chips */
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sec-head h2{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.sec-sub{font-size:12px;font-weight:600;color:var(--mute)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 10px;margin-bottom:12px}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;height:36px;padding:0 16px;border-radius:999px;
+  background:var(--surface);color:var(--mute);
+  border:1px solid var(--border);font-size:13px;font-weight:600;
+  transition:all .2s var(--e);
+}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:transparent;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+
+/* Featured Spotlight Hero (Replaces Wallet Stack) */
+.hero-card{
+  position:relative;border-radius:28px;overflow:hidden;
+  min-height:295px;padding:20px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  color:#fff;box-shadow:var(--shadow-lg);
+  cursor:pointer;margin-bottom:18px;
+  transition:transform .3s var(--e);
+}
+.hero-card:hover{transform:translateY(-2px)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg svg{width:100%;height:100%;display:block}
+.hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,12,18,.28) 0%,rgba(10,12,18,.35) 45%,rgba(10,12,18,.88) 100%)}
+.hero-top,.hero-bot{position:relative;z-index:2}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hero-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge-light{
+  padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:700;
+  background:rgba(255,255,255,.92);color:#1C1C1E;backdrop-filter:blur(8px);
+}
+.badge-dark{
+  padding:5px 11px;border-radius:999px;font-size:11.5px;font-weight:600;
+  background:rgba(0,0,0,.45);color:#fff;backdrop-filter:blur(8px);
+}
+.heart-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(10px);color:#fff;
+  display:grid;place-items:center;transition:transform .2s var(--e),background .2s;
+}
+.heart-btn.on{background:#fff;color:#EF4444}
+.heart-btn.on svg{fill:#EF4444;stroke:#EF4444}
+.heart-btn.pop{animation:hpop .35s var(--e)}
+@keyframes hpop{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}
+
+.hero-bot{margin-top:44px;display:flex;flex-direction:column;gap:14px}
+.hero-org{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.86)}
+.hero-org i{width:8px;height:8px;border-radius:50%;background:#34D399;display:inline-block}
+.hero-title{font-size:clamp(20px,4vw,26px);font-weight:800;line-height:1.18;letter-spacing:-.02em}
+.hero-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.see-pill{
+  display:inline-flex;align-items:center;justify-content:space-between;gap:14px;
+  height:44px;padding:0 6px 0 18px;border-radius:999px;min-width:175px;
+  background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(10px);color:#fff;font-size:13px;font-weight:600;
+}
+.see-pill span.arr{width:32px;height:32px;border-radius:50%;background:#fff;color:#1C1C1E;display:grid;place-items:center}
+.car-arrows{display:flex;align-items:center;gap:8px}
+.car-btn{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;backdrop-filter:blur(8px)}
+.dots{display:flex;justify-content:center;gap:6px}
+.dots span{height:5px;width:6px;border-radius:999px;background:rgba(255,255,255,.4);transition:all .25s}
+.dots span.on{width:20px;background:#fff}
+
+/* 4-Column Summary Stats */
+.cnts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:12px;text-align:left;
+  box-shadow:var(--shadow);transition:transform .2s var(--e),border-color .2s;
+}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--ink)}
+.stat-card b{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-size:24px;font-weight:800;line-height:1.05}
+.stat-card small{display:block;font-size:11.5px;color:var(--mute);font-weight:600;margin-top:3px;white-space:nowrap}
+
+/* Notification Feed Grid */
+.list{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.list{grid-template-columns:1fr 1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;cursor:pointer;text-align:left;
+  transition:transform .25s var(--e),box-shadow .25s ease;
+  animation:fadeUp .35s var(--e) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.card.rd{opacity:.72}
+.card-media{position:relative;height:142px;overflow:hidden;flex:none}
+.card-media svg{width:100%;height:100%;display:block;transition:transform .4s var(--e)}
+.card:hover .card-media svg{transform:scale(1.04)}
+.card-tag{
+  position:absolute;top:12px;left:12px;
+  padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;
+  background:rgba(255,255,255,.94);color:#1C1C1E;box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.card-save{
+  position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#1C1C1E;display:grid;place-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .2s;
+}
+.card-save.on svg{fill:#EF4444;stroke:#EF4444}
+.card-save.pop{animation:hpop .35s var(--e)}
+.card-new{
+  position:absolute;bottom:10px;left:12px;
+  padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;
+  background:#10B981;color:#fff;
+}
+.card-body{padding:15px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-org{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.urg-pill{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:#FEE2E2;color:#DC2626;flex:none}
+[data-theme=dark] .urg-pill{background:rgba(220,38,38,.2);color:#FCA5A5}
+.card-title{
+  font-family:"Plus Jakarta Sans","Inter","Noto Sans Devanagari",sans-serif;
+  font-size:15.5px;font-weight:700;line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-desc{
+  font-size:13px;color:var(--mute);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-foot{
+  margin-top:auto;padding-top:10px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.card-date{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--mute);white-space:nowrap}
+.go-circle{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none}
+
+/* Deadlines & PYQs Views */
+.tl-list{display:grid;gap:10px}
+.tl-row{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:12px 14px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  box-shadow:var(--shadow);transition:transform .2s var(--e);
+}
+.tl-row:hover{transform:translateY(-2px)}
+.tl-date{
+  width:68px;padding:8px 6px;border-radius:14px;background:var(--surface-soft);
+  text-align:center;flex:none;
+}
+.tl-date b{display:block;font-size:13px;font-weight:800;white-space:nowrap}
+.tl-date small{display:block;font-size:10.5px;font-weight:600;color:var(--mute);white-space:nowrap}
+.tl-thumb{width:46px;height:46px;border-radius:12px;overflow:hidden;flex:none}
+.tl-thumb svg{width:100%;height:100%;display:block}
+.tl-info{min-width:0;flex:1}
+.tl-info small{display:block;font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-info b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.ar-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.ar-grid{grid-template-columns:1fr 1fr}}
+.ar-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:16px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:space-between;gap:12px;
+}
+.ar-card h3{font-size:15px;font-weight:700;line-height:1.3}
+.ar-links{display:flex;flex-wrap:wrap;gap:8px}
+.ar-links a{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600;
+  background:var(--surface-soft);color:var(--ink);
+}
+.ar-links a.pri{background:var(--ink);color:var(--bg)}
+
+.empty{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:24px;padding:36px 20px;text-align:center;color:var(--mute);
+}
+
+footer{margin-top:28px;text-align:center;font-size:12px;color:var(--mute)}
+
+/* Floating Dark Charcoal Bottom Nav */
+.dock{
+  position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+  z-index:30;background:#1C1C1E;color:#fff;
+  padding:6px;border-radius:999px;
+  display:flex;align-items:center;gap:4px;
+  box-shadow:0 14px 36px rgba(0,0,0,.28);
+}
+[data-theme=dark] .dock{background:#252730;border:1px solid rgba(255,255,255,.12)}
+.dock button{
+  display:flex;align-items:center;gap:7px;
+  height:42px;padding:0 15px;border-radius:999px;
+  font-size:12.5px;font-weight:600;color:rgba(255,255,255,.72);
+  transition:all .22s var(--e);white-space:nowrap;
+}
+.dock button.on{background:#fff;color:#1C1C1E}
+@media(max-width:440px){.dock button span{display:none}.dock button.on span{display:inline}}
+
+/* Spacious Slide-Up Modals (Fixes Clipping!) */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(0,0,0,.52);backdrop-filter:blur(6px);
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0;opacity:0;pointer-events:none;transition:opacity .25s ease;
+}
+@media(min-width:600px){.modal-backdrop{align-items:center;padding:16px}}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.sheet{
+  background:var(--surface);color:var(--ink);
+  width:100%;max-width:520px;max-height:92vh;
+  border-radius:28px 28px 0 0;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 24px 60px rgba(0,0,0,.3);
+  transform:translateY(24px);transition:transform .3s var(--e);
+}
+@media(min-width:600px){.sheet{border-radius:28px}}
+.modal-backdrop.open .sheet{transform:none}
+
+.det-hero{position:relative;height:210px;flex:none}
+.det-hero svg{width:100%;height:100%;display:block}
+.det-hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 50%,rgba(0,0,0,.5))}
+.det-top-btn{
+  position:absolute;top:14px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#1C1C1E;
+  display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.18);
+}
+.det-top-btn.left{left:14px}
+.det-top-btn.right{right:14px}
+.det-top-btn.on svg{fill:#EF4444;stroke:#EF4444}
+.det-cat{
+  position:absolute;bottom:14px;left:16px;
+  padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:700;
+  background:rgba(255,255,255,.94);color:#1C1C1E;
+}
+
+.det-body{padding:20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.det-org-row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;color:var(--mute)}
+.det-due{padding:4px 10px;border-radius:999px;background:var(--surface-soft);color:var(--ink);white-space:nowrap}
+.det-body h3{font-size:21px;font-weight:800;line-height:1.22;letter-spacing:-.02em}
+.det-desc{font-size:14px;color:var(--mute);line-height:1.55}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.det-box{background:var(--surface-soft);border-radius:16px;padding:12px}
+.det-box small{display:block;font-size:11px;color:var(--mute);font-weight:600}
+.det-box b{display:block;font-size:12.5px;font-weight:700;margin-top:2px}
+.det-foot{
+  padding:14px 20px;border-top:1px solid var(--border);
+  display:flex;gap:10px;flex-wrap:wrap;background:var(--surface);
+}
+.btn-pri{
+  flex:1;min-width:160px;height:46px;padding:0 18px;border-radius:999px;
+  background:var(--ink);color:var(--bg);font-size:13.5px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-sec{
+  height:46px;padding:0 16px;border-radius:999px;
+  background:var(--surface-soft);color:var(--ink);font-size:13px;font-weight:600;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+
+.sheet-pad{padding:22px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between}
+.sheet-head h3{font-size:19px;font-weight:800}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--mute);margin-bottom:5px}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--border);
+  background:var(--surface-soft);color:var(--ink);font:inherit;font-size:14px;
+}
+.menu-list{display:flex;flex-direction:column}
+.menu-list button{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 4px;border-bottom:1px solid var(--border);
+  font-size:15px;font-weight:600;text-align:left;
+}
+.menu-list button:last-child{border-bottom:0}
+
+.toast{
+  position:fixed;top:16px;left:50%;transform:translate(-50%,-16px);
+  z-index:70;background:var(--ink);color:var(--bg);
+  padding:10px 18px;border-radius:999px;font-size:12.5px;font-weight:600;
+  box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:all .25s var(--e);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="page">
-<svg class="sw" viewBox="0 0 440 1000" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><path pathLength="1" d="M-20 210C60 130 150 120 170 200C190 280 60 330 110 390C160 450 300 340 250 270C210 215 150 260 220 310C300 365 420 310 470 390"/></svg>
+  <header class="top" id="top">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path pathLength="1" d="M2 12h5l3-7 4 14 3-7h5"/></svg>
+        <span class="dot-live" aria-hidden="true"></span>
+      </div>
+      <div class="brand-txt">
+        <h1>CS Pulse</h1>
+        <p>Jobs, Exams, Admit Cards &amp; PYQs</p>
+      </div>
+    </div>
+    <div class="top-acts">
+      <button class="pill-btn" id="instBtn" type="button">
+        <svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+        <span>Install</span>
+      </button>
+      <button class="pill-btn dark" id="addBtn" type="button">
+        <svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Post</span>
+      </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Menu">
+        <svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
 
-<div class="top" id="top">
-  <div class="hi"><span class="av logo"><svg viewBox="0 0 24 24"><path pathLength="1" d="M2 12h5l3-7 4 14 3-7h5"/></svg></span><span class="wm" aria-label="CS Pulse"><i style="--i:0">C</i><i style="--i:1">S</i><i class="sp"></i><i style="--i:3">P</i><i style="--i:4">u</i><i style="--i:5">l</i><i style="--i:6">s</i><i style="--i:7">e</i></span></div>
-  <button class="pw" id="instBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Install</button>
-  <button class="cb" id="menuBtn" aria-label="Menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="search-row">
+    <div class="search-box">
+      <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input class="srch" id="q" type="search" placeholder="Search title, org, degree (B.Tech, MCA, GATE)...">
+    </div>
+    <button class="filter-circle" id="filterBtn" type="button" aria-label="Quick filters">
+      <svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </button>
+  </div>
+
+  <!-- HOME / FEED VIEW -->
+  <main id="viewHome">
+    <div class="sec-head">
+      <h2>Explore latest alerts</h2>
+      <span class="sec-sub" id="cnt"></span>
+    </div>
+    <div class="chips" id="chips"></div>
+
+    <div id="heroWrap"></div>
+    <div class="cnts" id="cnts"></div>
+
+    <div class="sec-head">
+      <h2>All notifications</h2>
+      <button class="sec-sub hidden" id="resetBtn" type="button" style="text-decoration:underline">Reset filters</button>
+    </div>
+    <div class="list" id="list"></div>
+  </main>
+
+  <!-- DEADLINES VIEW -->
+  <main id="viewDeadlines" class="hidden">
+    <div class="sec-head">
+      <h2>Upcoming deadlines</h2>
+      <span class="sec-sub" id="dlSpan">Chronological</span>
+    </div>
+    <div class="tl-list" id="tl"></div>
+  </main>
+
+  <!-- NOTICES & PYQS VIEW -->
+  <main id="viewArchive" class="hidden">
+    <div class="sec-head">
+      <h2>Notices &amp; PYQs</h2>
+      <span class="sec-sub">Official portals</span>
+    </div>
+    <div class="ar-grid" id="ar"></div>
+  </main>
+
+  <footer id="foot">CS Pulse · notices checked Nov 21, 2026</footer>
 </div>
 
-<section class="hero">
-  <h1 aria-label="Current Alerts"><span class="ln"><span>Current</span></span><span class="ln"><span>Alerts</span></span></h1>
-  <a class="pw" href="#feed"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Filters</a>
-  <p class="kick">Computer Science<br>Students</p>
-</section>
-
-<div class="stack rv" id="stack"></div>
-<div class="cnts rv" id="cnts"></div>
-
-<section class="sec" id="feed">
-  <h2>All<br>notifications</h2>
-  <input class="srch" id="q" type="search" placeholder="Search title, org, degree (B.Tech, MCA, GATE)">
-  <div class="chips" id="chips"></div>
-  <p class="cn" id="cnt"></p>
-  <div class="list" id="list"></div>
-</section>
-
-<section class="st rv" id="st">
-  <h2>Upcoming<b>deadlines</b></h2>
-  <div class="sr"><span>soonest <i class="vp" id="soon"></i></span><span>farthest <i class="vp" id="farv"></i></span></div>
-  <div class="bars" id="bars"></div>
-</section>
-
-<section class="sec" id="timeline">
-  <h2>Deadline<br>timeline</h2>
-  <ul class="tl" id="tl"></ul>
-</section>
-
-<h2 class="big"><span>Stay ahead</span><span>of every</span><span class="r">deadline</span></h2>
-<div class="av2">
-  <div class="stk"><i style="background:var(--bei)">C</i><i style="background:var(--sal)">S</i><i style="background:var(--cy);width:82px;height:82px" id="nUn"></i></div>
-  <a class="fm" href="#archive">Find out more</a>
-</div>
-
-<section class="sec" id="archive">
-  <h2>Notices<br>and PYQs</h2>
-  <div class="ar" id="ar"></div>
-</section>
-<footer>CS Pulse · notices checked Nov 21, 2026</footer>
-</div>
-
-<nav class="dock" id="dock" aria-label="Sections"><i class="ind"></i>
-  <a href="#top" class="on"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
-  <a href="#feed"><svg class="i" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><span>Alerts</span></a>
-  <a href="#st"><svg class="i" viewBox="0 0 24 24"><path d="M6 20V11M12 20V4M18 20v-6"/></svg><span>Stats</span></a>
-  <a href="#archive"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Notices</span></a>
+<!-- Floating Dark Charcoal Bottom Nav -->
+<nav class="dock" id="dock" aria-label="Sections">
+  <button type="button" data-nav="home" class="on">
+    <svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+    <span>Home</span>
+  </button>
+  <button type="button" data-nav="saved">
+    <svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+    <span>Saved</span>
+  </button>
+  <button type="button" data-nav="deadlines">
+    <svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span>Deadlines</span>
+  </button>
+  <button type="button" data-nav="archive">
+    <svg class="i" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span>PYQs</span>
+  </button>
 </nav>
-<button class="fab" id="fab" aria-label="Post alert"><span><svg class="i" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span></button>
 
-<dialog id="menu"><div class="sheet menu">
-  <button data-act="post">Post an alert</button>
-  <button data-act="install">Install app</button>
-  <button data-act="theme" id="thm">Dark mode</button>
-  <button data-x>Close</button>
-</div></dialog>
+<!-- Detail Modal -->
+<div class="modal-backdrop" id="detModal">
+  <div class="sheet" id="detSheet"></div>
+</div>
 
-<dialog id="det"><div class="sheet" id="dBody" style="color:#0B0B0B"></div></dialog>
+<!-- Filter Modal -->
+<div class="modal-backdrop" id="fltModal">
+  <div class="sheet sheet-pad">
+    <div class="sheet-head">
+      <h3>Filter alerts</h3>
+      <button class="icon-btn" data-close="fltModal" type="button" aria-label="Close">
+        <svg class="i" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <label style="display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:16px;background:var(--surface-soft);font-weight:600;font-size:14px">
+      <span>Only Unread</span>
+      <input type="checkbox" id="chkUnread" style="width:20px;height:20px;accent-color:var(--ink)">
+    </label>
+    <label style="display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:16px;background:var(--surface-soft);font-weight:600;font-size:14px">
+      <span>Only Urgent / High Priority</span>
+      <input type="checkbox" id="chkUrgent" style="width:20px;height:20px;accent-color:var(--ink)">
+    </label>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <button class="btn-sec" id="clrFltBtn" type="button" style="flex:1">Reset</button>
+      <button class="btn-pri" id="appFltBtn" type="button" style="flex:1">Apply</button>
+    </div>
+  </div>
+</div>
 
-<dialog id="post"><div class="sheet">
-  <h3 style="margin-top:0">Post an alert</h3>
-  <label for="pt">Title</label><input id="pt" placeholder="e.g. DBMS lab record due">
-  <label for="pc">Category</label><select id="pc"><option>Jobs</option><option>Exams</option><option>Admit Cards</option><option>Results</option><option>Hackathons</option><option>Internships</option></select>
-  <label for="pd">Date</label><input id="pd" type="date">
-  <label for="px">Details</label><textarea id="px" rows="3"></textarea>
-  <div class="acts"><button class="bk" id="pub" style="background:var(--ink);color:var(--bg)">Publish</button><button class="gh" data-x>Cancel</button></div>
-</div></dialog>
+<!-- Menu Modal -->
+<div class="modal-backdrop" id="menuModal">
+  <div class="sheet sheet-pad">
+    <div class="sheet-head">
+      <h3>CS Pulse Menu</h3>
+      <button class="icon-btn" data-close="menuModal" type="button" aria-label="Close">
+        <svg class="i" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="menu-list">
+      <button type="button" data-act="post"><span>Post an alert</span><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button type="button" data-act="install"><span>Install app</span><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></button>
+      <button type="button" data-act="theme" id="thm"><span>Dark mode</span><svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </div>
+  </div>
+</div>
 
-<dialog id="inst"><div class="sheet">
-  <h3 style="margin-top:0">Install CS Pulse</h3>
-  <p>Open this page in your browser, then:</p>
-  <p><b>iPhone:</b> Safari, tap Share, then Add to Home Screen.<br><b>Android:</b> Chrome menu, then Install app.<br><b>Desktop:</b> click the install icon in the address bar.</p>
-  <div class="acts"><button class="gh" data-x>Got it</button></div>
-</div></dialog>
+<!-- Post Alert Modal -->
+<div class="modal-backdrop" id="postModal">
+  <form class="sheet sheet-pad" id="postForm">
+    <div class="sheet-head">
+      <h3>Post an alert</h3>
+      <button class="icon-btn" data-close="postModal" type="button" aria-label="Close">
+        <svg class="i" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="field"><label for="pt">Title</label><input id="pt" required placeholder="e.g. BARC OCES Computer Science"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="field"><label for="pc">Category</label><select id="pc"><option>Jobs</option><option>Exams</option><option>Admit Cards</option><option>Results</option><option>Hackathons</option><option>Internships</option></select></div>
+      <div class="field"><label for="pd">Deadline</label><input id="pd" type="date" required></div>
+    </div>
+    <div class="field"><label for="px">Details</label><textarea id="px" rows="3" placeholder="Eligibility, exam mode, or notes..."></textarea></div>
+    <button class="btn-pri" type="submit" style="width:100%">Publish alert</button>
+  </form>
+</div>
+
+<!-- Install Modal -->
+<div class="modal-backdrop" id="instModal">
+  <div class="sheet sheet-pad">
+    <div class="sheet-head">
+      <h3>Install CS Pulse</h3>
+      <button class="icon-btn" data-close="instModal" type="button" aria-label="Close">
+        <svg class="i" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p style="font-size:14px;color:var(--mute);line-height:1.55">
+      <b>iPhone:</b> Open in Safari, tap Share, then Add to Home Screen.<br>
+      <b>Android:</b> Open Chrome menu, then tap Install app.<br>
+      <b>Desktop:</b> Click the install icon in your address bar.
+    </p>
+    <button class="btn-pri" data-close="instModal" type="button">Got it</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 const D=[{"id":201,"t":"ISRO ICRB Scientist/Engineer \"SC\" (Computer Science) Recruitment","c":"Jobs","p":"Urgent","d":"2026-12-05","posted":"2026-11-20","s":"ISRO Centralised Recruitment Board (ICRB)","y":"4th Year","k":"ISRO-ICRB","x":"Official ISRO ICRB recruitment updates for Scientist/Engineer \"SC\" in Computer Science (Advt. Nos. ISRO:ICRB:02(EMC-CEPO):2026 and ISRO:ICRB:03(EMC):2026 covering 175 vacancies across Electronics, Mechanical, and Computer Science). Candidates with B.E./B.Tech in Computer Science & Engineering can check CBT exam schedules, Computer Science 003 updates, and interview screening lists on the official ISRO portal.","q":"B.E./B.Tech in Computer Science & Engineering","v":"ISRO Careers & ICRB Portal (isro.gov.in)","l":"https://www.isro.gov.in","pyq":"ISRO CS 2023 & 2025 PYQs"},{"id":202,"t":"C-DAC Project Engineer & Project Associate (Fresher) CBT Admit Card","c":"Admit Cards","p":"Urgent","d":"2026-11-28","posted":"2026-11-20","s":"Centre for Development of Advanced Computing (C-DAC)","y":"4th Year","k":"CDAC-JIT","x":"C-DAC Official Update (Nov 20, 2026): Admit Card download is now live for the Computer Based Test (CBT) for Project Engineer (Fresher) and Project Associate (Fresher) under C-DAC TVM-JIT14 and Advt. No. CORP/JIT/03/2026 across 11 C-DAC centres.","v":"C-DAC Careers Portal (cdac.in)","l":"https://www.cdac.in"},{"id":203,"t":"NTA Joint CSIR-UGC NET Dec 2026 — Exam City & Admit Card Portal","c":"Admit Cards","p":"High","d":"2026-12-14","posted":"2026-11-20","s":"National Testing Agency (NTA)","y":"4th Year","k":"ADMIT-NTA","x":"Official NTA portal for Joint CSIR-UGC NET December 2026 Exam City Intimation Slips and Admit Card downloads using Application Number and Date of Birth.","v":"NTA CSIR-NET Portal (csirnet.nta.nic.in)","l":"https://csirnet.nta.nic.in","pyq":"CSIR-NET Portal & Papers"},{"id":204,"t":"NTA SWAYAM July 2026 Semester Certification Exam","c":"Exams","p":"Normal","d":"2026-12-08","posted":"2026-11-20","s":"National Testing Agency (NTA) / SWAYAM","y":"All Years","k":"SWAYAM","x":"Official NTA SWAYAM July 2026 Semester Exam portal updates for NPTEL & SWAYAM courses. Registered CS students taking credit-transfer courses can check admit card notices and December 2026 exam schedules directly on the NTA SWAYAM portal.","v":"NTA SWAYAM Portal (exams.nta.nic.in/swayam)","l":"https://exams.nta.nic.in/swayam","pyq":"NPTEL Course Archive"},{"id":205,"t":"NTA UGC-NET December 2026 — Computer Science Exam Schedule Out","c":"Exams","p":"High","d":"2026-12-14","posted":"2026-11-19","s":"National Testing Agency (NTA)","y":"4th Year","k":"UGC-NET","x":"NTA released the UGC-NET December 2026 subject-wise CBT schedule on November 19, 2026. Examinations run on December 14, 15, 16, 17, 18, and 21, 2026 in two shifts (9:00 AM–12:00 PM and 3:00 PM–6:00 PM). Computer Science and Applications is scheduled for December 14, 2026. Advance city intimation slips are issued prior to the exam.","v":"NTA UGC-NET Portal (ugcnet.nta.nic.in)","l":"https://ugcnet.nta.nic.in","pyq":"UGC-NET Official Portal & Papers"},{"id":206,"t":"BPSC TRE 4.0 — Computer Science Teacher (Class 11–12) Exam Calendar","c":"Jobs","p":"High","d":"2026-12-15","posted":"2026-11-19","s":"Bihar Public Service Commission (BPSC)","y":"4th Year","k":"BPSC-TRE4","x":"Bihar Public Service Commission (BPSC) notified 407 Computer Science Teacher vacancies for Classes 11–12 under TRE 4.0 (Advt. No. 15/2026). Eligible CS candidates include B.E./B.Tech (CS/IT), MCA, M.Sc. (CS), or BCA with PGDCA (with STET Paper-II). Monitor the official BPSC Exam Calendar (updated Nov 19, 2026) for exam and document verification dates.","q":"B.E./B.Tech (CS/IT), MCA, M.Sc. (CS), or BCA with PGDCA (with STET Paper-II)","v":"BPSC Official Portal (bpsc.bihar.gov.in)","l":"https://bpsc.bihar.gov.in","pyq":"BPSC Question Booklets (PYQs)"},{"id":207,"t":"Google Summer of Code (GSoC) 2026 Program & 2027 Prep Archive","c":"Internships","p":"Normal","d":"2026-12-20","posted":"2026-11-15","s":"Google Open Source","y":"All Years","k":"GSoC","x":"Explore the official Google Summer of Code 2026 archive featuring 1,096 successful contributors and participating open-source organizations. Ideal for CS students preparing early PRs and proposals ahead of the 2027 organization application cycle.","v":"GSoC Portal (summerofcode.withgoogle.com)","l":"https://summerofcode.withgoogle.com"},{"id":208,"t":"GATE 2027 (IIT Madras) — Application Rectification & Exam Schedule","c":"Exams","p":"Urgent","d":"2026-11-30","posted":"2026-11-14","s":"IIT Madras — GATE 2027 Organizing Institute","y":"4th Year","k":"GATE-2027","x":"Official GATE 2027 schedule announced by IIT Madras: Application rectification (scrutiny defects without fee) closes on November 30, 2026. City allotment notification will be released on January 4, 2027. GATE 2027 Examinations will be conducted on February 6, 7, 13, 14, 20, and 21, 2027, with results scheduled for March 19, 2027. Essential for M.Tech admissions and PSU CS recruitment.","v":"GOAPS Portal (gate2027.iitm.ac.in)","l":"https://gate2027.iitm.ac.in","pyq":"GATE 2021–2026 PYQs & Keys"},{"id":209,"t":"NIELIT Examination — Revised Admit Cards Available","c":"Admit Cards","p":"High","d":"2026-11-30","posted":"2026-11-14","s":"NIELIT (MeitY, Govt. of India)","y":"All Years","k":"ADMIT-NIELIT","x":"Candidates appearing in NIELIT examination cycles are instructed to download their revised admit cards from the official NIELIT Student Web Portal and verify exam center details.","v":"NIELIT Student Portal (student.nielit.gov.in)","l":"https://student.nielit.gov.in","pyq":"NIELIT Student Portal"},{"id":210,"t":"ICPC Asia West Kanpur Multi-Site Regional Contest 2026","c":"Hackathons","p":"High","d":"2026-12-22","posted":"2026-11-13","s":"ICPC India — Kanpur Regional","y":"All Years","k":"ICPC-2026","x":"Following the ICPC India Preliminary Online Contest, the Kanpur Multi-Site Onsite Regional Contest will take place on December 22–23, 2026 across three centers: Kanpur, Gandhinagar, and Pune. Each team consists of 3 student contestants and 1 coach from the same institution.","v":"Onsite: Kanpur, Gandhinagar & Pune","l":"https://indiaicpc.in"},{"id":211,"t":"ICPC India Preliminary 2026 — Final Regional Selection Pool","c":"Results","p":"Normal","d":"2026-12-22","posted":"2026-11-13","s":"ICPC India","y":"All Years","k":"RESULT-ICPC","x":"Official Final Regional Selection Pool standings published for the ICPC India Preliminary Contest 2026, listing qualifying teams, institute names, problems solved, and scores.","v":"ICPC India Selection Portal (indiaicpc.in)","l":"https://indiaicpc.in"},{"id":212,"t":"NIC Scientist \"B\" & Scientific/Technical Assistant \"A\" Recruitment 2026","c":"Jobs","p":"High","d":"2026-12-10","posted":"2026-11-12","s":"National Informatics Centre (NIC / MeitY)","y":"4th Year","k":"NIC-SCB","x":"National Informatics Centre (NIC) official recruitment notifications (Advt. No. NIC/SCB/2026/1 for Scientist-B Group-A, Level 10 Pay Matrix ₹56,100–₹1,77,500 across 243 vacancies, and Advt. No. NIC/STA/2026/2 for Scientific/Technical Assistant-A) with GATE Paper Code: CS. Eligible degrees include B.E./B.Tech, M.E./M.Tech, MCA, or M.Sc. in Computer Science/IT.","q":"B.E./B.Tech, M.E./M.Tech, MCA, or M.Sc. in Computer Science/IT (GATE Paper Code: CS)","v":"NIC Recruitment Portal (recruitment.nic.in)","l":"https://recruitment.nic.in","pyq":"GATE CS Reference PYQs"},{"id":213,"t":"ISRO ICRB Scientist/Engineer \"SC\" (CS BE003) Interview Shortlist","c":"Results","p":"High","d":"2026-12-05","posted":"2026-11-12","s":"ISRO Centralised Recruitment Board (ICRB)","y":"4th Year","k":"RESULT-ISRO","x":"Official ISRO ICRB roll-number shortlist PDF for Scientist/Engineer \"SC\" [Computer Science] [BE003] candidates shortlisted for personal interview. Check your roll number and interview call letter instructions.","v":"ISRO ICRB Results & Shortlist PDF (isro.gov.in)","l":"https://www.isro.gov.in"},{"id":214,"t":"NIELIT ITL / Basic Computer & Certification Exam Results","c":"Results","p":"Normal","d":"2026-12-15","posted":"2026-11-06","s":"NIELIT Student Portal","y":"All Years","k":"RESULT-NIELIT","x":"NIELIT September/November 2026 certification and ITL results are available for viewing and printing by roll number and date of birth on the official NIELIT Student Information and Enrollment System.","v":"NIELIT Student Portal (student.nielit.gov.in)","l":"https://student.nielit.gov.in"},{"id":215,"t":"Smart India Hackathon (SIH) 2026 — Official Themes & Guidelines","c":"Hackathons","p":"Normal","d":"2026-12-10","posted":"2026-10-09","s":"Ministry of Education Innovation Cell & AICTE","y":"All Years","k":"SIH-2026","x":"Official Smart India Hackathon 2026 portal guidelines and problem statement themes (Smart Automation, AI/ML, Cybersecurity, Blockchain, MedTech, and CleanTech). College SPOCs and shortlisted teams can track grand finale updates on sih.gov.in.","v":"SIH Official Portal (sih.gov.in)","l":"https://sih.gov.in"}];
-const SITES=[["GATE 2027","IIT Madras","https://gate2027.iitm.ac.in"],["UGC NET","NTA","https://ugcnet.nta.nic.in"],["CSIR-UGC NET","NTA","https://csirnet.nta.nic.in"],["CUH recruitment portal","Central University of Haryana","https://cuhnt.samarth.edu.in"],["CUSAT recruitment","Cochin University of Science and Technology","https://recruit.cusat.ac.in"]];
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const TODAY=new Date(new Date().toISOString().slice(0,10)),days=d=>Math.round((new Date(d)-TODAY)/864e5);
-const fmt=d=>new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-const COL={Jobs:"var(--lime)",Exams:"var(--cy)","Admit Cards":"var(--sal)",Results:"var(--bei)",Hackathons:"var(--sky)",Internships:"var(--pk)"};
-const PAL=["var(--lime)","var(--cy)","var(--sal)","var(--bei)"];
-const left=n=>{const k=days(n.d);if(n.n){const a=-k;return a<=0?"New today":a===1?"Yesterday":a+" days ago"}return k<0?"Closed":k===0?"Today":k===1?"1 day left":k+" days left"};
-const HEART='<svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
-const INFO='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
-const ARW='<svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
-let filter="all",order=[],io;
 
-function buildStack(){
- const up=[...D.filter(n=>!n.n&&days(n.d)>=0).sort((a,b)=>new Date(a.d)-new Date(b.d)),...D.filter(n=>n.n).sort((a,b)=>new Date(b.d)-new Date(a.d))].slice(0,4);
- order=up.map(n=>n.id);
- $("#stack").style.height=((up.length-1)*60+300)+"px";
- $("#stack").innerHTML=up.map(n=>`<div class="sc" role="button" tabindex="0" data-id="${n.id}"><div class="sh"><span class="lg">${esc(n.s[0])}</span><span class="ic"><i data-save class="${n.sv?"on":""}">${HEART}</i><i data-info>${INFO}</i></span></div><div class="org">${esc(n.s)}</div><h3>${esc(n.t)}</h3><div class="mt">${esc(n.c)} · ${left(n)}</div><span class="go">See details</span></div>`).join("");
- place();
-}
-function place(){
- const n=order.length;
- $$(".sc").forEach(el=>{const r=order.indexOf(+el.dataset.id);el.style.top=(n-1-r)*60+"px";el.style.left=el.style.right=r*12+"px";el.style.zIndex=10-r;el.style.background=PAL[r]});
-}
-function pick(e){
- const c=e.target.closest(".sc");if(!c)return;
- const id=+c.dataset.id,n=D.find(x=>x.id===id);
- if(e.target.closest("[data-save]")){n.sv=!n.sv;saveSet();stats();e.target.closest("[data-save]").classList.toggle("on",n.sv);return}
- if(order[0]===id||e.target.closest("[data-info]"))det(id);
- else{order=[id,...order.filter(x=>x!==id)];place()}
-}
-$("#stack").addEventListener("click",pick);
-$("#stack").addEventListener("keydown",e=>{if(e.key==="Enter")pick(e)});
-
-function chips(){
- const C=[["all","All"],["Jobs","Jobs"],["Exams","Exams"],["Admit Cards","Admit cards"],["Results","Results"],["Hackathons","Hackathons"],["Internships","Internships"],["saved","Saved"]];
- $("#chips").innerHTML=C.map(c=>`<button class="chip" data-f="${c[0]}" aria-pressed="${filter===c[0]}">${c[1]}</button>`).join("");
-}
-$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;chips();list()});
-function list(){
- const q=($("#q").value||"").trim().toLowerCase();
- const L=D.filter(n=>(filter==="all"||(filter==="saved"?n.sv:n.c===filter))&&(!q||[n.t,n.s,n.x,n.q,n.k,n.c].join(" ").toLowerCase().includes(q)));
- $("#cnt").textContent="Showing "+L.length+" of "+D.length+" notifications";
- $("#list").innerHTML=L.length?L.map(n=>`<button class="li rv ${!n.n&&days(n.d)<0?"rd":""}" style="background:${COL[n.c]||"var(--bei)"}" data-id="${n.id}"><div class="tp"><span class="tg"><span class="tag">${esc(n.c)}</span>${n.p==="Urgent"||n.p==="High"?`<span class="tag f">${n.p}</span>`:""}</span><b>${left(n)}</b></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div class="ft"><span>${esc(n.s)}</span><span>${fmt(n.d)}</span></div></button>`).join(""):'<p class="empty">Nothing matches. Clear the search or pick another filter.</p>';
- obs();
-}
-$("#list").addEventListener("click",e=>{const b=e.target.closest(".li");if(b)det(+b.dataset.id)});
-$("#tl").addEventListener("click",e=>{const b=e.target.closest("li[data-id]");if(b)det(+b.dataset.id)});
-$("#q").addEventListener("input",list);
-function stats(){
- const S=D.filter(n=>!n.n).sort((a,b)=>new Date(a.d)-new Date(b.d)),up=S.filter(n=>days(n.d)>=0),far=up[up.length-1];
- $("#bars").innerHTML=S.map(n=>{const k=days(n.d),h=k<0?14:Math.max(30,100-k*1.3);return `<i class="bar ${n===far?"k":k>=0&&k<=14?"w":""}" style="--h:${h}%"></i>`}).join("");
- $("#soon").textContent=up.length?left(up[0]).replace(" left",""):"-";
- $("#farv").textContent=far?days(far.d)+" days":"-";
- const un=D.filter(n=>!n.r).length;
- $("#nUn").textContent="+"+un;
- const due=D.filter(n=>!n.n&&days(n.d)>=0&&days(n.d)<=7).length;
- $("#cnts").innerHTML=[[un,"Unread"],[D.filter(n=>n.p==="Urgent").length,"Urgent"],[due,"Due in 7 days"],[D.filter(n=>n.sv).length,"Saved"]].map(a=>`<div><b>${a[0]}</b><small>${a[1]}</small></div>`).join("");
- $("#tl").innerHTML=up.map(n=>`<li data-id="${n.id}"><time>${new Date(n.d).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</time><span>${esc(n.t)}<small>${esc(n.c)} · ${esc(n.s)}</small></span></li>`).join("")||"<li><span>No upcoming deadlines.</span></li>";
-}
-function archive(){
- $("#ar").innerHTML=D.map(n=>`<div class="rv"><span>${esc(n.t)}<small>${esc(n.k||n.c)} · ${esc(n.c)}</small></span><span class="lk">${n.l?`<a href="${n.l}" target="_blank" rel="noopener">Official notice</a>`:""}${n.pyq&&n.l?`<a href="${n.l}" target="_blank" rel="noopener">${esc(n.pyq)}</a>`:""}</span></div>`).join("");
- obs();
-}
-function det(id){
- const n=D.find(x=>x.id===id);if(!n)return;n.r=true;stats();
- const R=(a,b)=>b?`<div class="dr"><small>${a}</small><b>${esc(b)}</b></div>`:"";
- $("#dBody").style.background=COL[n.c]||"var(--bei)";
- $("#dBody").innerHTML=`<div class="tp"><span class="tg"><span class="tag">${esc(n.c)}</span>${n.p&&n.p!=="Normal"?`<span class="tag f">${n.p}</span>`:""}</span><b>${left(n)}</b></div><h3>${esc(n.t)}</h3><p>${esc(n.x)}</p><div>${R("Posted by",n.s)}${R("Target cohort",n.y)}${R("Posted date",n.posted&&fmt(n.posted))}${R(n.n?"Date":"Deadline / event date",fmt(n.d))}${R("Eligible qualifications",n.q)}${R("Portal / location",n.v)}${R("Reference",n.k)}</div><div class="acts">${n.l?`<a class="bk" href="${n.l}" target="_blank" rel="noopener">Official notification</a>`:""}${n.pyq&&n.l?`<a class="gh" href="${n.l}" target="_blank" rel="noopener">${esc(n.pyq)}</a>`:""}<button class="gh" id="sv">${n.sv?"Remove from saved":"Save alert"}</button><button class="gh" id="cp">Copy summary</button><button class="gh" data-x>Close</button></div>`;
- $("#det").showModal();
- $("#sv").onclick=()=>{n.sv=!n.sv;saveSet();buildStack();list();stats();$("#det").close()};
- $("#cp").onclick=()=>{try{navigator.clipboard.writeText(n.t+" - "+n.s+" - "+fmt(n.d)+(n.l?" - "+n.l:""));$("#cp").textContent="Copied"}catch(e){}};
-}
-function obs(){
- io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add(e.target.classList.contains("tw")?"go":"in");io.unobserve(e.target)}}),{threshold:.08});
- $$(".rv:not(.in)").forEach((el,i)=>{el.style.transitionDelay=(i%2)*80+"ms";io.observe(el)});$$(".tw:not(.go)").forEach(el=>io.observe(el));
-}
-/* dialogs, theme, install */
-document.addEventListener("click",e=>{if(e.target.closest("[data-x]"))e.target.closest("dialog").close()});
-let dp=null;
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e});
-const inst=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null}else $("#inst").showModal()};
-$("#instBtn").onclick=inst;
-if(matchMedia("(display-mode: standalone)").matches)$("#instBtn").hidden=true;
-addEventListener("appinstalled",()=>{$("#instBtn").hidden=true});
-$("#menuBtn").onclick=()=>$("#menu").showModal();
-$("#fab").onclick=()=>$("#post").showModal();
-let th="light";try{th=localStorage.getItem("csp-theme")||"light"}catch(e){}
-function applyTheme(){document.documentElement.dataset.theme=th;$("#thm").textContent=th==="dark"?"Light mode":"Dark mode";const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==="dark"?"#0C0C0C":"#ECECEC"}
-$("#menu").addEventListener("click",e=>{
- const b=e.target.closest("[data-act]");if(!b)return;
- const a=b.dataset.act;
- if(a==="theme"){th=th==="dark"?"light":"dark";try{localStorage.setItem("csp-theme",th)}catch(x){}applyTheme();return}
- $("#menu").close();
- if(a==="post")$("#post").showModal();else inst();
-});
-$("#pub").onclick=()=>{
- const t=$("#pt").value.trim(),d=$("#pd").value;if(!t||!d){$("#pt").focus();return}
- D.unshift({id:Date.now(),t,c:$("#pc").value,d,posted:new Date().toISOString().slice(0,10),p:"Normal",s:"You",x:$("#px").value||"No extra details."});
- $("#pt").value="";$("#px").value="";$("#post").close();buildStack();list();stats();
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TODAY = new Date(new Date().toISOString().slice(0,10));
+const days = d => Math.round((new Date(d) - TODAY) / 864e5);
+const fmt = d => new Date(d).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
+const left = n => {
+  const k = days(n.d);
+  if (k < 0) return "Closed";
+  if (k === 0) return "Today";
+  if (k === 1) return "1 day left";
+  return k + " days left";
 };
-loadSaved();applyTheme();chips();buildStack();list();stats();archive();
-function split(el){let i=0;(function walk(n){[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t.trim()){f.append(t);return}const w=document.createElement("span");w.className="w";w.innerHTML='<span style="--i:'+(i++)+'">'+t+'</span>';f.append(w)});c.replaceWith(f)}else if(c.nodeType===1&&c.tagName!=="BR")walk(c)})})(el)}
-$$("#feed h2,#archive h2,#timeline h2,.st h2,.big").forEach(h=>{split(h);h.classList.add("tw")});
-obs();
-const dk=$$(".dock a"),dock=$("#dock"),SEC=["top","feed","st","archive"];
-function setK(k){dock.style.setProperty("--k",k);dk.forEach((a,i)=>a.classList.toggle("on",i===k))}
-function spy(){let k=0;SEC.forEach((id,i)=>{if($("#"+id).getBoundingClientRect().top<innerHeight*.45)k=i});if(!dock.dataset.k||+dock.dataset.k!==k){dock.dataset.k=k;setK(k)}}
-addEventListener("scroll",spy,{passive:true});spy();
-function reveal(){const h=innerHeight*.95;$$(".rv:not(.in)").forEach(el=>{if(el.getBoundingClientRect().top<h)el.classList.add("in")});$$(".tw:not(.go)").forEach(el=>{if(el.getBoundingClientRect().top<h)el.classList.add("go")})}
-addEventListener("scroll",reveal,{passive:true});addEventListener("resize",reveal);setInterval(reveal,700);reveal();
-function saveSet(){try{localStorage.setItem("csp-saved",JSON.stringify(D.filter(n=>n.sv).map(n=>n.id)))}catch(e){}}
-function loadSaved(){try{const s=JSON.parse(localStorage.getItem("csp-saved")||"[]");D.forEach(n=>{n.sv=s.includes(n.id)})}catch(e){}}
-fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{if(!j.items||!j.items.length)return;D.length=0;D.push(...j.items);loadSaved();buildStack();list();stats();archive();if(j.updated)$("footer").textContent="CS Pulse · updated "+new Date(j.updated).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})}).catch(()=>{});
+
+const HEART = '<svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
+const ARW = '<svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+const CHEVR = '<svg class="i" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
+const CHEVL = '<svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>';
+
+/* Crisp bespoke institute & post SVG visuals (zero external dependencies) */
+function instituteArtwork(n) {
+  const txt = (n.s + " " + n.t + " " + n.c).toLowerCase();
+  let c1 = "#1E3A8A", c2 = "#3B82F6", badge = "CS", motif = "campus";
+  if (txt.includes("isro")) { c1 = "#0F172A"; c2 = "#0284C7"; badge = "ISRO"; motif = "space"; }
+  else if (txt.includes("c-dac") || txt.includes("cdac")) { c1 = "#111827"; c2 = "#0D9488"; badge = "C-DAC"; motif = "server"; }
+  else if (txt.includes("gate") || txt.includes("iit")) { c1 = "#312E81"; c2 = "#6366F1"; badge = "IIT / GATE"; motif = "campus"; }
+  else if (txt.includes("nta") || txt.includes("ugc") || txt.includes("csir") || txt.includes("swayam")) { c1 = "#1E293B"; c2 = "#2563EB"; badge = "NTA"; motif = "exam"; }
+  else if (txt.includes("bpsc")) { c1 = "#14532D"; c2 = "#16A34A"; badge = "BPSC"; motif = "campus"; }
+  else if (txt.includes("nic") || txt.includes("nielit")) { c1 = "#1E1B4B"; c2 = "#7C3AED"; badge = txt.includes("nic") ? "NIC" : "NIELIT"; motif = "server"; }
+  else if (txt.includes("icpc") || txt.includes("sih") || txt.includes("hackathon") || txt.includes("gsoc")) { c1 = "#18181B"; c2 = "#EA580C"; badge = txt.includes("gsoc") ? "GSoC" : "TECH"; motif = "code"; }
+
+  const uid = "g" + n.id + Math.floor(Math.random()*1000);
+  let shapes = "";
+  if (motif === "space") {
+    shapes = `<circle cx="330" cy="48" r="64" fill="rgba(255,255,255,.08)"/><circle cx="330" cy="48" r="36" fill="rgba(255,255,255,.12)"/><path d="M265 130 Q315 80 375 110" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none"/><rect x="40" y="96" width="140" height="74" rx="10" fill="rgba(255,255,255,.12)"/><rect x="54" y="110" width="24" height="18" rx="3" fill="rgba(255,255,255,.28)"/><rect x="88" y="110" width="24" height="18" rx="3" fill="rgba(255,255,255,.28)"/><rect x="122" y="110" width="24" height="18" rx="3" fill="rgba(255,255,255,.28)"/>`;
+  } else if (motif === "server") {
+    shapes = `<rect x="240" y="28" width="120" height="140" rx="14" fill="rgba(255,255,255,.1)"/><line x1="258" y1="54" x2="342" y2="54" stroke="rgba(255,255,255,.3)" stroke-width="4" stroke-linecap="round"/><line x1="258" y1="80" x2="342" y2="80" stroke="rgba(255,255,255,.3)" stroke-width="4" stroke-linecap="round"/><line x1="258" y1="106" x2="342" y2="106" stroke="rgba(255,255,255,.3)" stroke-width="4" stroke-linecap="round"/><circle cx="268" cy="134" r="5" fill="#34D399"/><circle cx="286" cy="134" r="5" fill="#38BDF8"/>`;
+  } else if (motif === "code") {
+    shapes = `<rect x="220" y="34" width="150" height="110" rx="14" fill="rgba(255,255,255,.12)"/><path d="M255 82l-18 14 18 14M295 82l18 14-18 14M280 76l-10 40" stroke="rgba(255,255,255,.65)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+  } else {
+    shapes = `<path d="M200 170V74l75-30 75 30v96z" fill="rgba(255,255,255,.12)"/><rect x="226" y="88" width="18" height="32" rx="3" fill="rgba(255,255,255,.25)"/><rect x="266" y="88" width="18" height="32" rx="3" fill="rgba(255,255,255,.25)"/><rect x="306" y="88" width="18" height="32" rx="3" fill="rgba(255,255,255,.25)"/><circle cx="80" cy="48" r="48" fill="rgba(255,255,255,.07)"/>`;
+  }
+
+  return `<svg viewBox="0 0 400 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
+    <rect width="400" height="170" fill="url(#${uid})"/>
+    ${shapes}
+    <text x="20" y="146" fill="rgba(255,255,255,.2)" font-family="Plus Jakarta Sans,sans-serif" font-weight="800" font-size="36" letter-spacing="-1">${esc(badge)}</text>
+  </svg>`;
+}
+
+let state = { nav:"home", filter:"all", q:"", onlyUnread:false, onlyUrgent:false, heroIdx:0, detId:null };
+
+function showToast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+function getFiltered() {
+  const q = state.q.trim().toLowerCase();
+  return D.filter(n => {
+    if (state.filter === "saved" && !n.sv) return false;
+    if (state.filter !== "all" && state.filter !== "saved" && n.c !== state.filter) return false;
+    if (state.onlyUnread && n.r) return false;
+    if (state.onlyUrgent && n.p !== "Urgent" && n.p !== "High") return false;
+    if (q && ![n.t, n.s, n.x, n.q, n.k, n.c].join(" ").toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function renderChips() {
+  const C = [["all","All"],["Jobs","Jobs"],["Exams","Exams"],["Admit Cards","Admit Cards"],["Results","Results"],["Hackathons","Hackathons"],["Internships","Internships"],["saved","Saved"]];
+  $("#chips").innerHTML = C.map(c => `<button class="chip" type="button" data-f="${c[0]}" aria-pressed="${state.filter===c[0]}">${c[1]}</button>`).join("");
+}
+
+function renderHero() {
+  const up = D.filter(n => days(n.d) >= 0).sort((a,b) => new Date(a.d) - new Date(b.d)).slice(0, 4);
+  if (!up.length) { $("#heroWrap").innerHTML = ""; return; }
+  const idx = ((state.heroIdx % up.length) + up.length) % up.length;
+  const n = up[idx];
+
+  $("#heroWrap").innerHTML = `
+    <div class="hero-card" data-open="${n.id}">
+      <div class="hero-bg">${instituteArtwork(n)}</div>
+      <div class="hero-scrim"></div>
+      <div class="hero-top">
+        <div class="hero-badges">
+          <span class="badge-light">${n.p === "Urgent" ? "Urgent · " : ""}${esc(n.c)}</span>
+          <span class="badge-dark">${left(n)}</span>
+        </div>
+        <button class="heart-btn ${n.sv ? "on" : ""}" type="button" data-save="${n.id}" aria-label="Save alert">${HEART}</button>
+      </div>
+      <div class="hero-bot">
+        <div>
+          <div class="hero-org"><i></i><span>${esc(n.s)}</span></div>
+          <div class="hero-title">${esc(n.t)}</div>
+        </div>
+        <div class="hero-actions">
+          <button class="see-pill" type="button" data-open="${n.id}">
+            <span>See details</span>
+            <span class="arr">${CHEVR}</span>
+          </button>
+          <div class="car-arrows">
+            <button class="car-btn" type="button" id="hPrev" aria-label="Previous">${CHEVL}</button>
+            <button class="car-btn" type="button" id="hNext" aria-label="Next">${CHEVR}</button>
+          </div>
+        </div>
+        <div class="dots">${up.map((_,i) => `<span class="${i===idx?"on":""}"></span>`).join("")}</div>
+      </div>
+    </div>`;
+
+  $("#hPrev").onclick = e => { e.stopPropagation(); state.heroIdx--; renderHero(); };
+  $("#hNext").onclick = e => { e.stopPropagation(); state.heroIdx++; renderHero(); };
+}
+
+function renderStats() {
+  const un = D.filter(n => !n.r).length;
+  const urg = D.filter(n => n.p === "Urgent").length;
+  const due = D.filter(n => days(n.d) >= 0 && days(n.d) <= 7).length;
+  const sv = D.filter(n => n.sv).length;
+
+  $("#cnts").innerHTML = [
+    ["unread", un, "Unread"],
+    ["urgent", urg, "Urgent"],
+    ["week", due, "Due 7d"],
+    ["saved", sv, "Saved"]
+  ].map(a => `<button class="stat-card" type="button" data-stat="${a[0]}"><b>${a[1]}</b><small>${a[2]}</small></button>`).join("");
+}
+
+function renderList() {
+  const L = getFiltered();
+  $("#cnt").textContent = `${L.length} of ${D.length} alerts`;
+  const hasF = state.filter !== "all" || state.q.trim() || state.onlyUnread || state.onlyUrgent;
+  $("#resetBtn").classList.toggle("hidden", !hasF);
+
+  if (!L.length) {
+    $("#list").innerHTML = `<div class="empty" style="grid-column:1/-1"><b>No matching alerts</b><p style="font-size:13px;margin:6px 0 14px">Clear your search or switch back to All alerts.</p><button class="btn-pri" type="button" id="empReset">Show all alerts</button></div>`;
+    $("#empReset").onclick = resetAll;
+    return;
+  }
+
+  $("#list").innerHTML = L.map((n, i) => `
+    <article class="card ${days(n.d)<0?"rd":""}" data-open="${n.id}" style="animation-delay:${Math.min(i*35,210)}ms">
+      <div class="card-media">
+        ${instituteArtwork(n)}
+        <span class="card-tag">${esc(n.c)}</span>
+        <button class="card-save ${n.sv?"on":""}" type="button" data-save="${n.id}" aria-label="Save">${HEART}</button>
+        ${!n.r ? `<span class="card-new">New</span>` : ""}
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-org">${esc(n.s)}</span>
+          ${n.p==="Urgent"||n.p==="High" ? `<span class="urg-pill">${esc(n.p)}</span>` : ""}
+        </div>
+        <h3 class="card-title">${esc(n.t)}</h3>
+        <p class="card-desc">${esc(n.x)}</p>
+        <div class="card-foot">
+          <span class="card-date">${fmt(n.d)} · ${left(n)}</span>
+          <span class="go-circle">${ARW}</span>
+        </div>
+      </div>
+    </article>`).join("");
+}
+
+function renderDeadlines() {
+  const up = D.filter(n => days(n.d) >= 0).sort((a,b) => new Date(a.d) - new Date(b.d));
+  $("#tl").innerHTML = up.map(n => `
+    <div class="tl-row" data-open="${n.id}">
+      <div class="tl-date">
+        <b>${new Date(n.d).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</b>
+        <small>${left(n)}</small>
+      </div>
+      <div class="tl-thumb">${instituteArtwork(n)}</div>
+      <div class="tl-info">
+        <small>${esc(n.c)} · ${esc(n.s)}</small>
+        <b>${esc(n.t)}</b>
+      </div>
+      <span class="go-circle" style="width:32px;height:32px">${CHEVR}</span>
+    </div>`).join("") || `<div class="empty">No upcoming deadlines.</div>`;
+}
+
+function renderArchive() {
+  $("#ar").innerHTML = D.map(n => `
+    <div class="ar-card">
+      <div>
+        <small style="font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase">${esc(n.k || n.c)} · ${esc(n.s)}</small>
+        <h3 style="margin-top:4px">${esc(n.t)}</h3>
+      </div>
+      <div class="ar-links">
+        ${n.l ? `<a class="pri" href="${n.l}" target="_blank" rel="noopener">Official notice ↗</a>` : ""}
+        ${n.pyq && n.l ? `<a href="${n.l}" target="_blank" rel="noopener">${esc(n.pyq)}</a>` : ""}
+      </div>
+    </div>`).join("");
+}
+
+function openDet(id) {
+  const n = D.find(x => x.id === id);
+  if (!n) return;
+  state.detId = id;
+  if (!n.r) { n.r = true; renderStats(); renderList(); }
+
+  $("#detSheet").innerHTML = `
+    <div class="det-hero">
+      ${instituteArtwork(n)}
+      <div class="det-hero-scrim"></div>
+      <button class="det-top-btn left" type="button" data-close="detModal" aria-label="Close">${CHEVL}</button>
+      <button class="det-top-btn right ${n.sv?"on":""}" type="button" id="detSave" aria-label="Save">${HEART}</button>
+      <span class="det-cat">${esc(n.c)}</span>
+    </div>
+    <div class="det-body">
+      <div class="det-org-row">
+        <span>${esc(n.s)}</span>
+        <span class="det-due">${fmt(n.d)} · ${left(n)}</span>
+      </div>
+      <h3>${esc(n.t)}</h3>
+      <p class="det-desc">${esc(n.x)}</p>
+      <div class="det-grid">
+        <div class="det-box"><small>Eligibility</small><b>${esc(n.q || "CS / IT Graduates")}</b></div>
+        <div class="det-box"><small>Portal / Mode</small><b>${esc(n.v || "Official Portal")}</b></div>
+        <div class="det-box"><small>Target Cohort</small><b>${esc(n.y || "All Years")}</b></div>
+        <div class="det-box"><small>Reference</small><b>${esc(n.k || n.c)}</b></div>
+      </div>
+    </div>
+    <div class="det-foot">
+      ${n.l ? `<a class="btn-pri" href="${n.l}" target="_blank" rel="noopener">Official notification ↗</a>` : ""}
+      <button class="btn-sec" id="detCopy" type="button">Copy</button>
+      <button class="btn-sec" data-close="detModal" type="button">Close</button>
+    </div>`;
+
+  $("#detModal").classList.add("open");
+  $("#detSave").onclick = () => {
+    toggleSave(n.id);
+    $("#detSave").classList.toggle("on", n.sv);
+  };
+  $("#detCopy").onclick = () => {
+    const txt = `${n.t} - ${n.s} - ${fmt(n.d)}${n.l ? " - " + n.l : ""}`;
+    try { navigator.clipboard.writeText(txt); } catch (e) {
+      const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+    }
+    showToast("Summary copied");
+  };
+}
+
+function toggleSave(id, el) {
+  const n = D.find(x => x.id === id);
+  if (!n) return;
+  n.sv = !n.sv;
+  saveSet();
+  if (el) { el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); }
+  showToast(n.sv ? "Saved to bookmarks" : "Removed from saved");
+  renderAll();
+}
+
+function switchNav(nav) {
+  state.nav = nav;
+  if (nav === "saved") state.filter = "saved";
+  else if (nav === "home" && state.filter === "saved") state.filter = "all";
+
+  const showHome = nav === "home" || nav === "saved";
+  $("#viewHome").classList.toggle("hidden", !showHome);
+  $("#viewDeadlines").classList.toggle("hidden", nav !== "deadlines");
+  $("#viewArchive").classList.toggle("hidden", nav !== "archive");
+
+  $$("#dock button").forEach(b => b.classList.toggle("on", b.dataset.nav === nav));
+  renderAll();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function resetAll() {
+  state.filter = "all";
+  state.q = "";
+  state.onlyUnread = false;
+  state.onlyUrgent = false;
+  $("#q").value = "";
+  renderAll();
+}
+
+function renderAll() {
+  renderChips();
+  renderHero();
+  renderStats();
+  renderList();
+  renderDeadlines();
+  renderArchive();
+}
+
+/* Events */
+document.addEventListener("click", e => {
+  const sv = e.target.closest("[data-save]");
+  if (sv) { e.stopPropagation(); toggleSave(+sv.dataset.save, sv); return; }
+  const op = e.target.closest("[data-open]");
+  if (op) { openDet(+op.dataset.open); return; }
+  const cl = e.target.closest("[data-close]");
+  if (cl) { $("#" + cl.dataset.close).classList.remove("open"); return; }
+  if (e.target.classList.contains("modal-backdrop")) e.target.classList.remove("open");
+});
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip");
+  if (!b) return;
+  state.filter = b.dataset.f;
+  renderAll();
+});
+
+$("#cnts").addEventListener("click", e => {
+  const b = e.target.closest("[data-stat]");
+  if (!b) return;
+  const s = b.dataset.stat;
+  if (s === "unread") state.onlyUnread = !state.onlyUnread;
+  else if (s === "urgent") state.onlyUrgent = !state.onlyUrgent;
+  else if (s === "saved") state.filter = state.filter === "saved" ? "all" : "saved";
+  renderAll();
+});
+
+$("#q").addEventListener("input", e => { state.q = e.target.value; renderList(); });
+$("#resetBtn").addEventListener("click", resetAll);
+$$("#dock button").forEach(b => b.addEventListener("click", () => switchNav(b.dataset.nav)));
+
+/* Modals & Actions */
+$("#filterBtn").onclick = () => {
+  $("#chkUnread").checked = state.onlyUnread;
+  $("#chkUrgent").checked = state.onlyUrgent;
+  $("#fltModal").classList.add("open");
+};
+$("#clrFltBtn").onclick = () => { resetAll(); $("#fltModal").classList.remove("open"); };
+$("#appFltBtn").onclick = () => {
+  state.onlyUnread = $("#chkUnread").checked;
+  state.onlyUrgent = $("#chkUrgent").checked;
+  $("#fltModal").classList.remove("open");
+  renderAll();
+};
+
+$("#menuBtn").onclick = () => $("#menuModal").classList.add("open");
+$("#addBtn").onclick = () => $("#postModal").classList.add("open");
+
+let dp = null;
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); dp = e; });
+const inst = async () => { if (dp) { dp.prompt(); await dp.userChoice; dp = null; } else $("#instModal").classList.add("open"); };
+$("#instBtn").onclick = inst;
+if (matchMedia("(display-mode: standalone)").matches) $("#instBtn").hidden = true;
+addEventListener("appinstalled", () => { $("#instBtn").hidden = true; });
+
+let th = "light";
+try { th = localStorage.getItem("csp-theme") || "light"; } catch (e) {}
+function applyTheme() {
+  document.documentElement.dataset.theme = th;
+  $("#thm").querySelector("span").textContent = th === "dark" ? "Light mode" : "Dark mode";
+  const m = document.querySelector("meta[name=theme-color]");
+  if (m) m.content = th === "dark" ? "#0E0F12" : "#F4F5F7";
+}
+$("#menuModal").addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  const a = b.dataset.act;
+  if (a === "theme") {
+    th = th === "dark" ? "light" : "dark";
+    try { localStorage.setItem("csp-theme", th); } catch (x) {}
+    applyTheme();
+    return;
+  }
+  $("#menuModal").classList.remove("open");
+  if (a === "post") $("#postModal").classList.add("open");
+  else inst();
+});
+
+$("#postForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const t = $("#pt").value.trim(), d = $("#pd").value;
+  if (!t || !d) return;
+  D.unshift({ id: Date.now(), t, c: $("#pc").value, d, posted: new Date().toISOString().slice(0,10), p: "Normal", s: "You", x: $("#px").value || "No extra details." });
+  e.target.reset();
+  $("#postModal").classList.remove("open");
+  showToast("Alert published");
+  renderAll();
+});
+
+function saveSet() { try { localStorage.setItem("csp-saved", JSON.stringify(D.filter(n => n.sv).map(n => n.id))); } catch (e) {} }
+function loadSaved() { try { const s = JSON.parse(localStorage.getItem("csp-saved") || "[]"); D.forEach(n => { n.sv = s.includes(n.id); }); } catch (e) {} }
+
+loadSaved();
+applyTheme();
+renderAll();
+
+fetch("data.json", {cache:"no-store"})
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(j => {
+    if (!j.items || !j.items.length) return;
+    D.length = 0; D.push(...j.items);
+    loadSaved(); renderAll();
+    if (j.updated) $("#foot").textContent = "CS Pulse · updated " + new Date(j.updated).toLocaleString("en-IN", {day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+  })
+  .catch(() => {});
 </script>
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
 </body>
