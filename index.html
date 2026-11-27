@@ -375,7 +375,7 @@
             <h1 class="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-[#1C1C1E] whitespace-nowrap">CS Pulse</h1>
             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">Live</span>
           </div>
-          <p class="text-xs sm:text-[13px] text-gray-500 leading-tight mt-0.5">Jobs, Exams, Admit Cards &amp; PYQs</p>
+          <p class="text-xs sm:text-[13px] text-gray-500 leading-tight mt-0.5">All Exams (10th+), JEE/NEET, Engg, SSC &amp; Tech</p>
         </div>
       </div>
 
@@ -427,6 +427,14 @@
 
     <!-- VIEW: HOME -->
     <main id="view-home" class="space-y-6">
+
+      <!-- Student Stream Selector (Class 10+, JEE/NEET, Engg, SSC/UPSC/PCS, Private) -->
+      <div class="bg-white rounded-2xl p-3 border border-black/5 shadow-xs space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Your Exam Stream</span>
+        </div>
+        <div id="streamChips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"></div>
+      </div>
 
       <!-- Section Heading + Category Filter Chips -->
       <div>
@@ -545,9 +553,10 @@
     <!-- VIEW: NOTICES & PYQS -->
     <main id="view-pyqs" class="hidden space-y-4">
       <div>
-        <h2 class="font-display text-lg font-bold text-[#1C1C1E]">Official Notices &amp; PYQs</h2>
-        <p class="text-xs text-gray-500">Verified portals, previous year papers &amp; answer keys</p>
+        <h2 class="font-display text-lg font-bold text-[#1C1C1E]">All-Exam PYQs &amp; Practice</h2>
+        <p class="text-xs text-gray-500">JEE, NEET, SSC, UPSC, GATE, UGC-NET, BPSC &amp; NIELIT papers</p>
       </div>
+      <div id="pyqFilterChips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"></div>
       <div id="pyqList" class="grid grid-cols-1 gap-3.5">
         <!-- Rendered by JS -->
       </div>
@@ -1094,6 +1103,27 @@
     </form>
   </div>
 
+  <!-- Interactive PYQ Practice Modal -->
+  <div id="pyqPracticeModal" class="hidden modal-backdrop-in fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="animate-sheet bg-white w-full max-w-[430px] sm:rounded-[28px] rounded-t-[28px] p-6 space-y-4 shadow-2xl max-h-[88vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div>
+          <span id="pyqPracticeExam" class="text-[11px] font-bold uppercase tracking-wider text-emerald-700"></span>
+          <h3 id="pyqPracticeTitle" class="font-display text-base font-bold text-[#1C1C1E]">Sample PYQ Practice</h3>
+        </div>
+        <button id="closePyqPracticeBtn" type="button" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-[#1C1C1E]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="pyqQuestionsWrap" class="space-y-4"></div>
+      <a id="pyqOfficialPortalLink" href="#" target="_blank" rel="noopener noreferrer"
+        class="w-full h-11 rounded-full bg-[#1C1C1E] text-white text-xs font-bold flex items-center justify-center gap-2">
+        <span>Open Official Papers Portal</span>
+        <i data-lucide="external-link" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+
   <!-- Toast Notification (#10 Shrinking Progress Bar) -->
   <div id="toast" class="pointer-events-none opacity-0 -translate-y-2 fixed top-5 left-1/2 -translate-x-1/2 z-[60] bg-[#1C1C1E] text-white px-4 pt-2.5 pb-3 rounded-2xl text-xs font-semibold shadow-xl transition-all duration-300 overflow-hidden min-w-[180px] text-center">
     <span id="toastText">Saved to bookmarks</span>
@@ -1130,7 +1160,100 @@
 
     let alerts = [
       {
+        id: "jee-main",
+        stream: "10th–12th / JEE & NEET",
+        url: "https://jeemain.nta.nic.in/",
+        cutoff: "Percentile Cutoff: ~93.2 (Gen)",
+        takeaway: "Focus on NCERT Physics/Chemistry plus high-weightage Calculus and Coordinate Geometry.",
+        title: "JEE Main 2027 Session 1 Form & City Slip",
+        org: "NTA / JEE",
+        category: "Exams",
+        deadline: "6 Dec",
+        daysLeft: 2,
+        urgent: true,
+        unread: true,
+        saved: false,
+        featured: false,
+        image: IMAGES.gate,
+        eligibility: "Class 12th Appearing / Passed",
+        mode: "All India CBT",
+        desc: "National Testing Agency JEE Main Session 1 registration and correction window for B.E./B.Tech aspirants across India.",
+        steps: [
+          { label: "Form Window", date: "Up to 6 Dec", detail: "Complete application and fee payment on NTA portal." }
+        ]
+      },
+      {
+        id: "ssc-cgl",
+        stream: "Govt / PCS",
+        url: "https://ssc.gov.in/",
+        cutoff: "Tier-1 Cutoff: ~148/200",
+        takeaway: "Speed in Quant & Reasoning plus static GK and recent current affairs are key.",
+        title: "SSC CGL & CHSL Tier-1 Admit Card",
+        org: "SSC",
+        category: "Admit Cards",
+        deadline: "9 Dec",
+        daysLeft: 5,
+        urgent: true,
+        unread: true,
+        saved: false,
+        featured: false,
+        image: IMAGES.ugc,
+        eligibility: "12th Pass / Any Graduate",
+        mode: "Regional SSC CBT",
+        desc: "Staff Selection Commission regional admit cards and exam city status for upcoming CGL & CHSL shifts.",
+        steps: [
+          { label: "Admit Card", date: "9 Dec", detail: "Download hall ticket from your regional SSC portal." }
+        ]
+      },
+      {
+        id: "upsc-cse",
+        stream: "Govt / PCS",
+        url: "https://upsc.gov.in/",
+        cutoff: "Prelims GS: ~88–95/200",
+        takeaway: "Stick to standard NCERTs, Laxmikanth Polity, Economy basics, and CSAT practice.",
+        title: "UPSC Civil Services & NDA Exam Calendar",
+        org: "UPSC",
+        category: "Exams",
+        deadline: "21 Dec",
+        daysLeft: 17,
+        urgent: false,
+        unread: true,
+        saved: false,
+        featured: false,
+        image: IMAGES.nielit,
+        eligibility: "12th Pass (NDA) / Graduate (CSE)",
+        mode: "Offline OMR",
+        desc: "Union Public Service Commission annual examination calendar and OTR registration instructions.",
+        steps: [
+          { label: "OTR Profile", date: "21 Dec", detail: "Verify One-Time Registration details before form opens." }
+        ]
+      },
+      {
+        id: "tcs-nqt",
+        stream: "Private & Tech",
+        url: "https://www.tcs.com/careers",
+        cutoff: "Ninja / Digital / Prime",
+        takeaway: "Prepare 2 DSA coding problems (arrays/strings) and core DBMS/OOPs basics.",
+        title: "TCS NQT Off-Campus Hiring (All Branches)",
+        org: "TCS Careers",
+        category: "Jobs",
+        deadline: "13 Dec",
+        daysLeft: 9,
+        urgent: false,
+        unread: true,
+        saved: false,
+        featured: false,
+        image: IMAGES.projWeb,
+        eligibility: "B.Tech / M.Tech / MCA / BCA",
+        mode: "Online + In-Centre",
+        desc: "TCS National Qualifier Test for Ninja, Digital, and Prime roles open to all engineering and CS graduates.",
+        steps: [
+          { label: "Registration", date: "13 Dec", detail: "Apply via TCS NextStep portal." }
+        ]
+      },
+      {
         id: "isro-icrb",
+        stream: "Engineering",
         cutoff: "Past Cutoff: 62/80 (UR)",
         takeaway: "ISRO interviews focus heavily on OS scheduling, C pointers, Computer Networks, and your final-year project.",
         url: "https://www.isro.gov.in/CurrentOpportunities.html",
@@ -1155,6 +1278,7 @@
       },
       {
         id: "cdac-pe",
+        stream: "Engineering",
         cutoff: "Past Cutoff: 68% CBT",
         takeaway: "Expect practical Linux, Cloud/Docker, and OOPS questions alongside aptitude.",
         url: "https://www.cdac.in/index.aspx?id=current_jobs",
@@ -1178,6 +1302,7 @@
       },
       {
         id: "gate-2026",
+        stream: "Engineering",
         cutoff: "Qualifying: ~27.6 (Gen)",
         takeaway: "Solve last 10 years of CS PYQs; Discrete Math, Algorithms, and DBMS carry high weightage.",
         url: "https://gate2026.iitg.ac.in/",
@@ -1201,6 +1326,7 @@
       },
       {
         id: "sih-hack",
+        stream: "Private & Tech",
         cutoff: "Top 4 Teams / PS",
         takeaway: "Keep your 6-slide PPT focused on architecture, novelty, and live prototype screenshots.",
         url: "https://www.sih.gov.in/sih2025PS",
@@ -1224,6 +1350,7 @@
       },
       {
         id: "bpsc-tre",
+        stream: "Govt / PCS",
         cutoff: "Past Cutoff: 81/120 (CS)",
         takeaway: "NCERT Class 11–12 CS, SQL queries, Python basics, and Networking form the core paper.",
         url: "https://bpsc.bihar.gov.in/",
@@ -1247,6 +1374,7 @@
       },
       {
         id: "ugc-net",
+        stream: "Govt / PCS",
         cutoff: "JRF: ~186/300 (CS)",
         takeaway: "Focus on Paper 1 Teaching/Research Aptitude plus TOC, Compiler, and Discrete Math in Paper 2.",
         url: "https://ugcnet.nta.nic.in/",
@@ -1270,6 +1398,7 @@
       },
       {
         id: "nielit-res",
+        stream: "Engineering",
         cutoff: "Written: 71.5/120",
         takeaway: "Document verification checks original degree/provisional certificate and category forms.",
         url: "https://www.nielit.in/recruitments",
@@ -1292,6 +1421,7 @@
       },
       {
         id: "drdo-intern",
+        stream: "Engineering",
         cutoff: "CGPA 7.5+ Preferred",
         takeaway: "Attach a crisp 1-page resume and college NOC; highlight C++/Python or embedded projects.",
         url: "https://www.drdo.gov.in/",
@@ -1557,11 +1687,57 @@
     }
 
     const PYQS = [
-      { title: "GATE 2021–2026 PYQs & Keys", org: "IIT / GATE", tag: "6 Years Solved", img: IMAGES.gate, url: "https://gate2026.iitg.ac.in/" },
-      { title: "UGC-NET Official Portal & Papers", org: "NTA / UGC", tag: "CS & Applications", img: IMAGES.ugc, url: "https://ugcnet.nta.nic.in/" },
-      { title: "BPSC Question Booklets (PYQs)", org: "BPSC", tag: "TRE CS Archive", img: IMAGES.bpsc, url: "https://bpsc.bihar.gov.in/question-booklets/" },
-      { title: "NIELIT Student & Scientist Portal", org: "NIELIT", tag: "Model Papers", img: IMAGES.nielit, url: "https://student.nielit.gov.in/" }
+      {
+        id: "pyq-jee", stream: "10th–12th", title: "JEE Main Physics, Chem & Math PYQs", org: "NTA / JEE", tag: "2021–2026 Papers", img: IMAGES.gate, url: "https://jeemain.nta.nic.in/",
+        questions: [
+          { q: "If f(x) = x² + 2x + 1, what is the minimum value of f(x) for real x?", opts: ["0", "1", "-1", "2"], ans: 0, exp: "f(x) = (x + 1)² ≥ 0, so the minimum value is 0 at x = -1." },
+          { q: "Which gas law relates pressure and temperature at constant volume?", opts: ["Boyle's Law", "Charles' Law", "Gay-Lussac's Law", "Avogadro's Law"], ans: 2, exp: "Gay-Lussac's Law states P ∝ T at constant volume." }
+        ]
+      },
+      {
+        id: "pyq-neet", stream: "10th–12th", title: "NEET UG Biology, Physics & Chem PYQs", org: "NTA / NEET", tag: "NCERT Solved", img: IMAGES.isro, url: "https://nta.ac.in/",
+        questions: [
+          { q: "Which organelle is known as the powerhouse of the cell?", opts: ["Golgi body", "Mitochondria", "Ribosome", "Lysosome"], ans: 1, exp: "Mitochondria generate ATP through cellular respiration." }
+        ]
+      },
+      {
+        id: "pyq-ssc", stream: "Govt / PCS", title: "SSC CGL & CHSL Tier-1/2 PYQ Bank", org: "SSC", tag: "Quant & Reasoning", img: IMAGES.ugc, url: "https://ssc.gov.in/",
+        questions: [
+          { q: "A train 150m long crosses a pole in 15 seconds. What is its speed in km/h?", opts: ["30 km/h", "36 km/h", "45 km/h", "54 km/h"], ans: 1, exp: "Speed = 150/15 = 10 m/s = 10 × 18/5 = 36 km/h." }
+        ]
+      },
+      {
+        id: "pyq-upsc", stream: "Govt / PCS", title: "UPSC CSE & NDA Prelims GS Papers", org: "UPSC", tag: "Polity, Eco & GS", img: IMAGES.nielit, url: "https://upsc.gov.in/",
+        questions: [
+          { q: "Which Article of the Indian Constitution deals with Right to Equality?", opts: ["Article 14", "Article 19", "Article 21", "Article 32"], ans: 0, exp: "Article 14 guarantees equality before the law and equal protection of laws." }
+        ]
+      },
+      {
+        id: "pyq-gate", stream: "Engineering", title: "GATE 2021–2026 CS & Core PYQs", org: "IIT / GATE", tag: "6 Years Solved", img: IMAGES.gate, url: "https://gate2026.iitg.ac.in/",
+        questions: [
+          { q: "What is the worst-case time complexity of Binary Search on a sorted array of n elements?", opts: ["O(1)", "O(log n)", "O(n)", "O(n log n)"], ans: 1, exp: "Binary search halves the search space each step, taking O(log n) time." }
+        ]
+      },
+      {
+        id: "pyq-ugc", stream: "Govt / PCS", title: "UGC-NET Official Portal & Papers", org: "NTA / UGC", tag: "Paper 1 & CS", img: IMAGES.ugc, url: "https://ugcnet.nta.nic.in/",
+        questions: [
+          { q: "Which normal form eliminates transitive functional dependencies?", opts: ["1NF", "2NF", "3NF", "BCNF"], ans: 2, exp: "Third Normal Form (3NF) removes transitive dependencies on non-prime attributes." }
+        ]
+      },
+      {
+        id: "pyq-bpsc", stream: "Govt / PCS", title: "BPSC Question Booklets (PYQs)", org: "BPSC", tag: "PCS & TRE Archive", img: IMAGES.bpsc, url: "https://bpsc.bihar.gov.in/question-booklets/",
+        questions: [
+          { q: "Which protocol operates at the Transport Layer of the OSI model?", opts: ["IP", "TCP", "HTTP", "ARP"], ans: 1, exp: "TCP (Transmission Control Protocol) is a Layer 4 Transport protocol." }
+        ]
+      },
+      {
+        id: "pyq-nielit", stream: "Engineering", title: "NIELIT Student & Scientist Portal", org: "NIELIT", tag: "Model Papers", img: IMAGES.cdac, url: "https://student.nielit.gov.in/",
+        questions: [
+          { q: "Which data structure is used for Breadth-First Search (BFS) of a graph?", opts: ["Stack", "Queue", "Priority Queue", "Tree"], ans: 1, exp: "BFS uses a FIFO Queue to visit vertices level by level." }
+        ]
+      }
     ];
+    let activePyqStream = "All";
 
     let state = {
       activeTab: "home",
@@ -1576,7 +1752,9 @@
       projDegree: "All",
       projType: "All",
       projBranch: "All",
-      activeProjectId: null
+      activeProjectId: null,
+      stream: "All",
+      expandedGroups: {}
     };
 
         // #3 Circular Institute Logo Badge Helper (Official Logos + Automatic Monogram Fallback)
@@ -1693,6 +1871,7 @@
 
     function getFilteredAlerts() {
       const res = alerts.filter(item => {
+        if (state.stream !== "All" && item.stream !== state.stream) return false;
         if (state.category === "Saved" && !item.saved) return false;
         if (state.category !== "All" && state.category !== "Saved" && item.category !== state.category) return false;
         if (state.onlyUnread && !item.unread) return false;
@@ -1856,21 +2035,20 @@
       document.getElementById("heroNextBtn").onclick = (e) => { e.stopPropagation(); state.heroIndex++; renderHero(); lucide.createIcons(); };
     }
 
-    function renderFeed() {
-      const list = getFilteredAlerts();
-      const grid = document.getElementById("feedGrid");
-      const empty = document.getElementById("emptyState");
+    function renderStreams() {
+      const streams = ["All", "10th–12th / JEE & NEET", "Engineering", "Govt / PCS", "Private & Tech"];
+      const wrap = document.getElementById("streamChips");
+      if (!wrap) return;
+      wrap.innerHTML = streams.map(st => `
+        <button type="button" data-stream="${st}" class="px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition ${
+          state.stream === st ? "bg-[#1C1C1E] text-white shadow-xs" : "bg-[#F4F5F7] text-gray-600 hover:text-[#1C1C1E]"
+        }">${st === "All" ? "All Streams" : st}</button>
+      `).join("");
+    }
 
-      if (!list.length) {
-        grid.innerHTML = "";
-        empty.classList.remove("hidden");
-        lucide.createIcons();
-        return;
-      }
-
-      empty.classList.add("hidden");
-      grid.innerHTML = list.map((item, idx) => `
-        <article data-open-id="${item.id}" style="animation-delay: ${Math.min(idx * 45, 240)}ms"
+    function renderCardHtml(item, idx) {
+      return `
+        <article data-open-id="${item.id}" style="animation-delay: ${Math.min(idx * 35, 210)}ms"
           class="animate-card card-lift bg-white rounded-[24px] overflow-hidden border border-black/5 shadow-[0_6px_22px_rgba(15,23,42,0.05)] flex flex-col cursor-pointer">
           <div class="relative h-40 bg-gray-100 overflow-hidden shrink-0">
             <img src="${item.image}" alt="${item.org}" class="img-zoom w-full h-full object-cover" />
@@ -1904,8 +2082,52 @@
               </span>
             </div>
           </div>
-        </article>
-      `).join("");
+        </article>`;
+    }
+
+    function renderFeed() {
+      renderStreams();
+      const list = getFilteredAlerts();
+      const grid = document.getElementById("feedGrid");
+      const empty = document.getElementById("emptyState");
+
+      if (!list.length) {
+        grid.innerHTML = "";
+        empty.classList.remove("hidden");
+        lucide.createIcons();
+        return;
+      }
+
+      empty.classList.add("hidden");
+
+      // Group notifications into clean, non-cluttered buckets
+      const groups = [
+        { key: "forms", title: "Forms, Jobs & Internships", items: list.filter(i => ["Jobs", "Exams", "Internships"].includes(i.category)) },
+        { key: "admit", title: "Admit Cards & Results", items: list.filter(i => ["Admit Cards", "Results"].includes(i.category)) },
+        { key: "hacks", title: "Hackathons & Challenges", items: list.filter(i => i.category === "Hackathons") }
+      ].filter(g => g.items.length > 0);
+
+      grid.innerHTML = groups.map(g => {
+        const expanded = !!state.expandedGroups[g.key];
+        const visible = expanded ? g.items : g.items.slice(0, 2);
+        const hiddenCount = g.items.length - visible.length;
+        return `
+          <div class="space-y-3 pb-2">
+            <div class="flex items-center justify-between px-1">
+              <div class="flex items-center gap-2">
+                <h3 class="font-display text-sm font-extrabold text-[#1C1C1E]">${g.title}</h3>
+                <span class="px-2 py-0.5 rounded-full bg-white border border-black/10 text-[10px] font-bold text-gray-600">${g.items.length}</span>
+              </div>
+              ${g.items.length > 2 ? `
+                <button type="button" data-toggle-group="${g.key}" class="text-[11px] font-bold text-[#1C1C1E] underline underline-offset-2">
+                  ${expanded ? "Show less" : `See all (${g.items.length})`}
+                </button>` : ""}
+            </div>
+            <div class="grid grid-cols-1 gap-3.5">
+              ${visible.map((item, idx) => renderCardHtml(item, idx)).join("")}
+            </div>
+          </div>`;
+      }).join("");
     }
 
     function renderDeadlines() {
@@ -1931,23 +2153,38 @@
     }
 
     function renderPyqs() {
+      const pStreams = ["All", "10th–12th", "Engineering", "Govt / PCS"];
+      const fWrap = document.getElementById("pyqFilterChips");
+      if (fWrap) {
+        fWrap.innerHTML = pStreams.map(st => `
+          <button type="button" data-pyq-stream="${st}" class="px-3.5 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition ${
+            activePyqStream === st ? "bg-[#1C1C1E] text-white shadow-xs" : "bg-white text-gray-600 border border-black/5"
+          }">${st === "All" ? "All Exams" : st}</button>
+        `).join("");
+      }
+      const list = PYQS.filter(p => activePyqStream === "All" || p.stream === activePyqStream);
       const wrap = document.getElementById("pyqList");
-      wrap.innerHTML = PYQS.map((p, idx) => `
-        <div style="animation-delay: ${idx * 50}ms"
+      wrap.innerHTML = list.map((p, idx) => `
+        <div style="animation-delay: ${idx * 45}ms"
           class="animate-card card-lift bg-white rounded-[22px] overflow-hidden border border-black/5 shadow-sm flex flex-col">
           <div class="h-32 relative overflow-hidden">
             <img src="${p.img}" alt="${p.org}" class="img-zoom w-full h-full object-cover" />
             <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-[#1C1C1E]">${p.tag}</span>
           </div>
-          <div class="p-4 flex items-center justify-between gap-3">
-            <div class="min-w-0">
-              <div class="text-[11px] font-bold text-gray-500 uppercase">${p.org}</div>
+          <div class="p-4 flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <div class="text-[11px] font-bold text-gray-500 uppercase">${p.org} · ${p.stream}</div>
               <h3 class="font-display text-sm font-bold text-[#1C1C1E] truncate">${p.title}</h3>
             </div>
-            <a href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.title}"
-              class="pyq-open-btn w-9 h-9 rounded-full bg-[#1C1C1E] text-white flex items-center justify-center shrink-0 hover:bg-black active:scale-90 transition">
-              <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" data-practice-pyq="${p.id}" class="px-3 py-2 rounded-full bg-[#F4F5F7] text-[#1C1C1E] text-[11px] font-bold hover:bg-gray-200 transition">
+                Practice
+              </button>
+              <a href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.title}"
+                class="pyq-open-btn w-9 h-9 rounded-full bg-[#1C1C1E] text-white flex items-center justify-center shrink-0 hover:bg-black active:scale-90 transition">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </a>
+            </div>
           </div>
         </div>
       `).join("");
@@ -2471,6 +2708,7 @@
       switchNav("home");
     });
 
+    try { const ss = localStorage.getItem("cs_pulse_stream"); if (ss) state.stream = ss; } catch (_) {}
     loadUserState();
     syncInstallHeader();
     // #8 Swipe-to-Save Gesture on Feed Cards
@@ -2769,6 +3007,85 @@
     });
 
     renderWatchlist();
+    document.getElementById("streamChips").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-stream]");
+      if (!btn) return;
+      state.stream = btn.dataset.stream;
+      try { localStorage.setItem("cs_pulse_stream", state.stream); } catch (_) {}
+      renderAll();
+      showToast(state.stream === "All" ? "Showing all exam streams" : `Filtered to ${state.stream}`);
+    });
+
+    document.getElementById("feedGrid").addEventListener("click", (e) => {
+      const gbtn = e.target.closest("[data-toggle-group]");
+      if (gbtn) {
+        e.stopPropagation();
+        const k = gbtn.dataset.toggleGroup;
+        state.expandedGroups[k] = !state.expandedGroups[k];
+        renderFeed();
+        lucide.createIcons();
+        return;
+      }
+    });
+
+    // Silent 15-minute background refresh (hidden from view)
+    setInterval(() => {
+      try { renderAll(); } catch (_) {}
+    }, 15 * 60 * 1000);
+
+    // Interactive All-Exam PYQ Practice Handlers
+    document.getElementById("view-pyqs").addEventListener("click", (e) => {
+      const stBtn = e.target.closest("[data-pyq-stream]");
+      if (stBtn) {
+        activePyqStream = stBtn.dataset.pyqStream;
+        renderPyqs();
+        lucide.createIcons();
+        return;
+      }
+      const pBtn = e.target.closest("[data-practice-pyq]");
+      if (pBtn) {
+        const item = PYQS.find(x => x.id === pBtn.dataset.practicePyq);
+        if (!item) return;
+        document.getElementById("pyqPracticeExam").textContent = `${item.org} · ${item.stream}`;
+        document.getElementById("pyqPracticeTitle").textContent = item.title;
+        document.getElementById("pyqOfficialPortalLink").href = item.url;
+        document.getElementById("pyqQuestionsWrap").innerHTML = (item.questions || []).map((qObj, qi) => `
+          <div class="bg-[#F4F5F7] rounded-2xl p-3.5 space-y-2">
+            <div class="text-xs font-bold text-[#1C1C1E]">Q${qi + 1}. ${qObj.q}</div>
+            <div class="grid grid-cols-1 gap-1.5">
+              ${qObj.opts.map((opt, oi) => `
+                <button type="button" data-q-idx="${qi}" data-opt-idx="${oi}" data-ans="${qObj.ans}"
+                  class="pyq-opt-btn text-left px-3 py-2 rounded-xl bg-white text-xs font-medium text-[#1C1C1E] border border-black/5 hover:border-[#1C1C1E] transition">
+                  ${String.fromCharCode(65 + oi)}. ${opt}
+                </button>
+              `).join("")}
+            </div>
+            <div class="pyq-exp hidden text-[11px] text-emerald-800 bg-emerald-50 rounded-xl p-2.5 font-medium">${qObj.exp}</div>
+          </div>
+        `).join("");
+        document.getElementById("pyqPracticeModal").classList.remove("hidden");
+        lucide.createIcons();
+      }
+    });
+
+    document.getElementById("pyqQuestionsWrap").addEventListener("click", (e) => {
+      const btn = e.target.closest(".pyq-opt-btn");
+      if (!btn) return;
+      const card = btn.closest(".bg-\[\#F4F5F7\]");
+      const ans = parseInt(btn.dataset.ans, 10);
+      const picked = parseInt(btn.dataset.optIdx, 10);
+      card.querySelectorAll(".pyq-opt-btn").forEach((b, idx) => {
+        b.classList.remove("bg-emerald-100", "bg-red-100", "border-emerald-500", "border-red-500");
+        if (idx === ans) b.classList.add("bg-emerald-100", "border-emerald-500");
+        else if (idx === picked) b.classList.add("bg-red-100", "border-red-500");
+      });
+      card.querySelector(".pyq-exp").classList.remove("hidden");
+    });
+
+    document.getElementById("closePyqPracticeBtn").addEventListener("click", () => {
+      document.getElementById("pyqPracticeModal").classList.add("hidden");
+    });
+
     // Initial Render with brief Skeleton Shimmer
     renderStats();
     renderCategories();
