@@ -480,6 +480,28 @@
         </button>
       </div>
 
+      <!-- Quick Student Tools & Hackathon Chat on Home -->
+      <div class="grid grid-cols-3 gap-2">
+        <button id="homeCgpaBtn" type="button" class="card-lift bg-white rounded-2xl p-3 border border-black/5 shadow-xs text-left space-y-1">
+          <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+            <i data-lucide="calculator" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-[11px] font-bold text-[#1C1C1E] leading-tight">CGPA % Calc</div>
+        </button>
+        <button id="homeResizerBtn" type="button" class="card-lift bg-white rounded-2xl p-3 border border-black/5 shadow-xs text-left space-y-1">
+          <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <i data-lucide="image" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-[11px] font-bold text-[#1C1C1E] leading-tight">Photo Resizer</div>
+        </button>
+        <button id="homeHackChatBtn" type="button" class="card-lift bg-white rounded-2xl p-3 border border-black/5 shadow-xs text-left space-y-1">
+          <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <i data-lucide="messages-square" class="w-4 h-4"></i>
+          </div>
+          <div class="font-display text-[11px] font-bold text-[#1C1C1E] leading-tight">Hackathon Chat</div>
+        </button>
+      </div>
+
       <!-- Notification Feed Grid (With Institute Pictures & Zero Clipping) -->
       <section>
         <div class="flex items-center justify-between mb-3.5">
@@ -2673,6 +2695,22 @@
         msgEl.className = "text-xs font-semibold text-red-600";
       }
     }
+    function openCgpaModal() {
+      updateCgpaCalc();
+      document.getElementById("cgpaModal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+    function openResizerModal() {
+      document.getElementById("resizerModal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+    document.getElementById("homeCgpaBtn").addEventListener("click", openCgpaModal);
+    document.getElementById("homeResizerBtn").addEventListener("click", openResizerModal);
+    document.getElementById("homeHackChatBtn").addEventListener("click", () => {
+      switchNav("projects");
+      document.getElementById("subTabTeamBtn").click();
+    });
+
     document.getElementById("openCgpaToolBtn").addEventListener("click", () => {
       updateCgpaCalc();
       document.getElementById("cgpaModal").classList.remove("hidden");
