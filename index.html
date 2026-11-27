@@ -416,6 +416,15 @@
       </button>
     </div>
 
+    <!-- #8 Custom Keyword Watchlist -->
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar mb-4 pb-0.5">
+      <button id="openWatchlistBtn" type="button" class="px-3 py-1.5 rounded-full bg-white border border-black/10 text-[11px] font-bold text-[#1C1C1E] whitespace-nowrap inline-flex items-center gap-1 shadow-xs shrink-0">
+        <i data-lucide="bell-ring" class="w-3 h-3 text-emerald-600"></i>
+        <span>Watchlist</span>
+      </button>
+      <div id="watchlistChips" class="flex items-center gap-1.5"></div>
+    </div>
+
     <!-- VIEW: HOME -->
     <main id="view-home" class="space-y-6">
 
@@ -520,14 +529,45 @@
       <div id="pyqList" class="grid grid-cols-1 gap-3.5">
         <!-- Rendered by JS -->
       </div>
+
+      <!-- #1 & #2 Student Exam Tools -->
+      <div class="pt-2 space-y-3">
+        <h3 class="font-display text-base font-bold text-[#1C1C1E]">Student Exam Tools</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <button id="openCgpaToolBtn" type="button" class="card-lift bg-white rounded-2xl p-4 border border-black/5 shadow-sm text-left space-y-1.5">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <i data-lucide="calculator" class="w-4 h-4"></i>
+            </div>
+            <div class="font-display text-xs font-bold text-[#1C1C1E]">CGPA Converter</div>
+            <div class="text-[11px] text-gray-500">Check 60%/65% cutoffs</div>
+          </button>
+          <button id="openResizerToolBtn" type="button" class="card-lift bg-white rounded-2xl p-4 border border-black/5 shadow-sm text-left space-y-1.5">
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <i data-lucide="image" class="w-4 h-4"></i>
+            </div>
+            <div class="font-display text-xs font-bold text-[#1C1C1E]">Photo &amp; Sign Resizer</div>
+            <div class="text-[11px] text-gray-500">GATE, ISRO, BPSC specs</div>
+          </button>
+        </div>
+      </div>
     </main>
 
     <!-- VIEW: FINAL-YEAR PROJECTS HUB -->
     <main id="view-projects" class="hidden space-y-4">
-      <div>
-        <h2 class="font-display text-lg font-bold text-[#1C1C1E]">Final-Year Projects Hub</h2>
-        <p class="text-xs text-gray-500">B.Tech, M.Tech &amp; Diploma · Major &amp; Minor with Synopsis, PPT &amp; Starter Links</p>
+      <div class="flex items-center justify-between gap-2">
+        <div>
+          <h2 class="font-display text-lg font-bold text-[#1C1C1E]">Projects &amp; Team Finder</h2>
+          <p class="text-xs text-gray-500">B.Tech, M.Tech &amp; Diploma · Synopsis, PPT &amp; Teammates</p>
+        </div>
       </div>
+
+      <!-- Segmented switch: Projects vs Hackathon Team Finder (#4) -->
+      <div class="flex items-center gap-1.5 bg-white p-1 rounded-full border border-black/5 shadow-xs">
+        <button id="subTabProjBtn" type="button" class="flex-1 py-2 rounded-full text-xs font-bold bg-[#1C1C1E] text-white transition">Projects Hub</button>
+        <button id="subTabTeamBtn" type="button" class="flex-1 py-2 rounded-full text-xs font-semibold text-gray-600 transition">Team Finder</button>
+      </div>
+
+      <div id="projSubPanel" class="space-y-4">
 
       <!-- Degree & Type Filter Row -->
       <div class="space-y-2">
@@ -537,6 +577,16 @@
       </div>
 
       <div id="projectsList" class="grid grid-cols-1 gap-4"></div>
+      </div>
+
+      <!-- #4 Hackathon Team-Finder Panel -->
+      <div id="teamSubPanel" class="hidden space-y-3.5">
+        <div class="flex items-center justify-between gap-2">
+          <div id="teamRoleChips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar"></div>
+          <button id="openPostTeamBtn" type="button" class="px-3 py-1.5 rounded-full bg-[#1C1C1E] text-white text-[11px] font-bold whitespace-nowrap shrink-0">+ Post Need</button>
+        </div>
+        <div id="teamList" class="space-y-3"></div>
+      </div>
     </main>
 
   </div>
@@ -616,8 +666,26 @@
           <!-- Accordion Schedule Steps (Reference Screen 3 Style) -->
         </div>
 
-        <div id="dtab-links" class="hidden space-y-2.5">
-          <div class="bg-[#F4F5F7] rounded-2xl p-4 flex items-center justify-between gap-3">
+        <div id="dtab-links" class="hidden space-y-3">
+          <!-- #7 Past Cutoffs & Interview Takeaways -->
+          <div class="bg-[#F4F5F7] rounded-2xl p-3.5 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-[#1C1C1E]">Past Cutoffs &amp; Takeaways</span>
+              <span id="detailCutoffBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800"></span>
+            </div>
+            <p id="detailTakeaway" class="text-xs text-gray-600 leading-relaxed"></p>
+          </div>
+
+          <!-- #3 Tickable Syllabus Checklist -->
+          <div class="bg-[#F4F5F7] rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-[#1C1C1E]">Syllabus Prep Checklist</span>
+              <span id="syllabusPct" class="text-[11px] font-bold text-emerald-700">0% done</span>
+            </div>
+            <div id="syllabusChecklist" class="space-y-1.5"></div>
+          </div>
+
+          <div class="bg-[#F4F5F7] rounded-2xl p-3.5 flex items-center justify-between gap-3">
             <div>
               <div class="text-xs font-bold text-[#1C1C1E]">Previous Year Question Papers</div>
               <div class="text-[11px] text-gray-500 mt-0.5">Solved sets &amp; official answer keys</div>
@@ -625,13 +693,6 @@
             <button type="button" id="jumpPyqBtn" class="px-3.5 py-2 rounded-full bg-white text-[#1C1C1E] text-xs font-semibold shadow-sm border border-black/5">
               View PYQs
             </button>
-          </div>
-          <div class="bg-[#F4F5F7] rounded-2xl p-4 flex items-center justify-between gap-3">
-            <div>
-              <div class="text-xs font-bold text-[#1C1C1E]">Official Syllabus &amp; Pattern</div>
-              <div class="text-[11px] text-gray-500 mt-0.5">CS Core, Algorithms, OS, DBMS &amp; CN</div>
-            </div>
-            <span class="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">Verified</span>
           </div>
         </div>
       </div>
@@ -677,6 +738,7 @@
 
         <div id="ptab-overview" class="space-y-3 text-sm text-gray-600 leading-relaxed">
           <p id="projDesc"></p>
+          <div id="projBudgetBox" class="bg-[#F4F5F7] rounded-2xl p-3 flex items-center justify-between text-xs"><span class="font-semibold text-gray-500">Estimated Build Cost</span><span id="projBudgetVal" class="font-bold text-[#1C1C1E]"></span></div>
           <div id="projStack" class="flex flex-wrap gap-1.5 pt-1"></div>
         </div>
 
@@ -690,6 +752,18 @@
             </div>
             <p id="projSynopsis" class="text-xs text-gray-600 leading-relaxed"></p>
           </div>
+
+          <!-- #9 Resume Bullet-Point Snippets -->
+          <div class="bg-[#F4F5F7] rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-[#1C1C1E]">Resume Bullet Snippets</span>
+              <button id="copyResumeBtn" type="button" class="px-2.5 py-1 rounded-full bg-white text-[#1C1C1E] text-[11px] font-bold shadow-sm border border-black/5">
+                Copy Bullets
+              </button>
+            </div>
+            <ul id="projResumeList" class="text-xs text-gray-600 space-y-1 list-disc pl-4"></ul>
+          </div>
+
           <div class="bg-[#F4F5F7] rounded-2xl p-3.5 space-y-2">
             <div class="text-xs font-bold text-[#1C1C1E]">8-Slide PPT Structure</div>
             <ul id="projPptList" class="text-xs text-gray-600 space-y-1 list-disc pl-4"></ul>
@@ -885,6 +959,119 @@
     </div>
   </div>
 
+  <!-- #1 CGPA to Percentage Converter Modal -->
+  <div id="cgpaModal" class="hidden modal-backdrop-in fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="animate-sheet bg-white w-full max-w-[420px] sm:rounded-[28px] rounded-t-[28px] p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-lg font-bold text-[#1C1C1E]">CGPA to Percentage</h3>
+        <button id="closeCgpaBtn" type="button" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-[#1C1C1E]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Your CGPA</label>
+          <input id="cgpaInput" type="number" step="0.01" min="0" max="10" value="7.8"
+            class="w-full h-11 px-4 rounded-xl bg-[#F4F5F7] text-sm font-bold text-[#1C1C1E] focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">University Scale</label>
+          <select id="cgpaScale" class="w-full h-11 px-3 rounded-xl bg-[#F4F5F7] text-xs font-semibold text-[#1C1C1E]">
+            <option value="9.5">CBSE / 10-pt (×9.5)</option>
+            <option value="10_minus">AKTU / VTU ((CGPA-0.75)×10)</option>
+            <option value="10">Direct (×10)</option>
+          </select>
+        </div>
+      </div>
+      <div class="bg-[#F4F5F7] rounded-2xl p-4 text-center space-y-1">
+        <div class="text-[11px] font-semibold text-gray-500">Equivalent Percentage</div>
+        <div id="cgpaResultPct" class="font-display text-3xl font-extrabold text-[#1C1C1E]">74.1%</div>
+        <div id="cgpaCutoffMsg" class="text-xs font-semibold text-emerald-700">Eligible for 60% &amp; 65% PSU cutoffs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #2 Offline Photo & Signature Resizer Modal (with Exam Requirements) -->
+  <div id="resizerModal" class="hidden modal-backdrop-in fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="animate-sheet bg-white w-full max-w-[430px] sm:rounded-[28px] rounded-t-[28px] p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-lg font-bold text-[#1C1C1E]">Exam Photo &amp; Sign Resizer</h3>
+        <button id="closeResizerBtn" type="button" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-[#1C1C1E]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">Select Exam Requirement</label>
+        <select id="resizerExamSelect" class="w-full h-11 px-3 rounded-xl bg-[#F4F5F7] text-xs font-semibold text-[#1C1C1E]">
+          <option value="gate_photo">GATE 2026 Photo (5–300 KB · 200×260px min)</option>
+          <option value="gate_sign">GATE 2026 Signature (3–300 KB · 250×80px min)</option>
+          <option value="isro_photo">ISRO ICRB Photo (20–50 KB · 200×230px)</option>
+          <option value="bpsc_photo">BPSC Photo (25 KB max · 250×250px)</option>
+          <option value="ugc_sign">UGC-NET Signature (4–30 KB · 3.5×1.5 cm)</option>
+        </select>
+      </div>
+      <div id="resizerSpecBox" class="bg-blue-50 text-blue-900 rounded-2xl p-3 text-xs leading-snug">
+        <strong>Requirement:</strong> JPEG/JPG · Target 5–300 KB · Portrait aspect ratio.
+      </div>
+      <label class="block w-full p-4 rounded-2xl border-2 border-dashed border-gray-300 text-center cursor-pointer hover:border-[#1C1C1E] transition">
+        <span class="text-xs font-bold text-[#1C1C1E] block">Tap to choose Photo / Signature</span>
+        <span class="text-[11px] text-gray-500">Processed 100% offline on your phone</span>
+        <input id="resizerFileInput" type="file" accept="image/*" class="hidden" />
+      </label>
+      <div id="resizerPreviewBox" class="hidden bg-[#F4F5F7] rounded-2xl p-3.5 space-y-2.5 text-center">
+        <img id="resizerOutImg" src="" alt="Resized preview" class="max-h-36 mx-auto rounded-xl border border-black/10" />
+        <div id="resizerOutInfo" class="text-xs font-bold text-emerald-700"></div>
+        <a id="resizerDownloadLink" download="cs-pulse-resized.jpg" href="#"
+          class="w-full h-11 rounded-full bg-[#1C1C1E] text-white text-xs font-bold flex items-center justify-center gap-2">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Download Ready Image</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- #8 Watchlist Modal -->
+  <div id="watchlistModal" class="hidden modal-backdrop-in fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="animate-sheet bg-white w-full max-w-[420px] sm:rounded-[28px] rounded-t-[28px] p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-lg font-bold text-[#1C1C1E]">Keyword Watchlist</h3>
+        <button id="closeWatchlistBtn" type="button" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-[#1C1C1E]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <p class="text-xs text-gray-500">Alerts matching your pinned keywords float to the top of your feed.</p>
+      <form id="addWatchForm" class="flex gap-2">
+        <input id="watchKwInput" required type="text" placeholder="e.g., ISRO, Python, GATE"
+          class="flex-1 h-11 px-4 rounded-xl bg-[#F4F5F7] text-sm text-[#1C1C1E] focus:outline-none" />
+        <button type="submit" class="px-4 h-11 rounded-xl bg-[#1C1C1E] text-white text-xs font-bold">Pin</button>
+      </form>
+      <div id="watchModalTags" class="flex flex-wrap gap-2"></div>
+    </div>
+  </div>
+
+  <!-- #4 Post Hackathon Team Need Modal -->
+  <div id="postTeamModal" class="hidden modal-backdrop-in fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <form id="postTeamForm" class="animate-sheet bg-white w-full max-w-[420px] sm:rounded-[28px] rounded-t-[28px] p-6 space-y-3.5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-lg font-bold text-[#1C1C1E]">Post Hackathon Team Need</h3>
+        <button id="closePostTeamBtn" type="button" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-[#1C1C1E]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <input id="teamEventInput" required type="text" placeholder="Hackathon (e.g., Smart India Hackathon)"
+        class="w-full h-11 px-4 rounded-xl bg-[#F4F5F7] text-sm text-[#1C1C1E]" />
+      <select id="teamRoleInput" class="w-full h-11 px-3 rounded-xl bg-[#F4F5F7] text-sm text-[#1C1C1E]">
+        <option value="Frontend">Need: Frontend Dev</option>
+        <option value="AI/ML">Need: AI / ML Engineer</option>
+        <option value="IoT">Need: IoT / Hardware</option>
+        <option value="UI/UX">Need: UI / UX Designer</option>
+      </select>
+      <input id="teamNoteInput" required type="text" placeholder="Short note (e.g., Building AI flood alert app)"
+        class="w-full h-11 px-4 rounded-xl bg-[#F4F5F7] text-sm text-[#1C1C1E]" />
+      <button type="submit" class="w-full h-11 rounded-full bg-[#1C1C1E] text-white text-xs font-bold">Post to Board</button>
+    </form>
+  </div>
+
   <!-- Toast Notification (#10 Shrinking Progress Bar) -->
   <div id="toast" class="pointer-events-none opacity-0 -translate-y-2 fixed top-5 left-1/2 -translate-x-1/2 z-[60] bg-[#1C1C1E] text-white px-4 pt-2.5 pb-3 rounded-2xl text-xs font-semibold shadow-xl transition-all duration-300 overflow-hidden min-w-[180px] text-center">
     <span id="toastText">Saved to bookmarks</span>
@@ -922,6 +1109,8 @@
     let alerts = [
       {
         id: "isro-icrb",
+        cutoff: "Past Cutoff: 62/80 (UR)",
+        takeaway: "ISRO interviews focus heavily on OS scheduling, C pointers, Computer Networks, and your final-year project.",
         url: "https://www.isro.gov.in/CurrentOpportunities.html",
         title: "ISRO ICRB Scientist/Engineer 'SC' (CS)",
         org: "ISRO ICRB",
@@ -944,6 +1133,8 @@
       },
       {
         id: "cdac-pe",
+        cutoff: "Past Cutoff: 68% CBT",
+        takeaway: "Expect practical Linux, Cloud/Docker, and OOPS questions alongside aptitude.",
         url: "https://www.cdac.in/index.aspx?id=current_jobs",
         title: "C-DAC Project Engineer CBT Admit Card",
         org: "C-DAC",
@@ -965,6 +1156,8 @@
       },
       {
         id: "gate-2026",
+        cutoff: "Qualifying: ~27.6 (Gen)",
+        takeaway: "Solve last 10 years of CS PYQs; Discrete Math, Algorithms, and DBMS carry high weightage.",
         url: "https://gate2026.iitg.ac.in/",
         title: "GATE CS & IT Mock Portal & PYQs (2021–2026)",
         org: "IIT / GATE",
@@ -986,6 +1179,8 @@
       },
       {
         id: "sih-hack",
+        cutoff: "Top 4 Teams / PS",
+        takeaway: "Keep your 6-slide PPT focused on architecture, novelty, and live prototype screenshots.",
         url: "https://www.sih.gov.in/sih2025PS",
         title: "Smart India Hackathon & Winter Tech Internships",
         org: "MoE / AICTE",
@@ -1007,6 +1202,8 @@
       },
       {
         id: "bpsc-tre",
+        cutoff: "Past Cutoff: 81/120 (CS)",
+        takeaway: "NCERT Class 11–12 CS, SQL queries, Python basics, and Networking form the core paper.",
         url: "https://bpsc.bihar.gov.in/",
         title: "BPSC TRE 4.0 Computer Science Teacher",
         org: "BPSC",
@@ -1028,6 +1225,8 @@
       },
       {
         id: "ugc-net",
+        cutoff: "JRF: ~186/300 (CS)",
+        takeaway: "Focus on Paper 1 Teaching/Research Aptitude plus TOC, Compiler, and Discrete Math in Paper 2.",
         url: "https://ugcnet.nta.nic.in/",
         title: "UGC-NET Computer Science Admit Card",
         org: "NTA / UGC",
@@ -1049,6 +1248,8 @@
       },
       {
         id: "nielit-res",
+        cutoff: "Written: 71.5/120",
+        takeaway: "Document verification checks original degree/provisional certificate and category forms.",
         url: "https://www.nielit.in/recruitments",
         title: "NIELIT Scientist 'B' & Tech Assistant Results",
         org: "NIELIT",
@@ -1069,6 +1270,8 @@
       },
       {
         id: "drdo-intern",
+        cutoff: "CGPA 7.5+ Preferred",
+        takeaway: "Attach a crisp 1-page resume and college NOC; highlight C++/Python or embedded projects.",
         url: "https://www.drdo.gov.in/",
         title: "DRDO Paid Winter Research Internship",
         org: "DRDO",
@@ -1092,6 +1295,8 @@
     const PROJECTS = [
       {
         id: "proj-ai-resume",
+        budget: "₹0 (Free Cloud Tier)",
+        resumeBullets: ["Built an NLP-based ATS resume analyzer using FastAPI and BERT embeddings, cutting manual shortlisting time by 70%.", "Implemented cosine-similarity skill-gap scoring and automated study roadmaps in React."],
         title: "AI Resume & ATS Skill-Gap Analyzer",
         degree: "B.Tech",
         type: "Major Project",
@@ -1113,6 +1318,8 @@
       },
       {
         id: "proj-mtech-ids",
+        budget: "₹0 (Colab / Kaggle GPU)",
+        resumeBullets: ["Engineered a hybrid CNN-LSTM intrusion detection model on CIC-IDS2017 achieving 98.4% multi-class accuracy.", "Integrated SHAP feature-importance explanations to surface top packet anomalies for SOC analysts."],
         title: "Deep Learning Network Intrusion Detection (IDS)",
         degree: "M.Tech",
         type: "Major Project",
@@ -1134,6 +1341,8 @@
       },
       {
         id: "proj-iot-smartgrid",
+        budget: "~₹1,150 (ESP32 + Sensors)",
+        resumeBullets: ["Designed an ESP32 and PZEM-004T IoT energy monitor streaming real-time voltage/current telemetry over MQTT.", "Automated overload fault alerts on a mobile web dashboard with <2s latency."],
         title: "ESP32 Smart Energy & Fault Alert Monitor",
         degree: "Diploma",
         type: "Major Project",
@@ -1155,6 +1364,8 @@
       },
       {
         id: "proj-btech-minor-lms",
+        budget: "₹0 (Supabase + GitHub Pages)",
+        resumeBullets: ["Developed an offline-capable PWA notes and PYQ sharing portal using Tailwind CSS and Supabase.", "Added instant semester/branch filtering and local bookmarking for 500+ students."],
         title: "Campus Peer Notes & PYQ Sharing Portal",
         degree: "B.Tech",
         type: "Minor Project",
@@ -1176,6 +1387,8 @@
       },
       {
         id: "proj-diploma-minor-atten",
+        budget: "₹0 (Firebase Free Tier)",
+        resumeBullets: ["Created a 15-second rotating QR attendance system preventing proxy check-ins in classrooms.", "Automated one-click monthly attendance CSV exports for faculty."],
         title: "QR-Code Smart Attendance & CSV Exporter",
         degree: "Diploma",
         type: "Minor Project",
@@ -1196,6 +1409,8 @@
       },
       {
         id: "proj-core-solar",
+        budget: "~₹1,800 (Servos + Frame)",
+        resumeBullets: ["Fabricated a dual-axis LDR solar tracker improving photovoltaic energy capture by 28% over fixed mounts.", "Logged real-time panel tilt and voltage telemetry to a web chart."],
         title: "Dual-Axis Solar Tracker with Tilt Telemetry",
         degree: "B.Tech",
         type: "Major Project",
@@ -1260,7 +1475,7 @@
               ${p.stack.map(t => `<span class="px-2 py-0.5 rounded-full bg-[#F4F5F7] text-[10px] font-semibold text-gray-700">${t}</span>`).join("")}
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-black/5">
-              <span class="text-xs font-semibold text-emerald-700">Synopsis + PPT + Starter</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">${p.budget || "₹0 Free"}</span><span class="text-[11px] font-semibold text-gray-500">Synopsis · PPT · Resume</span>
               <span class="w-9 h-9 rounded-full bg-[#1C1C1E] text-white flex items-center justify-center shrink-0">
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </span>
@@ -1282,6 +1497,8 @@
       document.getElementById("projDesc").textContent = p.desc;
       document.getElementById("projStack").innerHTML = p.stack.map(t => `<span class="px-2.5 py-1 rounded-full bg-[#F4F5F7] text-[11px] font-semibold text-[#1C1C1E]">${t}</span>`).join("");
       document.getElementById("projSynopsis").textContent = p.synopsis;
+      document.getElementById("projBudgetVal").textContent = p.budget || "₹0 (Free Tier)";
+      document.getElementById("projResumeList").innerHTML = (p.resumeBullets || []).map(b => `<li>${b}</li>`).join("");
       document.getElementById("projPptList").innerHTML = p.ppt.map(s => `<li>${s}</li>`).join("");
       document.getElementById("ptab-starter").innerHTML = p.links.map(l => `
         <a href="${l.url}" target="_blank" rel="noopener noreferrer"
@@ -1408,6 +1625,27 @@
       `).join("");
     }
 
+    // #3 Default Syllabus Checklist Items
+    const SYLLABUS_TOPICS = ["Data Structures & Algorithms", "Operating Systems", "DBMS & SQL", "Computer Networks", "Aptitude & Engineering Math"];
+    let syllabusDone = {};
+    try { syllabusDone = JSON.parse(localStorage.getItem("cs_pulse_syllabus") || "{}"); } catch (e) {}
+
+    // #8 Watchlist Keywords
+    let watchlist = ["ISRO", "GATE"];
+    try {
+      const savedWl = JSON.parse(localStorage.getItem("cs_pulse_watchlist") || "null");
+      if (Array.isArray(savedWl)) watchlist = savedWl;
+    } catch (e) {}
+
+    // #4 Team Finder Board Data
+    let teamPosts = [
+      { id: "t1", event: "Smart India Hackathon 2026", role: "AI/ML", author: "B.Tech CSE · 4th Yr", note: "Need Python/NLP teammate for healthcare triage problem statement." },
+      { id: "t2", event: "Winter IoT Buildathon", role: "IoT", author: "ECE · Final Yr", note: "Looking for ESP32 + MQTT firmware partner for smart grid demo." },
+      { id: "t3", event: "SIH Software Track", role: "Frontend", author: "MCA · 2nd Yr", note: "Need React/Tailwind developer; backend FastAPI is ready." },
+      { id: "t4", event: "Campus FinTech Hack", role: "UI/UX", author: "B.Tech IT · 3rd Yr", note: "Need Figma/UI designer for mobile dashboard screens." }
+    ];
+    let activeTeamRole = "All";
+
     function showToast(msg) {
       const t = document.getElementById("toast");
       const txt = document.getElementById("toastText");
@@ -1425,8 +1663,14 @@
       }, 2100);
     }
 
+    function matchesWatchlist(item) {
+      if (!watchlist.length) return false;
+      const hay = `${item.title} ${item.org} ${item.category}`.toLowerCase();
+      return watchlist.some(kw => hay.includes(kw.toLowerCase()));
+    }
+
     function getFilteredAlerts() {
-      return alerts.filter(item => {
+      const res = alerts.filter(item => {
         if (state.category === "Saved" && !item.saved) return false;
         if (state.category !== "All" && state.category !== "Saved" && item.category !== state.category) return false;
         if (state.onlyUnread && !item.unread) return false;
@@ -1439,6 +1683,7 @@
         }
         return true;
       });
+      return res.sort((a, b) => (matchesWatchlist(b) ? 1 : 0) - (matchesWatchlist(a) ? 1 : 0));
     }
 
     function saveUserState() {
@@ -1615,7 +1860,7 @@
               class="save-btn absolute top-2.5 right-2.5 w-11 h-11 rounded-full bg-white/95 text-[#1C1C1E] flex items-center justify-center shadow-sm hover:scale-105 transition">
               <i data-lucide="heart" class="w-4 h-4 ${item.saved ? "fill-red-500 text-red-500" : ""}"></i>
             </button>
-            ${item.unread ? `<span class="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white">New</span>` : ""}
+            ${item.unread ? `<span class="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white">New</span>` : ""}${matchesWatchlist(item) ? `<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-[#1C1C1E]">Watchlist</span>` : ""}
           </div>
 
           <div class="p-4 flex-1 flex flex-col justify-between gap-3">
@@ -1705,6 +1950,9 @@
       document.getElementById("detailDesc").textContent = item.desc;
       document.getElementById("detailEligibility").textContent = item.eligibility;
       document.getElementById("detailMode").textContent = item.mode;
+      document.getElementById("detailCutoffBadge").textContent = item.cutoff || "Check Notice";
+      document.getElementById("detailTakeaway").textContent = item.takeaway || "Review official syllabus and previous year papers carefully.";
+      renderSyllabusChecklist(item.id);
 
       const saveIcon = document.querySelector("#detailSaveBtn i");
       if (saveIcon) {
@@ -2260,6 +2508,229 @@
       }
     });
 
+    // #3 Syllabus Checklist Renderer
+    function renderSyllabusChecklist(alertId) {
+      const wrap = document.getElementById("syllabusChecklist");
+      const doneSet = syllabusDone[alertId] || {};
+      let count = 0;
+      wrap.innerHTML = SYLLABUS_TOPICS.map((topic, idx) => {
+        const checked = !!doneSet[idx];
+        if (checked) count++;
+        return `<label class="flex items-center gap-2.5 p-2 rounded-xl bg-white cursor-pointer text-xs">
+          <input type="checkbox" data-syl-id="${alertId}" data-syl-idx="${idx}" ${checked ? "checked" : ""} class="w-4 h-4 accent-[#1C1C1E]" />
+          <span class="${checked ? "line-through text-gray-400" : "text-[#1C1C1E] font-medium"}">${topic}</span>
+        </label>`;
+      }).join("");
+      const pct = Math.round((count / SYLLABUS_TOPICS.length) * 100);
+      document.getElementById("syllabusPct").textContent = `${pct}% done`;
+    }
+
+    document.getElementById("syllabusChecklist").addEventListener("change", (e) => {
+      const chk = e.target.closest("[data-syl-id]");
+      if (!chk) return;
+      const aid = chk.dataset.sylId;
+      const idx = chk.dataset.sylIdx;
+      syllabusDone[aid] = syllabusDone[aid] || {};
+      syllabusDone[aid][idx] = chk.checked;
+      try { localStorage.setItem("cs_pulse_syllabus", JSON.stringify(syllabusDone)); } catch (_) {}
+      renderSyllabusChecklist(aid);
+    });
+
+    // #8 Watchlist UI & Modal
+    function renderWatchlist() {
+      const bar = document.getElementById("watchlistChips");
+      bar.innerHTML = watchlist.map(kw => `
+        <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 text-[11px] font-bold whitespace-nowrap inline-flex items-center gap-1">
+          <span>${kw}</span>
+          <button type="button" data-rm-kw="${kw}" class="hover:text-red-600">&times;</button>
+        </span>
+      `).join("");
+      const modalWrap = document.getElementById("watchModalTags");
+      if (modalWrap) {
+        modalWrap.innerHTML = watchlist.map(kw => `
+          <span class="px-3 py-1.5 rounded-full bg-[#F4F5F7] text-[#1C1C1E] text-xs font-bold inline-flex items-center gap-1.5">
+            <span>${kw}</span>
+            <button type="button" data-rm-kw="${kw}" class="text-gray-500 hover:text-red-600">&times;</button>
+          </span>
+        `).join("");
+      }
+    }
+    document.getElementById("openWatchlistBtn").addEventListener("click", () => {
+      renderWatchlist();
+      document.getElementById("watchlistModal").classList.remove("hidden");
+    });
+    document.getElementById("closeWatchlistBtn").addEventListener("click", () => {
+      document.getElementById("watchlistModal").classList.add("hidden");
+    });
+    document.getElementById("addWatchForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const kw = document.getElementById("watchKwInput").value.trim();
+      if (kw && !watchlist.includes(kw)) {
+        watchlist.push(kw);
+        try { localStorage.setItem("cs_pulse_watchlist", JSON.stringify(watchlist)); } catch (_) {}
+        renderWatchlist();
+        renderFeed();
+        lucide.createIcons();
+        showToast(`Pinned "${kw}" to watchlist`);
+      }
+      e.target.reset();
+    });
+    document.addEventListener("click", (e) => {
+      const rm = e.target.closest("[data-rm-kw]");
+      if (!rm) return;
+      watchlist = watchlist.filter(k => k !== rm.dataset.rmKw);
+      try { localStorage.setItem("cs_pulse_watchlist", JSON.stringify(watchlist)); } catch (_) {}
+      renderWatchlist();
+      renderFeed();
+      lucide.createIcons();
+    });
+
+    // #9 Copy Resume Bullets
+    document.getElementById("copyResumeBtn").addEventListener("click", () => {
+      const p = PROJECTS.find(x => x.id === state.activeProjectId);
+      const txt = p && p.resumeBullets ? p.resumeBullets.map(b => "• " + b).join("\n") : "";
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(() => {});
+      showToast("Resume bullets copied!");
+    });
+
+    // #4 Hackathon Team-Finder Board
+    function renderTeamFinder() {
+      const roles = ["All", "Frontend", "AI/ML", "IoT", "UI/UX"];
+      document.getElementById("teamRoleChips").innerHTML = roles.map(r => `
+        <button type="button" data-trole="${r}" class="px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap ${
+          activeTeamRole === r ? "bg-[#1C1C1E] text-white" : "bg-white text-gray-600 border border-black/5"
+        }">${r === "All" ? "All Roles" : r}</button>
+      `).join("");
+      const list = teamPosts.filter(t => activeTeamRole === "All" || t.role === activeTeamRole);
+      document.getElementById("teamList").innerHTML = list.map(t => `
+        <div class="bg-white rounded-2xl p-4 border border-black/5 shadow-sm space-y-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">Need: ${t.role}</span>
+            <span class="text-[11px] text-gray-500">${t.author}</span>
+          </div>
+          <h4 class="font-display text-sm font-bold text-[#1C1C1E]">${t.event}</h4>
+          <p class="text-xs text-gray-600">${t.note}</p>
+        </div>
+      `).join("");
+    }
+    document.getElementById("subTabProjBtn").addEventListener("click", () => {
+      document.getElementById("projSubPanel").classList.remove("hidden");
+      document.getElementById("teamSubPanel").classList.add("hidden");
+      document.getElementById("subTabProjBtn").className = "flex-1 py-2 rounded-full text-xs font-bold bg-[#1C1C1E] text-white transition";
+      document.getElementById("subTabTeamBtn").className = "flex-1 py-2 rounded-full text-xs font-semibold text-gray-600 transition";
+    });
+    document.getElementById("subTabTeamBtn").addEventListener("click", () => {
+      document.getElementById("projSubPanel").classList.add("hidden");
+      document.getElementById("teamSubPanel").classList.remove("hidden");
+      document.getElementById("subTabTeamBtn").className = "flex-1 py-2 rounded-full text-xs font-bold bg-[#1C1C1E] text-white transition";
+      document.getElementById("subTabProjBtn").className = "flex-1 py-2 rounded-full text-xs font-semibold text-gray-600 transition";
+      renderTeamFinder();
+    });
+    document.getElementById("teamRoleChips").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-trole]");
+      if (b) { activeTeamRole = b.dataset.trole; renderTeamFinder(); }
+    });
+    document.getElementById("openPostTeamBtn").addEventListener("click", () => {
+      document.getElementById("postTeamModal").classList.remove("hidden");
+    });
+    document.getElementById("closePostTeamBtn").addEventListener("click", () => {
+      document.getElementById("postTeamModal").classList.add("hidden");
+    });
+    document.getElementById("postTeamForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      teamPosts.unshift({
+        id: "t-" + Date.now(),
+        event: document.getElementById("teamEventInput").value.trim(),
+        role: document.getElementById("teamRoleInput").value,
+        author: "You · Just now",
+        note: document.getElementById("teamNoteInput").value.trim()
+      });
+      e.target.reset();
+      document.getElementById("postTeamModal").classList.add("hidden");
+      renderTeamFinder();
+      showToast("Team request posted!");
+    });
+
+    // #1 CGPA Converter Logic
+    function updateCgpaCalc() {
+      const val = parseFloat(document.getElementById("cgpaInput").value) || 0;
+      const scale = document.getElementById("cgpaScale").value;
+      let pct = 0;
+      if (scale === "9.5") pct = val * 9.5;
+      else if (scale === "10_minus") pct = Math.max(0, (val - 0.75) * 10);
+      else pct = val * 10;
+      pct = Math.min(100, Math.max(0, pct));
+      document.getElementById("cgpaResultPct").textContent = pct.toFixed(1) + "%";
+      const msgEl = document.getElementById("cgpaCutoffMsg");
+      if (pct >= 65) {
+        msgEl.textContent = "Eligible for 60% & 65%+ PSU / ISRO / GATE cutoffs";
+        msgEl.className = "text-xs font-semibold text-emerald-700";
+      } else if (pct >= 60) {
+        msgEl.textContent = "Meets 60% eligibility (below 65% ISRO cutoff)";
+        msgEl.className = "text-xs font-semibold text-amber-700";
+      } else {
+        msgEl.textContent = "Below standard 60% PSU eligibility";
+        msgEl.className = "text-xs font-semibold text-red-600";
+      }
+    }
+    document.getElementById("openCgpaToolBtn").addEventListener("click", () => {
+      updateCgpaCalc();
+      document.getElementById("cgpaModal").classList.remove("hidden");
+      lucide.createIcons();
+    });
+    document.getElementById("closeCgpaBtn").addEventListener("click", () => {
+      document.getElementById("cgpaModal").classList.add("hidden");
+    });
+    document.getElementById("cgpaInput").addEventListener("input", updateCgpaCalc);
+    document.getElementById("cgpaScale").addEventListener("change", updateCgpaCalc);
+
+    // #2 Offline Photo & Signature Resizer Logic (with Official Exam Specs)
+    const EXAM_SPECS = {
+      gate_photo: { w: 240, h: 310, maxKb: 250, minKb: 5, text: "GATE 2026 Photo: JPEG/JPG, 5–300 KB, min 200×260 px (portrait)." },
+      gate_sign:  { w: 320, h: 110, maxKb: 250, minKb: 3, text: "GATE 2026 Signature: Black/dark blue ink, 3–300 KB, min 250×80 px." },
+      isro_photo: { w: 200, h: 230, maxKb: 48,  minKb: 20, text: "ISRO ICRB Photo: JPEG, strictly 20–50 KB, 200×230 px." },
+      bpsc_photo: { w: 250, h: 250, maxKb: 24,  minKb: 5, text: "BPSC Photo: JPEG, max 25 KB, 250×250 px square." },
+      ugc_sign:   { w: 280, h: 120, maxKb: 28,  minKb: 4, text: "UGC-NET Signature: JPEG, 4–30 KB, 3.5×1.5 cm wide." }
+    };
+    document.getElementById("openResizerToolBtn").addEventListener("click", () => {
+      document.getElementById("resizerModal").classList.remove("hidden");
+      lucide.createIcons();
+    });
+    document.getElementById("closeResizerBtn").addEventListener("click", () => {
+      document.getElementById("resizerModal").classList.add("hidden");
+    });
+    document.getElementById("resizerExamSelect").addEventListener("change", (e) => {
+      const spec = EXAM_SPECS[e.target.value];
+      document.getElementById("resizerSpecBox").innerHTML = `<strong>Requirement:</strong> ${spec.text}`;
+    });
+    document.getElementById("resizerFileInput").addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const spec = EXAM_SPECS[document.getElementById("resizerExamSelect").value];
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = spec.w;
+        canvas.height = spec.h;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, spec.w, spec.h);
+        ctx.drawImage(img, 0, 0, spec.w, spec.h);
+        let q = 0.88, dataUrl = canvas.toDataURL("image/jpeg", q);
+        while ((dataUrl.length * 0.75) / 1024 > spec.maxKb && q > 0.25) {
+          q -= 0.08;
+          dataUrl = canvas.toDataURL("image/jpeg", q);
+        }
+        const kb = Math.round((dataUrl.length * 0.75) / 1024);
+        document.getElementById("resizerOutImg").src = dataUrl;
+        document.getElementById("resizerOutInfo").textContent = `Ready: ${spec.w}×${spec.h}px · ${kb} KB`;
+        document.getElementById("resizerDownloadLink").href = dataUrl;
+        document.getElementById("resizerPreviewBox").classList.remove("hidden");
+      };
+      img.src = URL.createObjectURL(file);
+    });
+
+    renderWatchlist();
     // Initial Render with brief Skeleton Shimmer
     renderStats();
     renderCategories();
