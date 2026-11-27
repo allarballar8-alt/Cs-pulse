@@ -300,6 +300,46 @@
       border-color: rgba(255, 255, 255, 0.08) !important;
     }
 
+        /* #2 Hero Crossfade & Subtle Zoom */
+    @keyframes heroKenBurns {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.065); }
+    }
+    @keyframes heroContentFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-kenburns {
+      animation: heroKenBurns 9s ease-out forwards;
+    }
+    .hero-content-fade {
+      animation: heroContentFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* #4 Heart Particle Burst */
+    @keyframes burstDot {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2); }
+    }
+    .heart-burst-dot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 9999px;
+      background: #EF4444;
+      pointer-events: none;
+      animation: burstDot 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* #10 Toast Progress Bar */
+    @keyframes toastShrink {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    .toast-bar-run {
+      animation: toastShrink 2.1s linear forwards;
+    }
+
     /* App shell frame */
     .app-shell {
       transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -316,6 +356,11 @@
   <!-- Main Responsive Container -->
   <div id="appShell" class="app-shell mx-auto w-full max-w-[430px] min-h-screen sm:min-h-[calc(100vh-2rem)] bg-[#F4F5F7] sm:rounded-[36px] sm:shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:border sm:border-black/5 relative pb-28 px-4 pt-5 overflow-x-hidden">
 
+    <!-- #9 Pull-to-Refresh Pulse Indicator -->
+    <div id="pullRefreshBar" class="hidden items-center justify-center gap-2 py-2 mb-2 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-full border border-emerald-200/70 transition-all">
+      <i data-lucide="activity" class="w-4 h-4 animate-pulse text-emerald-600"></i>
+      <span>Refreshing CS Pulse...</span>
+    </div>
     <!-- Top Header -->
     <header class="flex items-center justify-between gap-3 mb-5">
       <div class="flex items-center gap-3">
@@ -840,9 +885,10 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="pointer-events-none opacity-0 translate-y-3 fixed top-5 left-1/2 -translate-x-1/2 z-[60] bg-[#1C1C1E] text-white px-4 py-2.5 rounded-full text-xs font-semibold shadow-lg transition-all duration-300">
-    Saved to bookmarks
+  <!-- Toast Notification (#10 Shrinking Progress Bar) -->
+  <div id="toast" class="pointer-events-none opacity-0 -translate-y-2 fixed top-5 left-1/2 -translate-x-1/2 z-[60] bg-[#1C1C1E] text-white px-4 pt-2.5 pb-3 rounded-2xl text-xs font-semibold shadow-xl transition-all duration-300 overflow-hidden min-w-[180px] text-center">
+    <span id="toastText">Saved to bookmarks</span>
+    <span id="toastBar" class="absolute bottom-0 left-0 h-[3px] bg-emerald-400 w-0"></span>
   </div>
 
   <script>
@@ -1364,11 +1410,18 @@
 
     function showToast(msg) {
       const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.classList.remove("opacity-0", "translate-y-3");
+      const txt = document.getElementById("toastText");
+      const bar = document.getElementById("toastBar");
+      if (txt) txt.textContent = msg;
+      t.classList.remove("opacity-0", "-translate-y-2");
+      if (bar) {
+        bar.classList.remove("toast-bar-run");
+        void bar.offsetWidth;
+        bar.classList.add("toast-bar-run");
+      }
       clearTimeout(window._toastTimer);
       window._toastTimer = setTimeout(() => {
-        t.classList.add("opacity-0", "translate-y-3");
+        t.classList.add("opacity-0", "-translate-y-2");
       }, 2100);
     }
 
@@ -1470,7 +1523,7 @@
       const card = document.getElementById("heroCarouselCard");
 
       card.innerHTML = `
-        <img src="${item.image}" alt="${item.org}" class="img-zoom absolute inset-0 w-full h-full object-cover" />
+        <img src="${item.image}" alt="${item.org}" class="hero-kenburns absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/25"></div>
 
         <!-- Top Badges -->
@@ -1490,7 +1543,7 @@
         </div>
 
         <!-- Bottom Content -->
-        <div class="relative z-10 mt-14 space-y-3">
+        <div class="hero-content-fade relative z-10 mt-14 space-y-3">
           <div>
             <div class="text-xs font-semibold text-white/80 mb-1 flex items-center gap-1.5">
               ${getOrgBadge(item.org)}<span>${item.org}</span>
@@ -1734,6 +1787,17 @@
         btnEl.classList.remove("animate-heart");
         void btnEl.offsetWidth;
         btnEl.classList.add("animate-heart");
+        if (item.saved) {
+          const dirs = [[-16,-14],[16,-14],[20,2],[-20,2],[-10,16],[10,16]];
+          dirs.forEach(([tx, ty]) => {
+            const dot = document.createElement("span");
+            dot.className = "heart-burst-dot";
+            dot.style.setProperty("--tx", tx + "px");
+            dot.style.setProperty("--ty", ty + "px");
+            btnEl.appendChild(dot);
+            setTimeout(() => dot.remove(), 500);
+          });
+        }
       }
       saveUserState();
       showToast(item.saved ? "Saved to bookmarks" : "Removed from saved");
@@ -2139,6 +2203,63 @@
 
     loadUserState();
     syncInstallHeader();
+    // #8 Swipe-to-Save Gesture on Feed Cards
+    let swipeStartX = 0, swipeStartY = 0, swipeCard = null;
+    const feedEl = document.getElementById("feedGrid");
+    feedEl.addEventListener("touchstart", (e) => {
+      const card = e.target.closest("[data-open-id]");
+      if (!card) return;
+      swipeCard = card;
+      swipeStartX = e.touches[0].clientX;
+      swipeStartY = e.touches[0].clientY;
+      swipeCard.style.transition = "none";
+    }, { passive: true });
+    feedEl.addEventListener("touchmove", (e) => {
+      if (!swipeCard) return;
+      const dx = e.touches[0].clientX - swipeStartX;
+      const dy = Math.abs(e.touches[0].clientY - swipeStartY);
+      if (dx > 12 && dx < 95 && dy < 36) {
+        swipeCard.style.transform = `translateX(${dx}px)`;
+      }
+    }, { passive: true });
+    feedEl.addEventListener("touchend", (e) => {
+      if (!swipeCard) return;
+      const dx = e.changedTouches[0].clientX - swipeStartX;
+      const dy = Math.abs(e.changedTouches[0].clientY - swipeStartY);
+      swipeCard.style.transition = "transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)";
+      swipeCard.style.transform = "translateX(0)";
+      if (dx > 64 && dy < 40) {
+        const id = swipeCard.dataset.openId;
+        const btn = swipeCard.querySelector(".save-btn");
+        toggleSave(id, btn);
+      }
+      swipeCard = null;
+    });
+
+    // #9 Pull-to-Refresh Pulse Waveform
+    let ptrStartY = 0;
+    window.addEventListener("touchstart", (e) => {
+      if (window.scrollY <= 2) ptrStartY = e.touches[0].clientY;
+      else ptrStartY = 0;
+    }, { passive: true });
+    window.addEventListener("touchend", (e) => {
+      if (!ptrStartY) return;
+      const dy = e.changedTouches[0].clientY - ptrStartY;
+      ptrStartY = 0;
+      if (dy > 85 && window.scrollY <= 2) {
+        const bar = document.getElementById("pullRefreshBar");
+        bar.classList.remove("hidden");
+        bar.classList.add("flex");
+        renderSkeletonFeed();
+        setTimeout(() => {
+          bar.classList.add("hidden");
+          bar.classList.remove("flex");
+          renderAll();
+          showToast("Alerts refreshed");
+        }, 550);
+      }
+    });
+
     // Initial Render with brief Skeleton Shimmer
     renderStats();
     renderCategories();
