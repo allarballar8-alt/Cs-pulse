@@ -250,6 +250,56 @@
       animation: navBounce 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+        /* #1 Skeleton Shimmer Loader */
+    @keyframes shimmer {
+      0% { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .skeleton-box {
+      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.25s infinite linear;
+    }
+    body.dark .skeleton-box {
+      background: linear-gradient(90deg, #1C1F26 25%, #272B36 50%, #1C1F26 75%);
+      background-size: 800px 100%;
+    }
+
+    /* #7 Smooth Tab Crossfade */
+    @keyframes viewCrossfade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .view-enter {
+      animation: viewCrossfade 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* #9 Polished Dark Mode Surface Hierarchy */
+    body.dark {
+      background: #090B0E !important;
+      color: #F3F4F6 !important;
+    }
+    body.dark #appShell {
+      background: #0F1115 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    body.dark .bg-white {
+      background-color: #1C1F26 !important;
+      color: #F3F4F6 !important;
+    }
+    body.dark .bg-\[\#F4F5F7\] {
+      background-color: #15181E !important;
+    }
+    body.dark .text-\[\#1C1C1E\] {
+      color: #F3F4F6 !important;
+    }
+    body.dark .text-gray-500, body.dark .text-gray-600 {
+      color: #9CA3AF !important;
+    }
+    body.dark .border-black\/5, body.dark .border-black\/10 {
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
     /* App shell frame */
     .app-shell {
       transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -295,7 +345,7 @@
         <!-- Shown at the TOP once Installed -->
         <div id="topInstalledActions" class="hidden items-center gap-2">
           <button id="openSettingsBtn" type="button" aria-label="Settings"
-            class="w-9 h-9 rounded-full bg-white border border-black/10 text-[#1C1C1E] flex items-center justify-center hover:bg-gray-50 active:scale-95 transition shadow-sm">
+            class="w-11 h-11 rounded-full bg-white border border-black/10 text-[#1C1C1E] flex items-center justify-center hover:bg-gray-50 active:scale-95 transition shadow-sm">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
           <button id="openAddBtn" type="button"
@@ -1244,6 +1294,74 @@
       activeProjectId: null
     };
 
+        // #3 Circular Institute Logo Badge Helper (Official Logos + Automatic Monogram Fallback)
+    function getOrgBadge(org) {
+      const map = {
+        "ISRO ICRB": {
+          code: "IS", bg: "bg-blue-600 text-white",
+          logo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/330px-Indian_Space_Research_Organisation_Logo.svg.png"
+        },
+        "C-DAC": {
+          code: "CD", bg: "bg-indigo-600 text-white",
+          logo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logo_for_the_Centre_for_Development_of_Advanced_Computing.svg/250px-Logo_for_the_Centre_for_Development_of_Advanced_Computing.svg.png"
+        },
+        "IIT / GATE": {
+          code: "GT", bg: "bg-amber-600 text-white",
+          logo: "https://thumb.wikimedia.org/wikipedia/en/thumb/d/d4/GATE_current_logo.png/250px-GATE_current_logo.png"
+        },
+        "MoE / AICTE": {
+          code: "SI", bg: "bg-emerald-600 text-white",
+          logo: "https://www.uxdt.nic.in/wp-content/uploads/2025/07/smart-india-hackathon-smart-india-hackathon.jpg"
+        },
+        "BPSC": {
+          code: "BP", bg: "bg-rose-600 text-white",
+          logo: "https://bpsc.bihar.gov.in/wp-content/uploads/2025/01/cropped-QT3Rx6On_400x400.png"
+        },
+        "NTA / UGC": {
+          code: "UG", bg: "bg-purple-600 text-white",
+          logo: "https://upload.wikimedia.org/wikipedia/en/b/b0/National_Testing_Agency_logo.png"
+        },
+        "NIELIT": {
+          code: "NL", bg: "bg-cyan-600 text-white",
+          logo: "https://www.uxdt.nic.in/wp-content/uploads/2020/06/NIELIT-Preview.png"
+        },
+        "DRDO": {
+          code: "DR", bg: "bg-slate-700 text-white",
+          logo: "https://thumb.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/250px-Defence_Research_and_Development_Organisation.svg.png"
+        }
+      };
+      const hit = map[org] || { code: (org || "CS").slice(0, 2).toUpperCase(), bg: "bg-[#1C1C1E] text-white", logo: "" };
+      if (hit.logo) {
+        return `<span class="w-6 h-6 rounded-full bg-white border border-black/10 p-0.5 overflow-hidden inline-flex items-center justify-center shrink-0 shadow-xs"><img src="${hit.logo}" alt="${org} logo" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';" /><span style="display:none" class="w-full h-full rounded-full ${hit.bg} text-[9px] font-extrabold items-center justify-center">${hit.code}</span></span>`;
+      }
+      return `<span class="w-6 h-6 rounded-full ${hit.bg} text-[9px] font-extrabold inline-flex items-center justify-center shrink-0 shadow-xs">${hit.code}</span>`;
+    }
+
+    // #2 Color-Coded Urgency Pill Helper
+    function getUrgencyClasses(daysLeft) {
+      if (daysLeft <= 3) return "bg-red-50 text-red-700 border border-red-200/70";
+      if (daysLeft <= 7) return "bg-amber-50 text-amber-800 border border-amber-200/70";
+      return "bg-gray-100 text-gray-700 border border-black/5";
+    }
+
+    // #1 Skeleton Shimmer Loader
+    function renderSkeletonFeed() {
+      const grid = document.getElementById("feedGrid");
+      grid.innerHTML = [1, 2, 3].map(() => `
+        <div class="bg-white rounded-[24px] overflow-hidden border border-black/5 p-0 shadow-sm">
+          <div class="skeleton-box h-40 w-full"></div>
+          <div class="p-4 space-y-3">
+            <div class="skeleton-box h-3 w-24 rounded-full"></div>
+            <div class="skeleton-box h-4 w-4/5 rounded-full"></div>
+            <div class="flex items-center justify-between pt-2">
+              <div class="skeleton-box h-6 w-20 rounded-full"></div>
+              <div class="skeleton-box h-9 w-9 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
     function showToast(msg) {
       const t = document.getElementById("toast");
       t.textContent = msg;
@@ -1366,7 +1484,7 @@
             </span>
           </div>
           <button type="button" data-save-id="${item.id}" aria-label="Save featured alert"
-            class="save-btn w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white flex items-center justify-center hover:bg-white/30 transition">
+            class="save-btn w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white flex items-center justify-center hover:bg-white/30 transition">
             <i data-lucide="heart" class="w-4 h-4 ${item.saved ? "fill-red-500 text-red-500" : ""}"></i>
           </button>
         </div>
@@ -1375,8 +1493,7 @@
         <div class="relative z-10 mt-14 space-y-3">
           <div>
             <div class="text-xs font-semibold text-white/80 mb-1 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>${item.org}</span>
+              ${getOrgBadge(item.org)}<span>${item.org}</span>
             </div>
             <h3 class="font-display text-xl sm:text-2xl font-extrabold leading-snug text-white">${item.title}</h3>
           </div>
@@ -1392,11 +1509,11 @@
 
             <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
               <button type="button" id="heroPrevBtn" aria-label="Previous featured alert"
-                class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition">
+                class="w-11 h-11 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition">
                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
               </button>
               <button type="button" id="heroNextBtn" aria-label="Next featured alert"
-                class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition">
+                class="w-11 h-11 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition">
                 <i data-lucide="chevron-right" class="w-4 h-4"></i>
               </button>
             </div>
@@ -1442,7 +1559,7 @@
               ${item.category}
             </span>
             <button type="button" data-save-id="${item.id}" aria-label="Save ${item.title}"
-              class="save-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 text-[#1C1C1E] flex items-center justify-center shadow-sm hover:scale-105 transition">
+              class="save-btn absolute top-2.5 right-2.5 w-11 h-11 rounded-full bg-white/95 text-[#1C1C1E] flex items-center justify-center shadow-sm hover:scale-105 transition">
               <i data-lucide="heart" class="w-4 h-4 ${item.saved ? "fill-red-500 text-red-500" : ""}"></i>
             </button>
             ${item.unread ? `<span class="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white">New</span>` : ""}
@@ -1451,17 +1568,17 @@
           <div class="p-4 flex-1 flex flex-col justify-between gap-3">
             <div>
               <div class="flex items-center justify-between gap-2 mb-1">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-gray-500 truncate">${item.org}</span>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-500 truncate">${getOrgBadge(item.org)}<span>${item.org}</span></span>
                 ${item.urgent ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-600 shrink-0">Urgent</span>` : ""}
               </div>
               <h3 class="font-display text-[15px] font-bold text-[#1C1C1E] leading-snug line-clamp-2">${item.title}</h3>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-black/5">
-              <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-600 whitespace-nowrap">
-                <i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap ${getUrgencyClasses(item.daysLeft)}">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
                 <span>Due ${item.deadline}</span>
-              </div>
+              </span>
               <span class="w-9 h-9 rounded-full bg-[#1C1C1E] text-white flex items-center justify-center shrink-0">
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </span>
@@ -1479,7 +1596,7 @@
           class="animate-card card-lift bg-white rounded-2xl p-3.5 border border-black/5 shadow-sm flex items-center gap-3.5 cursor-pointer">
           <div class="w-16 h-14 rounded-xl bg-[#F4F5F7] flex flex-col items-center justify-center shrink-0 px-2">
             <span class="font-display text-sm font-extrabold text-[#1C1C1E] whitespace-nowrap">${item.deadline}</span>
-            <span class="text-[10px] font-semibold ${item.daysLeft <= 7 ? "text-red-600" : "text-gray-500"} whitespace-nowrap">${item.daysLeft}d left</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ${getUrgencyClasses(item.daysLeft)} whitespace-nowrap">${item.daysLeft}d left</span>
           </div>
           <img src="${item.image}" alt="${item.org}" class="w-12 h-12 rounded-xl object-cover shrink-0" />
           <div class="min-w-0 flex-1">
@@ -1529,7 +1646,7 @@
       document.getElementById("detailImg").src = item.image;
       document.getElementById("detailImg").alt = item.org;
       document.getElementById("detailBadge").textContent = item.category;
-      document.getElementById("detailOrg").textContent = item.org;
+      document.getElementById("detailOrg").innerHTML = `<span class="inline-flex items-center gap-1.5">${getOrgBadge(item.org)}<span>${item.org}</span></span>`;
       document.getElementById("detailDeadline").textContent = `Due ${item.deadline}`;
       document.getElementById("detailTitle").textContent = item.title;
       document.getElementById("detailDesc").textContent = item.desc;
@@ -1580,10 +1697,16 @@
 
     function switchNav(nav) {
       state.activeTab = nav;
-      document.getElementById("view-home").classList.toggle("hidden", nav !== "home");
-      document.getElementById("view-projects").classList.toggle("hidden", nav !== "projects");
-      document.getElementById("view-deadlines").classList.toggle("hidden", nav !== "deadlines");
-      document.getElementById("view-pyqs").classList.toggle("hidden", nav !== "pyqs");
+      ["home", "projects", "deadlines", "pyqs"].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const isCurrent = v === nav;
+        el.classList.toggle("hidden", !isCurrent);
+        if (isCurrent) {
+          el.classList.remove("view-enter");
+          void el.offsetWidth;
+          el.classList.add("view-enter");
+        }
+      });
 
       document.querySelectorAll(".nav-pill").forEach(btn => {
         const active = btn.dataset.nav === nav;
@@ -2016,8 +2139,14 @@
 
     loadUserState();
     syncInstallHeader();
-    // Initial Render
-    renderAll();
+    // Initial Render with brief Skeleton Shimmer
+    renderStats();
+    renderCategories();
+    renderHero();
+    renderSkeletonFeed();
+    setTimeout(() => {
+      renderAll();
+    }, 320);
   </script>
 </body>
 </html>
